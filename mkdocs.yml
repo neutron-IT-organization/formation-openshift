@@ -14,10 +14,15 @@ markdown_extensions:
     toc_depth: "2-3"
 nav:
 - 'Introduction':
-  - openshift/index.md
+  - 00_Introduction/00_Objectif_du_cours
+  - 00_Introduction/01_Organisation_de_la_classe
 - 'Partie 1':
-  - 00_Introduction
-  - 01_Présentation_de_Kubernetes_et Openshift
+  - 'Présentation de Kubernetes et Openshift' :
+    - 01_Présentation_de_Kubernetes_et_Openshift/Compo
+    - 01_Présentation_de_Kubernetes_et_Openshift/00_Composant_de_Openshift
+    - 01_Présentation_de_Kubernetes_et_Openshift/01_Quiz_Composant_de_Openshift
+    - 01_Présentation_de_Kubernetes_et_Openshift/02_Exploration_de_la_console
+    - 01_Présentation_de_Kubernetes_et_Openshift/03_Exercice_guidé_Exploration_de_la_console
   - 02_Interface_et_ligne_de_commande
 - 'Partie 2':
   - 03_Executez_des_applications_conteneurisé
