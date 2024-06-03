@@ -15,15 +15,14 @@ markdown_extensions:
 nav:
 - 'Introduction':
   - openshift/index.md
-  - openshift/01_rhel-installation.md
-  - openshift/02_microshift-installation.md
-  - openshift/03_microshift-connection.md
-  - openshift/04_add-console.md
-  - openshift/05_configure-storage.md
-- 'Additional Setup':
-  - add-setup/index.md
-  - add-setup/01_openvpn.md
-  - add-setup/02_keycloak.md
-  - add-setup/03_install_wordpress.md
-  - add-setup/04_cyberark.md
-  - add-setup/05_kubeburner.md
+- 'Partie 1':
+  - 00_Introduction
+  - 01_Présentation_de_Kubernetes_et Openshift
+  - 02_Interface_et_ligne_de_commande
+- 'Partie 2':
+  - 03_Executez_des_applications_conteneurisé
+  - 04_Déployer_des_applications_en_réseau
+  - 05_Gestion_du_stockage
+- 'Partie 3':
+  - 06_Configuration_de_la_fiabilité_des_applications
+  - 07_Gestion_des_mises_à_jour_des_applications
