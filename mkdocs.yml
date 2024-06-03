@@ -13,7 +13,7 @@ markdown_extensions:
 - toc:
     toc_depth: "2-3"
 nav:
-- 'Minilab guides':
+- 'Introduction':
   - openshift/index.md
   - openshift/01_rhel-installation.md
   - openshift/02_microshift-installation.md

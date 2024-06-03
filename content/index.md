@@ -1,15 +1,58 @@
----
-title: Home
----
+# 00_Introduction
 
-# Minilab
+## Bienvenue dans la Formation Kubernetes et OpenShift
 
-## Introduction
+Bienvenue dans notre formation complète sur Kubernetes et OpenShift ! Ce cours est conçu pour vous fournir une compréhension approfondie de ces deux plateformes essentielles pour la gestion des conteneurs et le déploiement d'applications modernes. Que vous soyez un débutant curieux ou un professionnel cherchant à approfondir ses compétences, ce cours est structuré pour répondre à vos besoins.
 
-La gestion efficace des appareils à la périphérie (edge) des réseaux informatiques est devenue essentielle. Red Hat Device Edge émerge comme une solution polyvalente pour répondre aux défis spécifiques posés par la gestion des charges de travail sur des appareils à la limite du réseau. Cette plateforme offre une approche novatrice pour soutenir des tâches variées sur des dispositifs aux ressources limitées, rencontrant des contraintes de puissance, de refroidissement et de connectivité.
+## Structure du Cours
 
-## Qu'est-ce que Red Hat Device Edge ?
+Notre programme est soigneusement structuré pour équilibrer théorie et pratique, afin de garantir une compréhension solide et une application efficace des concepts. La répartition est la suivante : 40% théorie et 60% pratique. Cette approche vous permet de non seulement comprendre les concepts clés, mais aussi de les mettre en œuvre dans des scénarios réels.
 
-Red Hat Device Edge est une plateforme flexible conçue pour répondre aux besoins des dispositifs à la périphérie, tels que les outils de ligne d'assemblage, les passerelles IoT, les points de vente et les contrôleurs industriels. Ces appareils opèrent souvent dans des environnements où les ressources informatiques sont limitées et où l'accès peut être restreint. Red Hat Device Edge offre une approche uniforme et adaptable pour prendre en charge diverses charges de travail sur ces appareils, malgré leurs contraintes en termes de ressources.
+### Contenu du Cours
 
-![Archi](./images/archi-edge.png)
+1. **Introduction**
+   - Présentation générale de la formation et des objectifs.
+
+2. **Présentation de Kubernetes et OpenShift**
+   - Comprendre les bases de Kubernetes et OpenShift, leurs architectures, et leurs fonctionnalités clés.
+
+3. **Interface et ligne de commande**
+   - Explorer les interfaces utilisateur et les commandes de base pour interagir avec Kubernetes et OpenShift.
+
+4. **Exécuter des applications conteneurisées**
+   - Apprendre à déployer, gérer et surveiller des applications conteneurisées sur ces plateformes.
+
+5. **Déployer des applications en réseau**
+   - Configurer et gérer les réseaux pour vos applications, incluant les services et les ingress.
+
+6. **Gestion du stockage**
+   - Comprendre les options de stockage disponibles et comment les configurer et les gérer.
+
+7. **Configuration de la fiabilité des applications**
+   - Mettre en œuvre des pratiques pour garantir la haute disponibilité et la résilience de vos applications.
+
+8. **Gestion des mises à jour des applications**
+   - Apprendre à mettre à jour vos applications de manière continue et sans interruption.
+
+## Méthodologie
+
+Notre approche pédagogique intègre des sessions théoriques suivies de laboratoires pratiques. Chaque module théorique est immédiatement suivi d’exercices pratiques pour renforcer l'apprentissage et assurer que vous pouvez appliquer les concepts dans des situations réelles. Les sessions pratiques incluront des exercices guidés, des projets de groupe et des études de cas basées sur des scénarios du monde réel.
+
+## Objectifs d'Apprentissage
+
+À la fin de ce cours, vous serez capable de :
+
+- Comprendre les fondamentaux de Kubernetes et OpenShift.
+- Utiliser les outils en ligne de commande pour gérer vos clusters et applications.
+- Déployer et gérer efficacement des applications conteneurisées.
+- Configurer des réseaux et gérer le stockage pour vos applications.
+- Assurer la fiabilité et la résilience de vos déploiements.
+- Mettre en œuvre des stratégies de mise à jour continue.
+
+Nous sommes impatients de vous accompagner dans ce voyage d'apprentissage et de vous voir progresser vers la maîtrise de Kubernetes et OpenShift. Préparez-vous à plonger dans l'univers passionnant de la gestion des conteneurs et à acquérir des compétences qui sont de plus en plus cruciales dans le paysage technologique actuel.
+
+Bonne formation !
+
+--- 
+
+Pour toute question ou assistance, n'hésitez pas à nous contacter.
