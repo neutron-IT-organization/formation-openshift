@@ -2,31 +2,86 @@ site_name: My Docs
 theme:
   name: material
   features:
-  - navigation.tabs
-  - navigation.indexes
+    - navigation.tabs
+    - navigation.indexes
 plugins:
-- search
+  - search
 repo_url: https://github.com/neutron-IT-organization/formation-openshift
 repo_name: neutron-IT-organization/formation-openshift
 docs_dir: content
 markdown_extensions:
-- toc:
-    toc_depth: "2-3"
+  - toc:
+      toc_depth: "2-3"
 nav:
-- 'Introduction':
-  - 00_Introduction/00_Objectif_du_cours.md
-  - 00_Introduction/01_Organisation_de_la_classe.md
-- 'Partie 1':
-  - 'Présentation de Kubernetes et Openshift' :
-    - 01_Présentation_de_Kubernetes_et_Openshift/00_Composant_de_Openshift.md
-    - 01_Présentation_de_Kubernetes_et_Openshift/01_Quiz_Composant_de_Openshift.md
-    - 01_Présentation_de_Kubernetes_et_Openshift/02_Exploration_de_la_console.md
-    - 01_Présentation_de_Kubernetes_et_Openshift/03_Exercice_guidé_Exploration_de_la_console.md
-  - 02_Interface_et_ligne_de_commande
-- 'Partie 2':
-  - 03_Executez_des_applications_conteneurisé
-  - 04_Déployer_des_applications_en_réseau
-  - 05_Gestion_du_stockage
-- 'Partie 3':
-  - 06_Configuration_de_la_fiabilité_des_applications
-  - 07_Gestion_des_mises_à_jour_des_applications
+  - 'Introduction':
+      - 00_Introduction/00_Objectif_du_cours.md
+      - 00_Introduction/01_Organisation_de_la_classe.md
+  - 'Présentation de Kubernetes et Openshift':
+      - 01_Présentation_de_Kubernetes_et_Openshift/00_Composant_de_Openshift.md
+      - 01_Présentation_de_Kubernetes_et_Openshift/01_Quiz_Composant_de_Openshift.md
+      - 01_Présentation_de_Kubernetes_et_Openshift/02_Exploration_de_la_console.md
+      - 01_Présentation_de_Kubernetes_et_Openshift/03_Exercice_guidé_Exploration_de_la_console.md
+      - 01_Présentation_de_Kubernetes_et_Openshift/04_Architecture_Openshift_et_Kubernetes.md
+      - 01_Présentation_de_Kubernetes_et_Openshift/05_Exercice_guidé_Architecture_Openshift_et_Kubernetes.md
+      - 01_Présentation_de_Kubernetes_et_Openshift/06_Monitoring_du_cluster.md
+      - 01_Présentation_de_Kubernetes_et_Openshift/07_Exercice_guidé_Monitoring_du_cluster.md
+      - 01_Présentation_de_Kubernetes_et_Openshift/08_Résumé.md
+  - 'Interface et ligne de commande':
+      - 02_Interface_et_ligne_de_commande/00_Intéragir_avec_la_ligne_de_commande.md
+      - 02_Interface_et_ligne_de_commande/01_Exerice_guidé_Intéragir_avec_la_ligne_de_commande.md
+      - 02_Interface_et_ligne_de_commande/02_Examen_des_ressources_Kubernetes.md
+      - 02_Interface_et_ligne_de_commande/03_Exercice_guidé_Examen_des_ressources_Kubernetes.md
+      - 02_Interface_et_ligne_de_commande/04_Evaluation_de_l'intégrité_du_cluster.md
+      - 02_Interface_et_ligne_de_commande/05_Execice_Guidé_Evaluation_de_l'intégrité_du_cluster.md
+      - 02_Interface_et_ligne_de_commande/06_Résumé.md
+  - 'Exécuter des applications conteneurisées':
+      - 03_Executez_des_applications_conteneurisé/00_Présentation_des_conteneurs_linux_et_des_pods_Kubernetes.md
+      - 03_Executez_des_applications_conteneurisé/01_Exercice_Guidé_Présentation_des_conteneurs_linux_et_des_pods_Kubernetes.md
+      - 03_Executez_des_applications_conteneurisé/02_Rechercher_et_inspecter_des_images_de_conteneurs.md
+      - 03_Executez_des_applications_conteneurisé/03_Exercice_guidé_Rechercher_et_inspecter_des_images_de_conteneurs.md
+      - 03_Executez_des_applications_conteneurisé/04_Résoudre_des_problemes_liés_au_conteneurs_et_aux_pods.md
+      - 03_Executez_des_applications_conteneurisé/05_Exercice_guidé_Résoudre_des_problemes_liés_au_conteneurs_et_aux_pods.md
+      - 03_Executez_des_applications_conteneurisé/06_Résumé.md
+  - 'Déployer des applications':
+      - 04_Déployer_des_applications/00_Déploiement_d_image_a_partir_de_modele.md
+      - 04_Déployer_des_applications/01_Exercice_guidé_Déploiement_d_image_a_partir_de_modele.md
+      - 04_Déployer_des_applications/02_Comprendre_les_différents_types_de_deploiement.md
+      - 04_Déployer_des_applications/03_Exercice_guidé_Comprendre_les_différents_types_de_deploiement.md
+      - 04_Déployer_des_applications/04_Gérer_la_mise_a_l_echelle_dans_Kubernetes.md
+      - 04_Déployer_des_applications/05_Exercice_guidé_Gérer_la_mise_a_l_echelle_dans_Kubernetes.md
+      - 04_Déployer_des_applications/06_Comprendre_les_réseaux_de_pod_et_de_service.md
+      - 04_Déployer_des_applications/07_Exercice_guidé_Comprendre_les_réseaux_de_pod_et_de_service.md
+      - 04_Déployer_des_applications/08_Exposition_d_application_pour_un_acces_externe.md
+      - 04_Déployer_des_applications/09_Exercice_guidé_Exposition_d_application_pour_un_acces_externe.md
+      - 04_Déployer_des_applications/10_Résumé.md
+  - 'Gestion du stockage':
+      - 05_Gestion_du_stockage/00_Externalisation_de_la_configuration_des_applications.md
+      - 05_Gestion_du_stockage/01_Exercice_guidé_Externalisation_de_la_configuration_des_applications.md
+      - 05_Gestion_du_stockage/02_Approvisionnement_des_volumes_de_donnés_persistantes.md
+      - 05_Gestion_du_stockage/03_Exercice_guidé_Approvisionnement_des_volumes_de_donnés_persistantes.md
+      - 05_Gestion_du_stockage/04_Selection_d_une_classe_de_stockage.md
+      - 05_Gestion_du_stockage/05_Exercice_guidé_Selection_d_une_classe_de_stockage.md
+      - 05_Gestion_du_stockage/06_Gestion_du_stockage_non_partage_avec_état.md
+      - 05_Gestion_du_stockage/07_Exercice_guidé_Gestion_du_stockage_non_partage_avec_état.md
+      - 05_Gestion_du_stockage/08_Résumé.md
+  - 'Configuration de la fiabilité des applications':
+      - 06_Configuration_de_la_fiabilité_des_applications/00_Gestion_de_la_haute_disponibilité_dans_Kubernetes.md
+      - 06_Configuration_de_la_fiabilité_des_applications/01_Exercice_guidé_Gestion_de_la_haute_disponibilité_dans_Kubernetes.md
+      - 06_Configuration_de_la_fiabilité_des_applications/02_Utilisation_des_probes_dans_Kubernetes.md
+      - 06_Configuration_de_la_fiabilité_des_applications/03_Exercice_guidé_Utilisation_des_probes_dans_Kubernetes.md
+      - 06_Configuration_de_la_fiabilité_des_applications/04_Réservation_de_capacité_de_calcul_pour_les_applications.md
+      - 06_Configuration_de_la_fiabilité_des_applications/05_Exercice_guidé_Réservation_de_capacité_de_calcul_pour_les_applications.md
+      - 06_Configuration_de_la_fiabilité_des_applications/06_Limitation_de_la_capacité_de_calcul_pour_les_applications.md
+      - 06_Configuration_de_la_fiabilité_des_applications/07_Exercice_guidé_Limitation_de_la_capacité_de_calcul_pour_les_applications.md
+      - 06_Configuration_de_la_fiabilité_des_applications/08_Mise_a_l'echelle_automatique_des_applications.md
+      - 06_Configuration_de_la_fiabilité_des_applications/09_Exercice_guidé_Mise_a_l'echelle_automatique_des_applications.md
+      - 06_Configuration_de_la_fiabilité_des_applications/10_Résumé.md
+  - 'Gestion des mises à jour des applications':
+      - 07_Gestion_des_mises_à_jour_des_applications/00_Identité_et_balise_d_image_de_conteneur.md
+      - 07_Gestion_des_mises_à_jour_des_applications/01_Exercice_guidé_Identité_et_balise_d_image_de_conteneur.md
+      - 07_Gestion_des_mises_à_jour_des_applications/02_Mise_a_jour_des_parametres_et_de_l'image_de_l_application.md
+      - 07_Gestion_des_mises_à_jour_des_applications/03_Exercice_guidé_Mise_a_jour_des_parametres_et_de_l'image_de_l_application.md
+      - 07_Gestion_des_mises_à_jour_des_applications/04_Deploiement_automatique_avec_les_images_stream_openshift.md
+      - 07_Gestion_des_mises_à_jour_des_applications/05_Exercice_guidé_Deploiement_automatique_avec_les_images_stream_openshift.md
+      - 07_Gestion_des_mises_à_jour_des_applications/06_Mise_a_jour_automatique_avec_les_trigger_Kubernetes.md
+      - 07_Gestion_des_mises_à_jour_des_applications/07_Exercice_guidé_Mise_a_jour_automatique_avec_les_trigger_Kubernetes.md
