@@ -62,48 +62,43 @@ Créez un projet nommé "console-exploration-YOURCITY" à l'aide de cet assistan
 
    ![Result](./images/result_quarkus.png)
 
-## Étape 3 : Déployer une application
+## Étape 4 : Gérer et superviser votre application
 
-1. **Accéder au Catalogue** :
-   - Cliquez sur **Catalogues** dans la barre de navigation.
+Pour basculer vers la perspective Administrator et examiner le déploiement :
 
-2. **Sélectionner une application** :
-   - Recherchez et sélectionnez un template d'application, par exemple `Node.js + MongoDB (Ephemeral)`.
+1. Depuis la console Web OpenShift cliquez sur "Developer", puis sur "Administrator" pour passer à la perspective Administrator. La console Web se met à jour pour afficher la nouvelle perspective avec des informations supplémentaires via la barre latérale.
 
-3. **Configurer le déploiement** :
-   - Cliquez sur **Suivant** et remplissez les paramètres nécessaires pour l'application.
-   - Utilisez les valeurs par défaut pour cet exercice ou personnalisez-les selon vos besoins.
-   - Cliquez sur **Créer** pour lancer le déploiement.
+2. Accédez à "Home" > "Projects" pour voir la liste des projets disponibles, y compris le projet "console-exploration-YOURCITY" que vous avez créé.
 
-4. **Vérifier le déploiement** :
-   - Accédez à l'onglet **Applications** dans le projet `exercice-exploration`.
-   - Vérifiez que les pods de l'application sont en cours d'exécution.
+![Global](./images/administrator_global_view.png)
 
-## Étape 4 : Surveiller les ressources du projet
+Pour afficher le déploiement et les pods de "code-with-quarkus" :
 
-1. **Accéder à l'onglet Monitoring** :
-   - Dans le projet `exercice-exploration`, cliquez sur l'onglet **Monitoring**.
+3. Accédez à "Workloads" > "Pods" dans le menu de la console Web OpenShift pour voir les pods de "code-with-quarkus".
 
-2. **Visualiser les métriques** :
-   - Observez les graphiques montrant l'utilisation de la CPU, de la mémoire, et d'autres métriques.
-   - Prenez note de l'activité de votre application déployée.
+![pod](./images/pod_view.png)
 
-## Étape 5 : Configurer des alertes
+4. Ensuite, allez à "Workloads" > "Deployments" pour voir la liste des déploiements dans le projet. Cliquez sur "code-with-quarkus" pour voir les détails spécifiques du déploiement.
 
-1. **Accéder aux Alertes** :
-   - Dans l'onglet **Monitoring**, cliquez sur **Configurer des alertes**.
+![deployment](./images/deployments_view.png)
 
-2. **Créer une nouvelle alerte** :
-   - Cliquez sur **Créer une alerte**.
-   - Configurez une alerte pour surveiller l'utilisation de la CPU :
-     - Nom de l'alerte : `Alerte Utilisation CPU`
-     - Expression : `sum(rate(container_cpu_usage_seconds_total{namespace="exercice-exploration"}[5m])) by (pod)`
-     - Conditions : Déclenchez une alerte si l'utilisation de la CPU dépasse 80%.
-     - Actions : Configurez les notifications par email ou autre méthode disponible.
+Pour afficher le service et la route de "code-with-quarkus" :
 
-3. **Sauvegarder et activer l'alerte** :
-   - Cliquez sur **Sauvegarder**.
-   - Vérifiez que l'alerte est activée et surveillez son déclenchement en fonction de l'activité de votre application.
+5. Accédez à "Networking" > "Services", puis cliquez sur "code-with-quarkus" pour voir les détails du service.
+
+![Rservice](./images/service_view.png)
+
+Pour supprimer le projet et vous déconnecter de la console Web :
+
+6. Retournez à "Home" > "Projects" depuis le menu de la console Web OpenShift.
+
+7. Sélectionnez "Delete Project" dans le menu contextuel du projet "console-exploration-YOURCITY".
+
+![project](./images/project_delete.png)
+
+8. Saisissez le nom du projet dans la zone de texte pour confirmer la suppression, puis cliquez sur "Delete".
+
+
 
 ## Conclusion
 
