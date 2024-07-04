@@ -20,17 +20,47 @@ https://console-openshift-console.apps.neutron-sno-office.intraneutron.fr/
 3. Cliquez sur `Neutron Guest Identity Management`
 4. Connectez-vous avec vos identifiants OpenShift.
 
-## Étape 2 : Créer un projet
+## Étape 2 : Créer un projet et déployer une application
 
-1. **Naviguer vers les Projets** :
-   - Cliquez sur **Projets** dans la barre de navigation en haut de la page.
-   - Cliquez sur **Créer un projet**.
+Pour utiliser la perspective Developer de la console Web et créer votre premier projet :
 
-2. **Remplir le formulaire de création de projet** :
-   - Nom du projet : `exercice-exploration`
-   - Afficher le nom : `Exploration de la Console`
-   - Description : `Projet pour l'exercice guidé d'exploration de la console OpenShift`
-   - Cliquez sur **Créer**.
+1. Dans la vue developer, cliquez sur votre Project en haut à gauche puis sur  "Create a new project" pour ouvrir l'assistant Create Project.
+
+![Create Project](./images/create_project.png){: style="height:300px"}
+
+Créez un projet nommé "console-exploration-YOURCITY" à l'aide de cet assistant et ajoutez une brève description du projet.
+
+2. Cliquez sur "Create" pour finaliser la création du projet.
+
+![Create Project](./images/assistant_create_project.png){: style="height:300px"}
+
+
+3. Ensuite, cliquez sur "+Add" pour créer une application.
+
+4. Pour déployer un exemple d'application dans le projet :
+
+   - Cliquez dans "Create applications using samples" sur le lien "Basic Quarkus".
+
+   ![Basic quarkus](./images/basic_quarkus.png){: style="height:300px"}
+
+   - Examinez les valeurs par défaut de l'exemple d'application, puis sélectionnez "Create" en bas de la page.
+
+   ![Create application](./images/create_application.png){: style="height:300px"}
+
+
+5. Une fois le déploiement effectué, rendez vous dans à la page "Topology" qui affiche maintenant le déploiement de l'application "code-with-quarkus".
+
+6. Pour afficher les détails de ce déploiement :
+
+   - Sélectionnez l'icône correspondant à "code-with-quarkus" dans le panneau "Topology" pour ouvrir les détails du déploiement.
+
+   ![Topology view](./images/topology_view.png)
+
+   - Dans la partie "Route" cliquez sur la location pour accéder au deploiement de "code-with-quarkus".
+
+   ![Get route](./images/get_route.png)
+
+   ![Result](./images/result_quarkus.png)
 
 ## Étape 3 : Déployer une application
 
