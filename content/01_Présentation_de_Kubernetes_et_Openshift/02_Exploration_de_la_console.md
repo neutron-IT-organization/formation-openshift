@@ -87,8 +87,8 @@ Dans la console OpenShift en mode administrateur, vous avez accès à une gamme 
 La vue développeur de la console OpenShift est conçue pour optimiser le développement et le déploiement d'applications. Voici ce que vous pouvez faire dans cette vue :
 
 - **Topology (Topologie)** :
-  - Visualisation graphique des applications et des services.
-  - Gestion des ressources et des relations entre les composants.
+    - Visualisation graphique des applications et des services.
+    - Gestion des ressources et des relations entre les composants.
 
 - **Observe** :
   - Accès aux journaux des applications.
@@ -133,3 +133,4 @@ La vue développeur de la console OpenShift est conçue pour optimiser le dével
 ## Conclusion
 
 La console web d'OpenShift est un outil puissant et intuitif pour gérer vos projets, déployer des applications et surveiller l'état de votre cluster. Familiarisez-vous avec ses fonctionnalités pour tirer le meilleur parti de votre environnement OpenShift. Dans la prochaine section, nous réaliserons un exercice guidé pour explorer la console en détail et effectuer des tâches courantes.
+c
