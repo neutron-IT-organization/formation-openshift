@@ -1,85 +1,36 @@
-# Exercice Guidé : Exploration de la console OpenShift
+# Concepts Architecturaux de Kubernetes
 
-Dans cet exercice, vous allez apprendre à naviguer dans la console web d'OpenShift et à effectuer des tâches courantes. Suivez les étapes ci-dessous pour vous familiariser avec l'interface utilisateur et ses fonctionnalités.
+## Objectif
 
-## Objectifs de l'exercice
+Dans cette section, nous allons explorer l'architecture d'OpenShift.
 
-- Accéder à la console web d'OpenShift
-- Créer un projet
-- Déployer une application à partir d'un template
-- Surveiller les ressources du projet
-- Configurer et visualiser des alertes
+### Concepts
 
-## Prérequis
+Kubernetes repose sur plusieurs serveurs, ou nodes, pour garantir la résilience et l’évolutivité des applications qu’il gère. Ces nodes, qu’ils soient physiques ou virtuels, fournissent les ressources nécessaires au cluster. Il y a deux types de nodes, chacun ayant un rôle distinct dans le fonctionnement du cluster. Les nodes du plan de contrôle gèrent la coordination globale du cluster, notamment la planification des charges de travail et la gestion de l’état de configuration du cluster. Les nodes du plan de calcul exécutent les applications, en communiquant avec les nodes du plan de contrôle pour recevoir les demandes d’exécution des applications.
 
-- Accès à un cluster OpenShift avec des identifiants valides
-- Connexion Internet et un navigateur web compatible
+La communication entre le plan de contrôle et les nodes du cluster s'effectue via le service kubelet qui fonctionne sur chaque node. Bien qu'un serveur puisse servir à la fois de node de plan de contrôle et de calcul, ces rôles sont souvent séparés pour une meilleure stabilité, sécurité et gérabilité.
 
-## Étape 1 : Accéder à la console web
+#### Composants du Plan de Contrôle
 
-1. Ouvrez votre navigateur web.
-2. Entrez l'URL de la console web d'OpenShift fournie par votre administrateur.
-3. Connectez-vous avec vos identifiants OpenShift.
+- **etcd** : Une base de données distribuée clé-valeur qui stocke les configurations du cluster.
+- **kube-apiserver** : Le service frontal qui expose l’API Kubernetes.
+- **kube-scheduler** : Un service qui détermine les nodes de calcul disponibles pour les nouvelles demandes de pods.
+- **kubelet** : L'agent principal sur chaque node de calcul, chargé de l'exécution des pods demandés via l'API et le planificateur.
+- **CRI (Container Runtime Interface)** : Une interface de plug-in pour la communication entre kubelet et les configurations de pods.
+- **cri-o** : Un moteur d’exécution compatible OCI qui facilite la communication entre kubelet et les demandes de configuration de pods.
 
-## Étape 2 : Créer un projet
+### Concepts Architecturaux de Red Hat OpenShift Container Platform
 
-1. **Naviguer vers les Projets** :
-   - Cliquez sur **Projets** dans la barre de navigation en haut de la page.
-   - Cliquez sur **Créer un projet**.
+Red Hat OpenShift Container Platform (RHOCP) utilise Red Hat Enterprise Linux CoreOS pour ses nodes. Grâce à cette orchestration, les administrateurs n’ont pas besoin de configurer manuellement les machines hôtes. Le Machine Configuration Operator (MCO) de RHOCP gère le système d’exploitation sous-jacent. OpenShift utilise le MCO pour configurer les systèmes CoreOS, et les administrateurs peuvent l’utiliser pour des configurations supplémentaires des nodes.
 
-2. **Remplir le formulaire de création de projet** :
-   - Nom du projet : `exercice-exploration`
-   - Afficher le nom : `Exploration de la Console`
-   - Description : `Projet pour l'exercice guidé d'exploration de la console OpenShift`
-   - Cliquez sur **Créer**.
+Un autre élément clé de RHOCP est l’Operator Lifecycle Manager (OLM), qui simplifie l’installation, les mises à jour et la gestion des opérateurs Kubernetes et des services au sein du cluster. L’OLM utilise des manifestes d’opérateur pour déployer des opérateurs à partir d’un catalogue de cluster, pour chaque espace de noms.
 
-## Étape 3 : Déployer une application
+### Présentation des Configurations de Cluster RHOCP
 
-1. **Accéder au Catalogue** :
-   - Cliquez sur **Catalogues** dans la barre de navigation.
+RHOCP peut être déployé via deux méthodes principales, permettant chacune de distribuer un cluster complet sur les nodes fournis.
 
-2. **Sélectionner une application** :
-   - Recherchez et sélectionnez un template d'application, par exemple `Node.js + MongoDB (Ephemeral)`.
+- **Infrastructure IPI (Installer-Provisioned Infrastructure)** : Cette méthode repose sur la création d’un node d’amorçage qui automatise la plupart des tâches de déploiement du cluster. Elle est disponible pour les machines virtuelles ou le matériel nu sur site, ainsi que via divers fournisseurs de cloud public tels que IBM Cloud, Amazon Web Services et Google Cloud Platform.
 
-3. **Configurer le déploiement** :
-   - Cliquez sur **Suivant** et remplissez les paramètres nécessaires pour l'application.
-   - Utilisez les valeurs par défaut pour cet exercice ou personnalisez-les selon vos besoins.
-   - Cliquez sur **Créer** pour lancer le déploiement.
+- **Infrastructure UPI (User-Provisioned Infrastructure)** : Plus personnalisable, cette méthode permet à l’administrateur de configurer chaque aspect du déploiement du cluster. Bien que moins automatisée, elle est idéale pour les déploiements nécessitant une intégration à une infrastructure d’entreprise existante, comme les services DHCP ou DNS.
 
-4. **Vérifier le déploiement** :
-   - Accédez à l'onglet **Applications** dans le projet `exercice-exploration`.
-   - Vérifiez que les pods de l'application sont en cours d'exécution.
-
-## Étape 4 : Surveiller les ressources du projet
-
-1. **Accéder à l'onglet Monitoring** :
-   - Dans le projet `exercice-exploration`, cliquez sur l'onglet **Monitoring**.
-
-2. **Visualiser les métriques** :
-   - Observez les graphiques montrant l'utilisation de la CPU, de la mémoire, et d'autres métriques.
-   - Prenez note de l'activité de votre application déployée.
-
-## Étape 5 : Configurer des alertes
-
-1. **Accéder aux Alertes** :
-   - Dans l'onglet **Monitoring**, cliquez sur **Configurer des alertes**.
-
-2. **Créer une nouvelle alerte** :
-   - Cliquez sur **Créer une alerte**.
-   - Configurez une alerte pour surveiller l'utilisation de la CPU :
-     - Nom de l'alerte : `Alerte Utilisation CPU`
-     - Expression : `sum(rate(container_cpu_usage_seconds_total{namespace="exercice-exploration"}[5m])) by (pod)`
-     - Conditions : Déclenchez une alerte si l'utilisation de la CPU dépasse 80%.
-     - Actions : Configurez les notifications par email ou autre méthode disponible.
-
-3. **Sauvegarder et activer l'alerte** :
-   - Cliquez sur **Sauvegarder**.
-   - Vérifiez que l'alerte est activée et surveillez son déclenchement en fonction de l'activité de votre application.
-
-## Conclusion
-
-Vous avez maintenant une bonne compréhension de la console web d'OpenShift. Vous savez comment créer des projets, déployer des applications, surveiller les ressources et configurer des alertes. Continuez à explorer les autres fonctionnalités de la console pour renforcer vos compétences. Si vous avez des questions ou des difficultés, consultez la documentation officielle d'OpenShift ou demandez de l'aide à votre administrateur.
-
----
-
-Dans la prochaine section, nous aborderons l'architecture d'OpenShift et Kubernetes, en explorant leurs composants clés et leur interaction.
+Les deux méthodes visent à fournir un cluster RHOCP opérationnel pour le déploiement des charges de travail et des applications métiers. Il est essentiel de choisir la méthode la plus adaptée à votre environnement d’entreprise pour débuter avec RHOCP.
