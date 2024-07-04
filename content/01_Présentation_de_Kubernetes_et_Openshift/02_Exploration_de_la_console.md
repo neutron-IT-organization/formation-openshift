@@ -1,12 +1,20 @@
 # Exploration de la console OpenShift
 
+## Objectif
+
 Dans cette section, nous allons explorer la console web d'OpenShift. La console web offre une interface graphique intuitive pour gérer les ressources de votre cluster, déployer des applications, surveiller les performances et configurer les paramètres.
 
-## Accès à la console web
+### Introduction à la Console Web Red Hat OpenShift
 
-Pour accéder à la console web d'OpenShift, ouvrez un navigateur web et entrez l'URL fournie par votre administrateur système. Vous devrez vous authentifier avec vos identifiants OpenShift. Une fois connecté, vous verrez le tableau de bord principal.
+La console Web Red Hat OpenShift propose une interface graphique qui simplifie de nombreuses tâches administratives pour la gestion d'un cluster. En exploitant les API Kubernetes ainsi que les API d'extension OpenShift, cette console offre un environnement graphique performant. Bien que les menus, les tâches et les fonctionnalités de la console Web soient également accessibles via l'interface en ligne de commande, cette console rend plus aisées les tâches complexes inhérentes à l'administration du cluster.
+
+Kubernetes dispose d'un tableau de bord Web qui n'est pas activé par défaut dans un cluster. Ce tableau de bord offre des permissions de sécurité minimales et ne prend en charge que l'authentification par tokens. De plus, il nécessite une configuration de proxy, limitant l'accès à la console Web au terminal système ayant créé le proxy. Contrairement à ces contraintes, la console Web d'OpenShift offre une expérience beaucoup plus complète.
+
+La console Web d'OpenShift est indépendante du tableau de bord Kubernetes et constitue un outil distinct dédié à la gestion des clusters OpenShift. En outre, les opérateurs ont la possibilité d'étendre les fonctionnalités de cette console en ajoutant des menus, des vues et des formulaires supplémentaires pour simplifier encore davantage l'administration du cluster.
 
 ## Tableau de bord principal
+
+![Import snapshot](./images/console.png)
 
 Le tableau de bord principal vous offre une vue d'ensemble de votre cluster, incluant les projets, les applications, les statistiques de performance et les événements récents. Voici les principaux éléments que vous y trouverez :
 

@@ -10,16 +10,15 @@ Dans cet exercice, vous allez apprendre à naviguer dans la console web d'OpenSh
 - Surveiller les ressources du projet
 - Configurer et visualiser des alertes
 
-## Prérequis
-
-- Accès à un cluster OpenShift avec des identifiants valides
-- Connexion Internet et un navigateur web compatible
-
 ## Étape 1 : Accéder à la console web
 
 1. Ouvrez votre navigateur web.
-2. Entrez l'URL de la console web d'OpenShift fournie par votre administrateur.
-3. Connectez-vous avec vos identifiants OpenShift.
+2. Entrez l'URL de la console web d'OpenShift ci-dessous :
+```shell
+https://console-openshift-console.apps.neutron-sno-office.intraneutron.fr/
+```
+3. Cliquez sur `Neutron Guest Identity Management`
+4. Connectez-vous avec vos identifiants OpenShift.
 
 ## Étape 2 : Créer un projet
 
