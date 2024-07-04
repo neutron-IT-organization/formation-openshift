@@ -34,48 +34,48 @@ Chaque mode offre des pages et des catégories de menus spécifiquement conçues
 
 ### Vue Administrateur
 
-![Admin view](./images/admin_view.png)
+![Admin view](./images/admin_view.png){: style="height:150px;width:150px"}
 
 Dans la console OpenShift en mode administrateur, vous avez accès à une gamme complète d'outils pour gérer et superviser efficacement votre infrastructure. Voici un aperçu des principales fonctionnalités disponibles :
 
-- **Accueil (Home)** :
+**Accueil (Home)** :
   - Tableau de bord global avec des informations sur les alertes, l'utilisation des ressources et la santé du cluster.
 
-- **Operators** :
+**Operators** :
   - Gestion des opérateurs installés, ajout via l'OperatorHub et surveillance des mises à jour.
 
-- **Workloads** :
+**Workloads** :
   - Gestion des pods, déploiements, réplicasets, daemonsets, jobs et cron jobs.
   - Configuration des StatefulSets pour les applications d'état.
 
-- **Networking** :
+**Networking** :
   - Configuration des routes pour les applications.
   - Gestion des services, des endpoints, des ingress et des politiques réseau.
 
-- **Storage** :
+**Storage** :
   - Gestion des volumes persistants, des claims et des classes de stockage.
   - Surveillance de l'utilisation du stockage.
 
-- **Builds** :
+**Builds** :
   - Surveillance et gestion des builds.
   - Configuration des stratégies de build et gestion des pipelines CI/CD.
 
-- **Observe** :
+**Observe** :
   - Accès aux journaux des pods.
   - Surveillance des métriques et des alertes.
   - Configuration des sources de journaux.
 
-- **Compute** :
+**Compute** :
   - Gestion des nœuds du cluster.
   - Surveillance de l'utilisation des ressources des nœuds.
   - Configuration des machines et des pools de machines.
 
-- **User Management** :
+**User Management** :
   - Création et gestion des utilisateurs et des groupes.
   - Attribution des rôles et des permissions.
   - Configuration des fournisseurs d'identité.
 
-- **Administration** :
+**Administration** :
   - Configuration des paramètres globaux du cluster.
   - Gestion des mises à jour du cluster.
   - Configuration des politiques de sécurité et des quotas.
@@ -86,46 +86,46 @@ Dans la console OpenShift en mode administrateur, vous avez accès à une gamme 
 
 La vue développeur de la console OpenShift est conçue pour optimiser le développement et le déploiement d'applications. Voici ce que vous pouvez faire dans cette vue :
 
-- **Topology (Topologie)** :
+**Topology (Topologie)** :
     - Visualisation graphique des applications et des services.
     - Gestion des ressources et des relations entre les composants.
 
-- **Observe** :
+**Observe** :
   - Accès aux journaux des applications.
   - Surveillance des métriques spécifiques aux projets.
   - Configuration des sources de journaux pour le débogage.
 
-- **Search (Recherche)** :
+**Search (Recherche)** :
   - Recherche de ressources spécifiques dans les projets.
   - Filtrage par type de ressource et par étiquette.
   - Accès rapide aux détails des ressources trouvées.
 
-- **Builds** :
+**Builds** :
   - Gestion et surveillance des builds de projet.
   - Configuration des stratégies de build spécifiques au projet.
   - Visualisation des pipelines CI/CD.
 
-- **Environments (Environnements)** :
+**Environments (Environnements)** :
   - Gestion des configurations d'environnement pour les applications.
   - Définition des variables d'environnement.
   - Surveillance des configurations d'environnement.
 
-- **Helm** :
+**Helm** :
   - Accès à Helm Charts pour déployer des applications.
   - Gestion des releases Helm.
   - Surveillance des applications déployées via Helm.
 
-- **Project (Projet)** :
+**Project (Projet)** :
   - Vue d'ensemble des ressources du projet.
   - Gestion des quotas et des limites de ressources.
   - Surveillance de l'utilisation des ressources au niveau du projet.
 
-- **Config Maps** :
+**Config Maps** :
   - Création et gestion des ConfigMaps.
   - Utilisation des ConfigMaps pour stocker des configurations de données.
   - Intégration des ConfigMaps dans les applications.
 
-- **Secrets** :
+**Secrets** :
   - Création et gestion des secrets.
   - Utilisation des secrets pour stocker des informations sensibles.
   - Intégration des secrets dans les applications.

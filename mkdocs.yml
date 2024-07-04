@@ -13,13 +13,14 @@ docs_dir: content
 extra_css:
   - stylesheets/extra.css
 markdown_extensions:
+  - attr_list
   - toc:
       toc_depth: "2-3"
 nav:
-  - 'Introduction':
+  - "Introduction":
       - 00_Introduction/00_Objectif_du_cours.md
       - 00_Introduction/01_Organisation_de_la_classe.md
-  - 'Présentation de Kubernetes et Openshift':
+  - "Présentation de Kubernetes et Openshift":
       - 01_Présentation_de_Kubernetes_et_Openshift/00_Composant_de_Openshift.md
       - 01_Présentation_de_Kubernetes_et_Openshift/01_Quiz_Composant_de_Openshift.md
       - 01_Présentation_de_Kubernetes_et_Openshift/02_Exploration_de_la_console.md
@@ -29,7 +30,7 @@ nav:
       - 01_Présentation_de_Kubernetes_et_Openshift/06_Monitoring_du_cluster.md
       - 01_Présentation_de_Kubernetes_et_Openshift/07_Exercice_guidé_Monitoring_du_cluster.md
       - 01_Présentation_de_Kubernetes_et_Openshift/08_Résumé.md
-  - 'Interface et ligne de commande':
+  - "Interface et ligne de commande":
       - 02_Interface_et_ligne_de_commande/00_Intéragir_avec_la_ligne_de_commande.md
       - 02_Interface_et_ligne_de_commande/01_Exerice_guidé_Intéragir_avec_la_ligne_de_commande.md
       - 02_Interface_et_ligne_de_commande/02_Examen_des_ressources_Kubernetes.md
@@ -37,7 +38,7 @@ nav:
       - 02_Interface_et_ligne_de_commande/04_Evaluation_de_l'intégrité_du_cluster.md
       - 02_Interface_et_ligne_de_commande/05_Execice_Guidé_Evaluation_de_l'intégrité_du_cluster.md
       - 02_Interface_et_ligne_de_commande/06_Résumé.md
-  - 'Exécuter des applications conteneurisées':
+  - "Exécuter des applications conteneurisées":
       - 03_Executez_des_applications_conteneurisé/00_Présentation_des_conteneurs_linux_et_des_pods_Kubernetes.md
       - 03_Executez_des_applications_conteneurisé/01_Exercice_Guidé_Présentation_des_conteneurs_linux_et_des_pods_Kubernetes.md
       - 03_Executez_des_applications_conteneurisé/02_Rechercher_et_inspecter_des_images_de_conteneurs.md
@@ -45,7 +46,7 @@ nav:
       - 03_Executez_des_applications_conteneurisé/04_Résoudre_des_problemes_liés_au_conteneurs_et_aux_pods.md
       - 03_Executez_des_applications_conteneurisé/05_Exercice_guidé_Résoudre_des_problemes_liés_au_conteneurs_et_aux_pods.md
       - 03_Executez_des_applications_conteneurisé/06_Résumé.md
-  - 'Déployer des applications':
+  - "Déployer des applications":
       - 04_Déployer_des_applications/00_Déploiement_d_image_a_partir_de_modele.md
       - 04_Déployer_des_applications/01_Exercice_guidé_Déploiement_d_image_a_partir_de_modele.md
       - 04_Déployer_des_applications/02_Comprendre_les_différents_types_de_deploiement.md
@@ -57,7 +58,7 @@ nav:
       - 04_Déployer_des_applications/08_Exposition_d_application_pour_un_acces_externe.md
       - 04_Déployer_des_applications/09_Exercice_guidé_Exposition_d_application_pour_un_acces_externe.md
       - 04_Déployer_des_applications/10_Résumé.md
-  - 'Gestion du stockage':
+  - "Gestion du stockage":
       - 05_Gestion_du_stockage/00_Externalisation_de_la_configuration_des_applications.md
       - 05_Gestion_du_stockage/01_Exercice_guidé_Externalisation_de_la_configuration_des_applications.md
       - 05_Gestion_du_stockage/02_Approvisionnement_des_volumes_de_donnés_persistantes.md
@@ -67,7 +68,7 @@ nav:
       - 05_Gestion_du_stockage/06_Gestion_du_stockage_non_partage_avec_état.md
       - 05_Gestion_du_stockage/07_Exercice_guidé_Gestion_du_stockage_non_partage_avec_état.md
       - 05_Gestion_du_stockage/08_Résumé.md
-  - 'Configuration de la fiabilité des applications':
+  - "Configuration de la fiabilité des applications":
       - 06_Configuration_de_la_fiabilité_des_applications/00_Gestion_de_la_haute_disponibilité_dans_Kubernetes.md
       - 06_Configuration_de_la_fiabilité_des_applications/01_Exercice_guidé_Gestion_de_la_haute_disponibilité_dans_Kubernetes.md
       - 06_Configuration_de_la_fiabilité_des_applications/02_Utilisation_des_probes_dans_Kubernetes.md
@@ -79,7 +80,7 @@ nav:
       - 06_Configuration_de_la_fiabilité_des_applications/08_Mise_a_l'echelle_automatique_des_applications.md
       - 06_Configuration_de_la_fiabilité_des_applications/09_Exercice_guidé_Mise_a_l'echelle_automatique_des_applications.md
       - 06_Configuration_de_la_fiabilité_des_applications/10_Résumé.md
-  - 'Gestion des mises à jour des applications':
+  - "Gestion des mises à jour des applications":
       - 07_Gestion_des_mises_à_jour_des_applications/00_Identité_et_balise_d_image_de_conteneur.md
       - 07_Gestion_des_mises_à_jour_des_applications/01_Exercice_guidé_Identité_et_balise_d_image_de_conteneur.md
       - 07_Gestion_des_mises_à_jour_des_applications/02_Mise_a_jour_des_parametres_et_de_l'image_de_l_application.md
