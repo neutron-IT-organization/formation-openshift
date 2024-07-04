@@ -8,6 +8,8 @@ Dans cette section, nous allons explorer l'architecture d'OpenShift.
 
 Kubernetes repose sur plusieurs serveurs, ou nodes, pour garantir la résilience et l’évolutivité des applications qu’il gère. Ces nodes, qu’ils soient physiques ou virtuels, fournissent les ressources nécessaires au cluster. Il y a deux types de nodes, chacun ayant un rôle distinct dans le fonctionnement du cluster. Les nodes du plan de contrôle gèrent la coordination globale du cluster, notamment la planification des charges de travail et la gestion de l’état de configuration du cluster. Les nodes du plan de calcul exécutent les applications, en communiquant avec les nodes du plan de contrôle pour recevoir les demandes d’exécution des applications.
 
+![Generic architecture](./images/architecture.png)
+
 La communication entre le plan de contrôle et les nodes du cluster s'effectue via le service kubelet qui fonctionne sur chaque node. Bien qu'un serveur puisse servir à la fois de node de plan de contrôle et de calcul, ces rôles sont souvent séparés pour une meilleure stabilité, sécurité et gérabilité.
 
 #### Composants du Plan de Contrôle
