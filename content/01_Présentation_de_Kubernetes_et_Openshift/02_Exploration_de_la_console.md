@@ -12,106 +12,123 @@ Kubernetes dispose d'un tableau de bord Web qui n'est pas activé par défaut da
 
 La console Web d'OpenShift est indépendante du tableau de bord Kubernetes et constitue un outil distinct dédié à la gestion des clusters OpenShift. En outre, les opérateurs ont la possibilité d'étendre les fonctionnalités de cette console en ajoutant des menus, des vues et des formulaires supplémentaires pour simplifier encore davantage l'administration du cluster.
 
-## Tableau de bord principal
+## Connexion a la console
 
-![Import snapshot](./images/console.png)
+Pour accéder à la console OpenShift, commencez par ouvrir votre navigateur web et rendez-vous à l'adresse suivante : [https://console-openshift-console.apps.neutron-sno-office.intraneutron.fr/](https://console-openshift-console.apps.neutron-sno-office.intraneutron.fr/). Une fois cette URL entrée, vous serez automatiquement redirigé vers la page de connexion d'OpenShift à l'adresse [https://oauth-openshift.apps.neutron-sno-office.intraneutron.fr](https://oauth-openshift.apps.neutron-sno-office.intraneutron.fr).
 
-Le tableau de bord principal vous offre une vue d'ensemble de votre cluster, incluant les projets, les applications, les statistiques de performance et les événements récents. Voici les principaux éléments que vous y trouverez :
+![Console](./images/console.png)
 
-### 1. **Barre de navigation**
+Cette redirection est normale et vous amène vers l'interface d'authentification sécurisée où vous pourrez vous connecter à la console OpenShift.
 
-La barre de navigation en haut de la page permet d'accéder rapidement aux différentes sections de la console :
-- **Accueil** : Retour au tableau de bord principal.
-- **Projets** : Liste des projets disponibles.
-- **Catalogues** : Accès aux catalogues de services et d'applications.
-- **Monitorage** : Surveillance des ressources et des métriques.
-- **Administration** : Gestion des utilisateurs, des rôles et des paramètres globaux.
+Sur la page de connexion, vous verrez plusieurs options de fournisseurs d'identité (Identity Providers). Dans le cadre de cette formation, vous devez utiliser "Neutron Guest Identity Management" pour vous connecter. Sélectionnez cette option, puis entrez le nom d'utilisateur et le mot de passe qui vous ont été fournis par votre formateur. Ces identifiants vous permettront d'accéder à la console et de commencer à utiliser OpenShift. Assurez-vous de garder ces informations à portée de main pour toute la durée de votre formation, car elles seront nécessaires pour toutes les sessions d'accès à la console.
 
-### 2. **Vue d'ensemble du cluster**
+![First login](./images/first_login.png)
 
-La vue d'ensemble du cluster fournit des informations générales sur l'état du cluster, telles que :
-- **Utilisation des ressources** : CPU, mémoire, stockage.
-- **État des nodes** : Nombre de nodes disponibles, en ligne, hors ligne.
-- **Pods** : Nombre total de pods, répartis par état (Running, Pending, Failed).
+### Différentes Perspectives de la Console Web
 
-### 3. **Liste des projets**
+La console Web OpenShift propose deux modes principaux : Administrator et Developer. La disposition des menus et les fonctionnalités disponibles varient en fonction du mode sélectionné. En haut du menu latéral, un sélecteur de perspective permet de naviguer facilement entre les modes Administrator et Developer.
 
-La liste des projets affiche tous les projets auxquels vous avez accès. Chaque projet regroupe un ensemble de ressources liées (pods, services, routes, etc.). En sélectionnant un projet, vous accédez à ses détails spécifiques.
+![First login](./images/view.png)
 
-## Détails d'un projet
+Chaque mode offre des pages et des catégories de menus spécifiquement conçues pour répondre aux besoins de l'utilisateur. Le mode Administrator est orienté vers la configuration, la gestion du cluster, les déploiements, et les opérations courantes. En revanche, le mode Developer se concentre sur la conception et le déploiement d'applications.
 
-En cliquant sur un projet dans la liste des projets, vous accédez à sa vue détaillée. Cette vue fournit des informations spécifiques sur les ressources et les configurations du projet.
+### Vue Administrateur
 
-### 1. **Vue d'ensemble du projet**
+![Admin view](./images/admin_view.png)
 
-La vue d'ensemble du projet inclut :
-- **Résumé des ressources** : Nombre de pods, services, routes, builds, etc.
-- **Dernières activités** : Journal des événements récents dans le projet.
-- **Utilisation des ressources** : Graphiques d'utilisation de la CPU, de la mémoire et du stockage.
+Dans la console OpenShift en mode administrateur, vous avez accès à une gamme complète d'outils pour gérer et superviser efficacement votre infrastructure. Voici un aperçu des principales fonctionnalités disponibles :
 
-### 2. **Applications**
+- **Accueil (Home)** :
+  - Tableau de bord global avec des informations sur les alertes, l'utilisation des ressources et la santé du cluster.
 
-Sous l'onglet Applications, vous trouverez une liste des applications déployées dans le projet. Chaque application peut inclure plusieurs composants, tels que des déploiements, des services et des routes.
+- **Operators** :
+  - Gestion des opérateurs installés, ajout via l'OperatorHub et surveillance des mises à jour.
 
-- **Déploiements** : Liste des déploiements et de leurs états actuels.
-- **Services** : Points d'accès réseau pour les applications.
-- **Routes** : Expositions des applications au trafic externe.
+- **Workloads** :
+  - Gestion des pods, déploiements, réplicasets, daemonsets, jobs et cron jobs.
+  - Configuration des StatefulSets pour les applications d'état.
 
-### 3. **Workloads**
+- **Networking** :
+  - Configuration des routes pour les applications.
+  - Gestion des services, des endpoints, des ingress et des politiques réseau.
 
-L'onglet Workloads affiche les ressources de calcul dans le projet :
-- **Pods** : Liste des pods en cours d'exécution et leurs détails (logs, métriques, événements).
-- **ReplicaSets** : Groupes de pods identiques pour la scalabilité.
-- **Jobs** : Exécutions de tâches ponctuelles ou périodiques.
+- **Storage** :
+  - Gestion des volumes persistants, des claims et des classes de stockage.
+  - Surveillance de l'utilisation du stockage.
 
-### 4. **Builds**
+- **Builds** :
+  - Surveillance et gestion des builds.
+  - Configuration des stratégies de build et gestion des pipelines CI/CD.
 
-L'onglet Builds montre l'état des processus de construction des images de conteneurs :
-- **BuildConfigs** : Définitions des processus de build.
-- **Builds** : Instances de builds en cours ou terminées.
+- **Observe** :
+  - Accès aux journaux des pods.
+  - Surveillance des métriques et des alertes.
+  - Configuration des sources de journaux.
 
-### 5. **Networking**
+- **Compute** :
+  - Gestion des nœuds du cluster.
+  - Surveillance de l'utilisation des ressources des nœuds.
+  - Configuration des machines et des pools de machines.
 
-L'onglet Networking permet de gérer les ressources réseau du projet :
-- **Services** : Liste des services réseau.
-- **Routes** : Gestion des routes HTTP(S).
-- **Ingress** : Points d'entrée pour le trafic externe.
+- **User Management** :
+  - Création et gestion des utilisateurs et des groupes.
+  - Attribution des rôles et des permissions.
+  - Configuration des fournisseurs d'identité.
 
-### 6. **Storage**
+- **Administration** :
+  - Configuration des paramètres globaux du cluster.
+  - Gestion des mises à jour du cluster.
+  - Configuration des politiques de sécurité et des quotas.
 
-L'onglet Storage affiche les volumes de stockage persistants utilisés par le projet :
-- **Persistent Volume Claims (PVC)** : Demandes de volumes de stockage.
-- **Persistent Volumes (PV)** : Volumes de stockage alloués.
+### Vue Développeur
 
-### 7. **Monitoring**
+![Dev view](./images/dev_view.png)
 
-L'onglet Monitoring fournit des graphiques et des alertes sur les performances et l'état des ressources du projet :
-- **Métriques** : Surveillance en temps réel de la CPU, de la mémoire, des requêtes réseau, etc.
-- **Alertes** : Notifications sur les événements importants ou les problèmes détectés.
+La vue développeur de la console OpenShift est conçue pour optimiser le développement et le déploiement d'applications. Voici ce que vous pouvez faire dans cette vue :
 
-## Utilisation de la console web
+- **Topology (Topologie)** :
+  - Visualisation graphique des applications et des services.
+  - Gestion des ressources et des relations entre les composants.
 
-### 1. **Créer un projet**
+- **Observe** :
+  - Accès aux journaux des applications.
+  - Surveillance des métriques spécifiques aux projets.
+  - Configuration des sources de journaux pour le débogage.
 
-Pour créer un nouveau projet :
-1. Cliquez sur **Projets** dans la barre de navigation.
-2. Cliquez sur **Créer un projet**.
-3. Remplissez le formulaire avec le nom et la description du projet.
-4. Cliquez sur **Créer**.
+- **Search (Recherche)** :
+  - Recherche de ressources spécifiques dans les projets.
+  - Filtrage par type de ressource et par étiquette.
+  - Accès rapide aux détails des ressources trouvées.
 
-### 2. **Déployer une application**
+- **Builds** :
+  - Gestion et surveillance des builds de projet.
+  - Configuration des stratégies de build spécifiques au projet.
+  - Visualisation des pipelines CI/CD.
 
-Pour déployer une nouvelle application :
-1. Cliquez sur **Catalogues** dans la barre de navigation.
-2. Sélectionnez un template ou un opérateur de la liste.
-3. Suivez les instructions pour configurer et déployer l'application.
+- **Environments (Environnements)** :
+  - Gestion des configurations d'environnement pour les applications.
+  - Définition des variables d'environnement.
+  - Surveillance des configurations d'environnement.
 
-### 3. **Surveiller les ressources**
+- **Helm** :
+  - Accès à Helm Charts pour déployer des applications.
+  - Gestion des releases Helm.
+  - Surveillance des applications déployées via Helm.
 
-Pour surveiller les ressources de votre projet :
-1. Cliquez sur le projet souhaité dans la liste des projets.
-2. Naviguez vers l'onglet **Monitoring**.
-3. Visualisez les graphiques et configurez des alertes si nécessaire.
+- **Project (Projet)** :
+  - Vue d'ensemble des ressources du projet.
+  - Gestion des quotas et des limites de ressources.
+  - Surveillance de l'utilisation des ressources au niveau du projet.
+
+- **Config Maps** :
+  - Création et gestion des ConfigMaps.
+  - Utilisation des ConfigMaps pour stocker des configurations de données.
+  - Intégration des ConfigMaps dans les applications.
+
+- **Secrets** :
+  - Création et gestion des secrets.
+  - Utilisation des secrets pour stocker des informations sensibles.
+  - Intégration des secrets dans les applications.
 
 ## Conclusion
 
