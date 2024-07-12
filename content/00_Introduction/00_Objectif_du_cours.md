@@ -12,12 +12,19 @@ Ce cours s'adresse à :
 ## Objectifs d'apprentissage
 
 À la fin de ce cours, vous serez capable de :
+
 1. Comprendre les concepts fondamentaux de Kubernetes et OpenShift.
+
 2. Naviguer et utiliser l'interface de la console OpenShift.
+
 3. Interagir avec OpenShift en utilisant la ligne de commande.
+
 4. Déployer, gérer et mettre à l'échelle des applications conteneurisées.
+
 5. Configurer et gérer le stockage pour les applications.
+
 6. Assurer la fiabilité et la disponibilité des applications déployées.
+
 7. Mettre à jour et maintenir des applications sur OpenShift.
 
 ![container stack](./images/learn.svg)
