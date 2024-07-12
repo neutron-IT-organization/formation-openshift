@@ -20,7 +20,7 @@ Pour comprendre comment Kubernetes assure la coordination et la gestion des clus
 - **kube-apiserver** : Le service frontal qui expose l’API Kubernetes.
 - **kube-scheduler** : Un service qui détermine les nodes de calcul disponibles pour les nouvelles demandes de pods.
 
-![Generic architecture](./images/control_plane.png)
+![Generic architecture](./images/control_plane.svg)
 
 #### Composants du Plan de Calcul
 
