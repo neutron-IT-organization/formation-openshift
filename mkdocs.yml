@@ -19,7 +19,7 @@ markdown_extensions:
 nav:
   - "Introduction":
       - 00_Introduction/00_Objectif_du_cours.md
-      - 00_Introduction/01_Organisation_de_la_classe.md
+      - 00_Introduction/01_Organisation_de_la_formation.md
   - "Présentation de Kubernetes et Openshift":
       - 01_Présentation_de_Kubernetes_et_Openshift/00_Presentation_d_Openshift.md
       - 01_Présentation_de_Kubernetes_et_Openshift/01_Quiz_Presentation_d_Openshift.md
