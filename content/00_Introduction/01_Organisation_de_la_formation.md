@@ -4,7 +4,7 @@ Pour faciliter l'apprentissage et les exercices pratiques, un cluster OpenShift 
 
  Chaque utilisateur dispose sur sa table d'un nom de ville. Cette ville correspond au namespace auquel il aura accès, avec un namespace attribué.
 
-La liste des ville est la suivante:
+La liste des villes est la suivante:
 
 ```shell
 Tokyo, Paris, Londres, Rome, Sydney, Rio, Istanbul, Berlin, Nairobi, Madrid, Toronto, Singapour, Stockholm, Athènes, Varsovie, Oslo, Helsinki, Lisbonne, Vienne, Brasilia, Canberra, Ottawa, Séoul, Le Cap, Budapest, Dublin, Zurich, Cardiff, Nicosie, Sofia, Suva, Riga, Vilnius, Alger, Abou Dabi, Bagdad, Bangkok, Le Caire, Freetown, Kaboul, Kinshasa, Libreville, Mexico, Reykjavik, Prague.
