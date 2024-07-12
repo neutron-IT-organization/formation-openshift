@@ -27,9 +27,7 @@ nav:
       - 01_Présentation_de_Kubernetes_et_Openshift/03_Exercice_guidé_Exploration_de_la_console.md
       - 01_Présentation_de_Kubernetes_et_Openshift/04_Architecture_Openshift_et_Kubernetes.md
       - 01_Présentation_de_Kubernetes_et_Openshift/05_Exercice_guidé_Architecture_Openshift_et_Kubernetes.md
-      - 01_Présentation_de_Kubernetes_et_Openshift/06_Monitoring_du_cluster.md
-      - 01_Présentation_de_Kubernetes_et_Openshift/07_Exercice_guidé_Monitoring_du_cluster.md
-      - 01_Présentation_de_Kubernetes_et_Openshift/08_Résumé.md
+      - 01_Présentation_de_Kubernetes_et_Openshift/06_Résumé.md
   - "Interface et ligne de commande":
       - 02_Interface_et_ligne_de_commande/00_Intéragir_avec_la_ligne_de_commande.md
       - 02_Interface_et_ligne_de_commande/01_Exerice_guidé_Intéragir_avec_la_ligne_de_commande.md
