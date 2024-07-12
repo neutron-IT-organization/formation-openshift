@@ -20,6 +20,8 @@ Ce cours s'adresse à :
 6. Assurer la fiabilité et la disponibilité des applications déployées.
 7. Mettre à jour et maintenir des applications sur OpenShift.
 
+![container stack](./images/learn.svg)
+
 ## Structure du cours
 
 Le cours est structuré en modules qui alternent théorie et pratique :
