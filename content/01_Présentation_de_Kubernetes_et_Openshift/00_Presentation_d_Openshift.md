@@ -1,4 +1,4 @@
-# Formation OpenShift
+# Présentation d'OpenShift
 
 ## Objectif
 
@@ -24,7 +24,7 @@ Un conteneur inclut tout ce dont l'application a besoin : le code, les biblioth�
 
 5. **Gestion simplifiée des dépendances**: Toutes les dépendances d'une application sont empaquetées dans le conteneur, ce qui élimine les problèmes de version et de compatibilité qui peuvent survenir lorsqu'une application dépend des bibliothèques du système hôte.
 
-![Generic architecture](./images/container_stack.png)
+![container stack](./images/container_stack.png)
 
 Alors que les conteneurs offrent de nombreux avantages pour le développement et le déploiement d'applications, leur gestion à grande échelle nécessite des outils et des processus robustes. C'est là que Kubernetes entre en jeu.
 
@@ -67,6 +67,8 @@ OpenShift est une plateforme de conteneurs d'entreprise développée par Red Hat
 5. **Opérateurs Kubernetes**: OpenShift utilise les opérateurs Kubernetes pour automatiser la gestion des applications, facilitant ainsi l'extension des fonctionnalités de la plateforme. Les opérateurs sont des extensions de Kubernetes qui simplifient la gestion des applications complexes.
 
 6. **Options de déploiement flexibles**: OpenShift propose diverses options de déploiement adaptées aux besoins des entreprises, qu'il s'agisse de déploiements sur site, dans des environnements de cloud public ou hybride, ou encore de configurations autogérées ou entièrement gérées par Red Hat.
+
+![ocp stack](./images/ocp_stack.png)
 
 ## Conclusion
 
