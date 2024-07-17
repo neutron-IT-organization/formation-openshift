@@ -2,7 +2,7 @@
 
 ## Objectif de la section
 
-L'objectif de cette section est de fournir une compréhension de l'interaction avec OpenShift via l'interface de ligne de commande (CLI). Vous apprendrez à installer et configurer les outils nécessaires, ainsi qu'à utiliser des commandes essentielles pour gérer et déployer des applications sur OpenShift. Cette section couvrira les concepts fondamentaux et avancés pour vous permettre d'exploiter pleinement les capacités de la CLI dans des environnements de développement et de production.
+L'objectif de cette section est de fournir une compréhension approfondie de l'interaction avec OpenShift via l'interface de ligne de commande (CLI). Vous apprendrez à installer et configurer les outils nécessaires, ainsi qu'à utiliser des commandes pour gérer et déployer des applications sur OpenShift. Cette section couvrira les concepts fondamentaux pour vous permettre d'exploiter pleinement les capacités de la CLI dans des environnements de développement et de production.
 
 ## Introduction aux Interfaces de Ligne de Commande
 
@@ -24,8 +24,10 @@ Pour installer `oc`, suivez ces étapes :
 
 1. **Téléchargez le client OpenShift** :
     - Accédez à la console Web OpenShift.
-    - Cliquez sur votre nom d'utilisateur en haut à droite et sélectionnez "Command Line Tools".
+    - Cliquez sur le point d'interrogation en haut à droite et sélectionnez "Command Line Tools".
+    ![container line tools](./images/command-line-tools.png){: style="height:100px"}
     - Téléchargez l'archive du client OpenShift pour votre système d'exploitation.
+    ![binaire downloads](./images/binaire-downloads.png)
 
 2. **Décompressez l'archive** :
     - Sous Linux ou macOS :
@@ -54,10 +56,16 @@ Username: developer
 Password: developer
 ```
 
-- **Action** : Se connecte au cluster OpenShift en utilisant l'URL du serveur API.
-- **Input** : Vous serez invité à entrer votre nom d'utilisateur et votre mot de passe.
+#### Explication et Exemple d'Output
 
-- **Output** :
+- **Commande** :
+  ```bash
+  oc login https://api.ocp4.example.com:6443
+  ```
+  - **Action** : Se connecte au cluster OpenShift en utilisant l'URL du serveur API.
+  - **Input** : Vous serez invité à entrer votre nom d'utilisateur et votre mot de passe.
+
+- **Exemple d'Output** :
   ```
   Login successful.
 
@@ -225,4 +233,152 @@ Ce message confirme que le pod "myapp-1-abcde" a été supprimé avec succès.
 
 - **Exemple d'Output** :
   ```
-  Kubernetes master is running at https://api.ocp4.example
+  Kubernetes master is running at https://api.ocp4.example.com:6443
+    KubeDNS is running at https://api.ocp4.example.com:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+    ```
+
+  Cette sortie montre l'URL du serveur API principal de Kubernetes ainsi que l'adresse du service DNS du cluster.
+
+  ### Déploiement d'Applications
+
+  OpenShift facilite le déploiement d'applications à travers une série de commandes simples. Voici quelques commandes clés pour déployer des applications.
+
+  #### Création d'une Nouvelle Application
+
+  - **Créer une nouvelle application** :
+    ```bash
+    oc new-app <image>
+    ```
+
+  #### Explication et Exemple d'Output
+
+  - **Commande** :
+    ```bash
+    oc new-app nginx
+    ```
+    - **Action** : Crée une nouvelle application en utilisant l'image Docker "nginx".
+
+  - **Exemple d'Output** :
+    ```
+    --> Found image 64b0af3 (9 days old) in image stream "openshift/nginx" under tag "latest" for "nginx"
+
+        * An image stream tag will be created as "nginx:latest" that will track this image
+        * This image will be deployed in deployment config "nginx"
+        * Port 8080/tcp will be load balanced by service "nginx"
+          * Other containers can access this service through the hostname "nginx"
+
+    --> Creating resources ...
+        imagestream.image.openshift.io "nginx" created
+        deploymentconfig.apps.openshift.io "nginx" created
+        service "nginx" created
+    --> Success
+    ```
+
+  Ce message indique que l'application basée sur l'image "nginx" a été créée avec succès, avec les ressources associées comme le flux d'image, la configuration de déploiement, et le service.
+
+  #### Exposition d'un Service
+
+  Pour rendre votre application accessible de l'extérieur du cluster, vous pouvez exposer un service en créant une route.
+
+  - **Exposer un service** :
+    ```bash
+    oc expose svc/<nom_du_service>
+    ```
+
+  #### Explication et Exemple d'Output
+
+  - **Commande** :
+    ```bash
+    oc expose svc/nginx
+    ```
+    - **Action** : Expose le service "nginx" pour le rendre accessible à l'extérieur du cluster.
+
+  - **Exemple d'Output** :
+    ```
+    route.route.openshift.io/nginx exposed
+    ```
+
+  Ce message confirme que le service "nginx" a été exposé avec succès, ce qui signifie qu'une route a été créée pour permettre l'accès externe à l'application.
+
+  ### Mise à Jour des Applications
+
+  Les applications nécessitent souvent des mises à jour pour déployer de nouvelles versions ou appliquer des correctifs.
+
+  #### Mise à Jour d'une Image de Déploiement
+
+  - **Mettre à jour une image de déploiement** :
+    ```bash
+    oc set image dc/<nom_du_deploymentconfig> <nom_du_container>=<nouvelle_image>
+    ```
+
+  #### Explication et Exemple d'Output
+
+  - **Commande** :
+    ```bash
+    oc set image dc/nginx nginx=nginx:latest
+    ```
+    - **Action** : Met à jour l'image du conteneur "nginx" dans la configuration de déploiement "nginx" avec la nouvelle image "nginx:latest".
+
+  - **Exemple d'Output** :
+    ```
+    deploymentconfig.apps.openshift.io/nginx image updated
+    ```
+
+  Ce message indique que l'image du conteneur dans la configuration de déploiement "nginx" a été mise à jour avec succès.
+
+  ### Surveillance des Applications
+
+  Une fois vos applications déployées, il est important de surveiller leur état pour s'assurer qu'elles fonctionnent correctement.
+
+  #### Afficher les Logs d'un Pod
+
+  - **Afficher les logs** :
+    ```bash
+    oc logs <nom_du_pod>
+    ```
+
+  #### Explication et Exemple d'Output
+
+  - **Commande** :
+    ```bash
+    oc logs myapp-1-abcde
+    ```
+    - **Action** : Affiche les logs du pod nommé "myapp-1-abcde".
+
+  - **Exemple d'Output** :
+    ```
+    [INFO] Starting nginx...
+    [INFO] nginx is running.
+    ```
+
+  Ces logs fournissent des informations sur l'état du pod et les opérations effectuées par le conteneur.
+
+  ### Exécution de Commandes dans un Pod
+
+  Pour diagnostiquer des problèmes ou administrer des applications, il peut être nécessaire d'exécuter des commandes directement dans un pod.
+
+  - **Exécuter une commande dans un pod** :
+    ```bash
+    oc exec <nom_du_pod> -- <commande>
+    ```
+
+  #### Explication et Exemple d'Output
+
+  - **Commande** :
+    ```bash
+    oc exec myapp-1-abcde -- ls /app
+    ```
+    - **Action** : Exécute la commande `ls /app` dans le pod "myapp-1-abcde".
+
+  - **Exemple d'Output** :
+    ```
+    index.html
+    main.js
+    style.css
+    ```
+
+  Cette sortie montre les fichiers dans le répertoire `/app` du pod, aidant ainsi à vérifier que les fichiers nécessaires sont présents.
+
+  ## Conclusion
+
+  L'utilisation de la ligne de commande avec OpenShift, via `kubectl` et `oc`, offre une puissance et une flexibilité considérables pour gérer des clusters et des applications. En comprenant les commandes essentielles et en apprenant à interpréter leurs sorties, vous serez bien équipé pour administrer efficacement vos environnements OpenShift, déployer des applications, gérer des ressources et diagnostiquer des problèmes. La maîtrise de ces outils est essentielle pour tout professionnel travaillant dans un environnement Kubernetes/OpenShift, offrant ainsi un contrôle granulaire et des capacités avancées pour une gestion optimale des infrastructures cloud-native.
