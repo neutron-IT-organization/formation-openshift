@@ -6,16 +6,14 @@ Dans cette section, nous allons apprendre comment examiner les différentes ress
 
 Dans cette section, nous avons pour objectifs de :
 
-1. **Po**: Les
+1. Comprendre la structure des objets Kubernetes, en particulier les champs **spec** et **status**.
 
-1. **1** test
-
-**2** test
-
-  1. Comprendre la structure des objets Kubernetes, en particulier les champs **spec** et **status**.
 2. Identifier et décrire les autres champs courants des ressources Kubernetes.
+
 3. Illustrer la configuration d'un objet Kubernetes à l'aide d'un exemple de manifest de déploiement.
+
 4. Apprendre à utiliser les options de sortie YAML et JSON pour analyser et écrire des scripts.
+
 5. Maîtriser l'utilisation du format de sortie personnalisé pour extraire des données spécifiques de manière tabulaire.
 
 ### Spécification et statut des objets Kubernetes
