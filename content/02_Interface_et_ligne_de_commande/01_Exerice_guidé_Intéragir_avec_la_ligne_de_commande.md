@@ -169,6 +169,19 @@ RollingUpdateStrategy:  25% max unavailable, 25% max surge
 
 Cette commande fournit des informations détaillées sur la configuration de déploiement de votre application, y compris l'état actuel des pods, les stratégies de déploiement et les sélecteurs.
 
+Vérifiez que votre pod est maintenant au status Ready :
+```bash
+oc get po
+```
+
+Attendez que votre pod soit indiquez en Running avant de passer à l'étape suivante :
+
+```bash
+NAME                                         READY   STATUS    RESTARTS   AGE
+p02l01-go-app-6c457d7469-vhl2q               1/1     Running   0          2m33s
+workspacee44a9674bf734f38-56fc7fdc44-6n2nr   2/2     Running   0          26m
+```
+
 ---
 
 **6. Affichage des Logs de l'Application**
