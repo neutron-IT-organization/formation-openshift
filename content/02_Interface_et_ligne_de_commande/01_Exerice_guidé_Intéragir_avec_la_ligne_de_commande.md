@@ -26,6 +26,7 @@ Pour commencer, vous devez vous connecter à votre cluster OpenShift :
 6. **Ouvrez le terminal web OpenShift en haut à droite**.
 ![Open web terminal](./images/open-web-terminal.svg)
 7. **Cliquez sur Open terminal in a new tab et selectionnez votre projet. Cliquez sur start. Le premier démarrage peut prendre quelques secondes**
+----
 ![new-onglet terminal](./images/new-onglet-web-terminal.svg)
 ----
 ![select project terminal](./images/select-project.svg)
