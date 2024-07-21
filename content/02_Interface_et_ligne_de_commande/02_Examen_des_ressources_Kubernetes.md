@@ -5,11 +5,11 @@ Dans cette section, nous allons apprendre comment examiner les différentes ress
 ### Objectifs de la Section
 
 Dans cette section, nous avons pour objectifs de :
-* Comprendre la structure des objets Kubernetes, en particulier les champs **spec** et **status**.
-* Identifier et décrire les autres champs courants des ressources Kubernetes.
-* Illustrer la configuration d'un objet Kubernetes à l'aide d'un exemple de manifest de déploiement.
-* Apprendre à utiliser les options de sortie YAML et JSON pour analyser et écrire des scripts.
-* Maîtriser l'utilisation du format de sortie personnalisé pour extraire des données spécifiques de manière tabulaire.
+1. Comprendre la structure des objets Kubernetes, en particulier les champs **spec** et **status**.
+2. Identifier et décrire les autres champs courants des ressources Kubernetes.
+3. Illustrer la configuration d'un objet Kubernetes à l'aide d'un exemple de manifest de déploiement.
+4. Apprendre à utiliser les options de sortie YAML et JSON pour analyser et écrire des scripts.
+5. Maîtriser l'utilisation du format de sortie personnalisé pour extraire des données spécifiques de manière tabulaire.
 
 ### Spécification et statut des objets Kubernetes
 
@@ -36,7 +36,7 @@ En plus des champs **spec** et **status**, d’autres champs courants fournissen
 
 ### Exemple de manifest de déploiement
 
-Voici un exemple de manifest de déploiement Kubernetes avec une explication des différents champs :
+Pour mieux comprendre comment ces champs sont utilisés, examinons un exemple de manifest de déploiement Kubernetes avec une explication des différents champs :
 
 ```yaml
 apiVersion: apps/v1
@@ -75,39 +75,177 @@ status:
     message: Deployment has minimum availability.
 ```
 
-- **apiVersion** : indique la version de l’API utilisée (ici, apps/v1).
-- **kind** : type de ressource (ici, Deployment).
-- **metadata** : informations sur l'objet, comme le nom, l’espace de noms et les étiquettes.
-- **spec** : décrit l'état souhaité, comme le nombre de réplicas, le sélecteur de pods et le template de pod.
-- **status** : montre l'état actuel de l'objet, y compris les réplicas disponibles et les conditions de l'objet.
+- **apiVersion** : Indique la version de l’API utilisée (ici, `apps/v1`).
+- **kind** : Type de ressource (ici, `Deployment`).
+- **metadata** :
+  - **name** : Nom de l’objet (`example-deployment`).
+  - **namespace** : Namespace où se trouve l'objet (`default`).
+  - **labels** : Étiquettes associées à l’objet (`app: example`).
+- **spec** :
+  - **replicas** : Nombre de réplicas désiré (ici, `3`).
+  - **selector** : Sélecteur pour choisir les pods contrôlés par ce déploiement.
+    - **matchLabels** : Critères de sélection des pods (`app: example`).
+  - **template** :
+    - **metadata** :
+      - **labels** : Étiquettes appliquées aux pods (`app: example`).
+    - **spec** :
+      - **containers** : Liste des conteneurs déployés par ce manifest.
+        - **name** : Nom du conteneur (`example-container`).
+        - **image** : Image Docker utilisée (`nginx:1.14.2`).
+        - **ports** : Ports exposés par le conteneur.
+          - **containerPort** : Port utilisé par le conteneur (`80`).
+- **status** :
+  - **replicas** : Nombre de réplicas observés (`3`).
+  - **updatedReplicas** : Nombre de réplicas mis à jour (`3`).
+  - **readyReplicas** : Nombre de réplicas prêts (`3`).
+  - **availableReplicas** : Nombre de réplicas disponibles (`3`).
+  - **conditions** : Conditions actuelles du déploiement.
+    - **type** : Type de condition (`Available`).
+    - **status** : Statut de la condition (`True`).
+    - **lastUpdateTime** : Dernière mise à jour (`2024-07-21T12:34:56Z`).
+    - **lastTransitionTime** : Dernière transition (`2024-07-21T12:34:56Z`).
+    - **reason** : Raison de la condition (`MinimumReplicasAvailable`).
+    - **message** : Message décrivant la condition (`Deployment has minimum availability`).
 
 ### Formats de sortie YAML et JSON
 
-Kubernetes fournit des options de sortie aux formats YAML et JSON, adaptées à l’analyse et à l’écriture de scripts.
+Pour analyser et écrire des scripts, Kubernetes fournit des options de sortie aux formats YAML et JSON. Utilisons la commande `oc` pour extraire ces informations.
 
-#### Exemple avec `-o yaml` :
+#### Exemple avec `-o yaml`
+
+La commande suivante extrait les informations d'un déploiement au format YAML :
 
 ```bash
-kubectl get deployment example-deployment -o yaml
+oc get deployment example-deployment -o yaml
 ```
 
-#### Exemple avec `-o json` :
+##### Exemple d'output YAML :
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+  namespace: default
+  labels:
+    app: example
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+      - name: example-container
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+status:
+  replicas: 3
+  updatedReplicas: 3
+  readyReplicas: 3
+  availableReplicas: 3
+  conditions:
+  - type: Available
+    status: "True"
+    lastUpdateTime: "2024-07-21T12:34:56Z"
+    lastTransitionTime: "2024-07-21T12:34:56Z"
+    reason: MinimumReplicasAvailable
+    message: Deployment has minimum availability.
+```
+
+#### Exemple avec `-o json`
+
+La commande suivante extrait les informations d'un déploiement au format JSON :
 
 ```bash
-kubectl get deployment example-deployment -o json
+oc get deployment example-deployment -o json
+```
+
+##### Exemple d'output JSON :
+
+```json
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "name": "example-deployment",
+    "namespace": "default",
+    "labels": {
+      "app": "example"
+    }
+  },
+  "spec": {
+    "replicas": 3,
+    "selector": {
+      "matchLabels": {
+        "app": "example"
+      }
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "example"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "example-container",
+            "image": "nginx:1.14.2",
+            "ports": [
+              {
+                "containerPort": 80
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "status": {
+    "replicas": 3,
+    "updatedReplicas": 3,
+    "readyReplicas": 3,
+    "availableReplicas": 3,
+    "conditions": [
+      {
+        "type": "Available",
+        "status": "True",
+        "lastUpdateTime": "2024-07-21T12:34:56Z",
+        "lastTransitionTime": "2024-07-21T12:34:56Z",
+        "reason": "MinimumReplicasAvailable",
+        "message": "Deployment has minimum availability."
+      }
+    ]
+  }
+}
 ```
 
 ### Format de sortie personnalisé
 
-Kubernetes offre un format de sortie personnalisé qui allie la facilité d’extraction des données via des requêtes de style jq à un format de sortie tabulaire. Utilisez l’option `-o custom-columns` avec des paires `<column name>: <jq query string>` séparées par des virgules.
+Pour extraire des données spécifiques de manière tabulaire, Kubernetes offre un format de sortie personnalisé. Utilisez l’option `-o custom-columns` avec des paires `<column name>: <jq query string>` séparées par des virgules.
 
 #### Exemple :
 
+La commande suivante affiche les noms et statuts des pods :
+
 ```bash
-kubectl get pods -o custom-columns=NAME:.metadata.name,STATUS:.status.phase
+oc get pods -o custom-columns=NAME:.metadata.name,STATUS:.status.phase
 ```
 
-Cela affichera une table avec les colonnes **NAME** et **STATUS** des pods, en utilisant les chemins jq spécifiés pour extraire les valeurs des attributs correspondants.
+##### Exemple d'output personnalisé :
+
+```
+NAME                STATUS
+example-pod-1       Running
+example-pod-2       Pending
+example-pod-3       Running
+```
 
 ### Conclusion
 
