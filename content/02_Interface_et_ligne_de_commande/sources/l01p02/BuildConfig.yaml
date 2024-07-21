@@ -1,13 +1,13 @@
 kind: BuildConfig
 apiVersion: build.openshift.io/v1
 metadata:
-  name: l01p02-go-app
+  name: p02l01-go-app
   namespace: florian-ns
 spec:
   output:
     to:
       kind: DockerImage
-      name: "quay.io/neutron-it/l01p02-go-app:latest"
+      name: "quay.io/neutron-it/p02l01-go-app:latest"
     pushSecret:
       name: florian-even-pull-secret
   strategy:
