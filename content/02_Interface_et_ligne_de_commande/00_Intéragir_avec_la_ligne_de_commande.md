@@ -308,8 +308,6 @@ Ce message confirme que le pod "myapp-1-abcde" a été supprimé avec succès.
   | `oc get events`                | Liste tous les événements dans le projet actuel                                                        | `oc get events`                              |
 
 
-
   ## Conclusion
-
 
   L'utilisation de la ligne de commande avec OpenShift, via `kubectl` et `oc`, offre une puissance et une flexibilité considérables pour gérer des clusters et des applications. En comprenant les commandes essentielles et en apprenant à interpréter leurs sorties, vous serez bien équipé pour administrer efficacement vos environnements OpenShift, déployer des applications, gérer des ressources et diagnostiquer des problèmes. La maîtrise de ces outils est essentielle pour tout professionnel travaillant dans un environnement Kubernetes/OpenShift, offrant ainsi un contrôle granulaire et des capacités avancées pour une gestion optimale des infrastructures cloud-native.
