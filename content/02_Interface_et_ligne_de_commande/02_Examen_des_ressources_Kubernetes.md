@@ -1,59 +1,114 @@
 # Examen des Ressources Kubernetes
 
-Dans cette section, nous allons explorer les différentes ressources disponibles dans un cluster Kubernetes et apprendre comment les examiner à l'aide de la ligne de commande `kubectl`. Comprendre ces ressources est essentiel pour gérer efficacement un environnement Kubernetes et OpenShift.
+Dans cette section, nous allons apprendre comment examiner les différentes ressources disponibles dans un cluster Kubernetes  à l'aide de la ligne de commande `oc`. Comprendre ces ressources est essentiel pour gérer efficacement un environnement Kubernetes et OpenShift.
 
-## Objectifs de la Section
+### Objectifs de la Section
 
-- Identifier les principales ressources Kubernetes telles que les pods, les déploiements, les services, etc.
-- Apprendre à utiliser la commande `kubectl` pour afficher des informations détaillées sur ces ressources.
-- Comprendre les relations entre différentes ressources et leur impact sur l'orchestration des applications.
+Dans cette section, nous avons pour objectifs de :
+1. Comprendre la structure des objets Kubernetes, en particulier les champs **spec** et **status**.
+2. Identifier et décrire les autres champs courants des ressources Kubernetes.
+3. Illustrer la configuration d'un objet Kubernetes à l'aide d'un exemple de manifest de déploiement.
+4. Apprendre à utiliser les options de sortie YAML et JSON pour analyser et écrire des scripts.
+5. Maîtriser l'utilisation du format de sortie personnalisé pour extraire des données spécifiques de manière tabulaire.
 
-## Principales Ressources Kubernetes
+### Spécification et statut des objets Kubernetes
 
-Voici quelques-unes des principales ressources que vous rencontrerez dans un cluster Kubernetes :
+Presque tous les objets Kubernetes contiennent deux champs d’objets imbriqués qui régissent la configuration de l’objet : l’objet **spec** et l’objet **status**.
 
-- **Pods**: Les pods sont les plus petites unités déployables dans Kubernetes. Ils contiennent un ou plusieurs conteneurs qui partagent des ressources, telles que le stockage et le réseau.
-- **Déploiements (Deployments)**: Les déploiements permettent de définir l'état souhaité des pods et de garantir que cet état est maintenu malgré les échecs de pods ou les mises à jour d'applications.
-- **Services**: Les services Kubernetes permettent de définir un ensemble stable d'adresses IP pour accéder aux pods, ainsi qu'un équilibreur de charge pour distribuer le trafic entre eux.
-- **Volumes**: Les volumes Kubernetes fournissent un stockage persistant pour les données utilisées par les applications s'exécutant dans des pods.
-- **Secrets et ConfigMaps**: Les secrets et les ConfigMaps sont des objets Kubernetes utilisés pour stocker des données sensibles ou de configuration, respectivement.
+- **spec** : décrit l’état prévu de la ressource. Vous spécifiez la section **spec** de la ressource lors de la création de l’objet.
+- **status** : décrit l’état actuel de la ressource. Les contrôleurs Kubernetes mettent à jour en continu le **status** de l’objet pendant toute sa durée de vie.
 
-## Utilisation de `kubectl` pour Examiner les Ressources
+Le plan de contrôle Kubernetes gère continuellement et activement l’état réel de chaque objet pour qu’il corresponde à l’état souhaité que vous avez indiqué.
 
-Pour afficher des informations détaillées sur une ressource spécifique, vous pouvez utiliser la commande `kubectl describe`. Par exemple, pour afficher les détails d'un pod nommé "my-pod", vous pouvez exécuter la commande suivante :
+Le champ **status** utilise une collection d’objets de ressource condition avec les champs suivants.
 
-```bash
-kubectl describe pod my-pod
+### Champs courants des ressources Kubernetes
+
+En plus des champs **spec** et **status**, d’autres champs courants fournissent des informations de base sur un objet Kubernetes :
+
+| Champ                    | Description                                                                                          |
+|--------------------------|------------------------------------------------------------------------------------------------------|
+| **apiVersion**           | Identificateur de la version du schéma d’objet.                                                      |
+| **kind**                 | Identificateur de schéma.                                                                            |
+| **metadata.name**        | Crée une étiquette avec une clé name que d’autres ressources dans Kubernetes peuvent utiliser à des fins de recherche. |
+| **metadata.namespace**   | Espace de noms ou projet RHOCP dans lequel se trouve la ressource.                                   |
+| **metadata.labels**      | Paires clé-valeur permettant de connecter des métadonnées d’identification à des objets Kubernetes.  |
+
+### Exemple de manifest de déploiement
+
+Voici un exemple de manifest de déploiement Kubernetes avec une explication des différents champs :
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+  namespace: default
+  labels:
+    app: example
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+      - name: example-container
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+status:
+  replicas: 3
+  updatedReplicas: 3
+  readyReplicas: 3
+  availableReplicas: 3
+  conditions:
+  - type: Available
+    status: "True"
+    lastUpdateTime: "2024-07-21T12:34:56Z"
+    lastTransitionTime: "2024-07-21T12:34:56Z"
+    reason: MinimumReplicasAvailable
+    message: Deployment has minimum availability.
 ```
 
-De même, pour afficher une liste des ressources d'un type spécifique, comme les déploiements, vous pouvez utiliser la commande `kubectl get`. Par exemple, pour afficher tous les déploiements dans le cluster, vous pouvez exécuter :
+- **apiVersion** : indique la version de l’API utilisée (ici, apps/v1).
+- **kind** : type de ressource (ici, Deployment).
+- **metadata** : informations sur l'objet, comme le nom, l’espace de noms et les étiquettes.
+- **spec** : décrit l'état souhaité, comme le nombre de réplicas, le sélecteur de pods et le template de pod.
+- **status** : montre l'état actuel de l'objet, y compris les réplicas disponibles et les conditions de l'objet.
+
+### Formats de sortie YAML et JSON
+
+Kubernetes fournit des options de sortie aux formats YAML et JSON, adaptées à l’analyse et à l’écriture de scripts.
+
+#### Exemple avec `-o yaml` :
 
 ```bash
-kubectl get deployments
+kubectl get deployment example-deployment -o yaml
 ```
 
-## Exemples d'Utilisation
-
-Voici quelques exemples d'utilisation de `kubectl` pour examiner les ressources Kubernetes :
-
-- Afficher la liste des pods dans un namespace spécifique :
+#### Exemple avec `-o json` :
 
 ```bash
-kubectl get pods -n <namespace>
+kubectl get deployment example-deployment -o json
 ```
 
-- Afficher les détails d'un service spécifique :
+### Format de sortie personnalisé
+
+Kubernetes offre un format de sortie personnalisé qui allie la facilité d’extraction des données via des requêtes de style jq à un format de sortie tabulaire. Utilisez l’option `-o custom-columns` avec des paires `<column name>: <jq query string>` séparées par des virgules.
+
+#### Exemple :
 
 ```bash
-kubectl describe service <service_name>
+kubectl get pods -o custom-columns=NAME:.metadata.name,STATUS:.status.phase
 ```
 
-- Afficher la configuration d'un volume persistant :
+Cela affichera une table avec les colonnes **NAME** et **STATUS** des pods, en utilisant les chemins jq spécifiés pour extraire les valeurs des attributs correspondants.
 
-```bash
-kubectl describe persistentvolume <volume_name>
-```
+### Conclusion
 
-## Conclusion
-
-Examiner les ressources Kubernetes est une compétence essentielle pour les administrateurs et les développeurs travaillant avec des clusters Kubernetes et OpenShift. En utilisant les commandes `kubectl` appropriées, vous pouvez obtenir des informations détaillées sur l'état et la configuration des ressources, ce qui facilite le débogage des problèmes et la gestion des applications dans votre cluster.
+Dans cette section, nous avons exploré la structure des objets Kubernetes, en mettant l'accent sur les champs **spec** et **status**, ainsi que sur d'autres champs courants. Nous avons illustré ces concepts avec un exemple de manifest de déploiement et avons appris à utiliser les options de sortie YAML et JSON pour faciliter l'analyse et l'écriture de scripts. Enfin, nous avons découvert comment utiliser le format de sortie personnalisé pour extraire des données spécifiques de manière efficace. Ces compétences sont essentielles pour gérer et interroger efficacement les ressources Kubernetes dans OpenShift.
