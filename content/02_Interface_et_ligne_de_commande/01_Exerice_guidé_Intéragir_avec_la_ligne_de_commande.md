@@ -27,7 +27,7 @@ Pour commencer, vous devez vous connecter à votre cluster OpenShift :
 ![Open web terminal](./images/open-web-terminal.svg)
 7. **Cliquez sur Open terminal in a new tab et selectionnez votre projet. Cliquez sur start. Le premier démarrage peut prendre quelques secondes**
 ![new-onglet terminal](./images/new-onglet-web-terminal.svg)
-
+----
 ![select project terminal](./images/select-project.svg)
 
 6. **Collez et exécutez cette commande dans votre terminal web OpenShift**.
@@ -82,25 +82,7 @@ La commande `oc` prend en charge les mêmes fonctionnalités que la commande `ku
 
 ---
 
-**3. Obtenir des Informations sur le Cluster**
-
-Pour vérifier que votre cluster fonctionne correctement et obtenir des détails sur ses services essentiels :
-
-1. **Affichez les informations sur votre cluster** :
-```bash
-oc cluster-info
-```
-Vous verrez une sortie similaire à celle-ci :
-```
-Kubernetes master is running at https://api.ocp4.example.com:6443
-KubeDNS is running at https://api.ocp4.example.com:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
-```
-
-Cette commande fournit des informations sur le point de terminaison du maître Kubernetes et d'autres services essentiels du cluster. Elle est utile pour vérifier que le cluster est opérationnel.
-
----
-
-**4. Gestion des Namespaces**
+**3. Gestion des Namespaces**
 
 Les namespaces permettent d'organiser les ressources dans votre cluster. Vous pouvez voir le namespace actuel et en changer si nécessaire :
 
@@ -110,7 +92,7 @@ oc project
 ```
 Vous verrez une sortie similaire à celle-ci :
 ```
-Using project "default" on server "https://api.ocp4.example.com:6443".
+Using project "prague-user-ns" from context named "prague-user-context" on server "https://172.30.0.1:443".
 ```
 
 2. **Changez de namespace (si nécessaire)** :
@@ -130,41 +112,47 @@ Les namespaces (ou projets) permettent d'isoler les ressources dans un cluster. 
 
 ---
 
-**5. Création d'une Nouvelle Application**
+**4. Création d'une Nouvelle Application**
 
 Nous allons maintenant créer une application simple en utilisant une image de base. Suivez ces étapes :
 
 1. **Créez une nouvelle application en utilisant une image de base** :
 ```bash
-oc new-app nginx
+oc new-app --image=quay.io/neutron-it/l01p02-go-app
 ```
 Vous verrez une sortie similaire à celle-ci :
 ```
---> Found image 64b0af3 (9 days old) in image stream "openshift/nginx" under tag "latest" for "nginx"
+--> Found container image 2b45366 (6 minutes old) from quay.io for "quay.io/neutron-it/l01p02-go-app"
 
-    * An image stream tag will be created as "nginx:latest" that will track this image
-    * This image will be deployed in deployment config "nginx"
-    * Port 8080/tcp will be load balanced by service "nginx"
-      * Other containers can access this service through the hostname "nginx"
+    Go 1.21.11
+    ----------
+    Go Toolset available as a container is a base platform for building and running various Go applications and frameworks. Go is an easy to learn, powerful, statically typed language in the C/C++ tradition with garbage collection, concurrent programming support, and memory safety features.
+
+    Tags: builder, golang, golang121, rh-golang121, go
+
+    * An image stream tag will be created as "l01p02-go-app:latest" that will track this image
 
 --> Creating resources ...
-    imagestream.image.openshift.io "nginx" created
-    deploymentconfig.apps.openshift.io "nginx" created
-    service "nginx" created
+    imagestream.image.openshift.io "l01p02-go-app" created
+    deployment.apps "l01p02-go-app" created
+    service "l01p02-go-app" created
 --> Success
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose service/l01p02-go-app'
+    Run 'oc status' to view your app.
 ```
 
-Cette commande crée une nouvelle application basée sur l'image "nginx". OpenShift crée automatiquement les ressources nécessaires, comme l'image stream, la configuration de déploiement et le service.
+Cette commande crée une nouvelle application basée sur l'image "l01p02-go-app". OpenShift crée automatiquement les ressources nécessaires, comme l'image stream, la configuration de déploiement et le service.
 
 ---
 
-**6. Description de l'Application**
+**5. Description de l'Application**
 
 Pour obtenir des détails sur l'application que vous venez de créer :
 
 1. **Décrivez votre application pour obtenir des détails** :
 ```bash
-oc describe dc/nginx
+oc describe deployment/l01p02-go-app
 ```
 Vous verrez une sortie détaillée avec des informations sur la configuration de déploiement, les stratégies de déploiement, l'état des réplicas, et plus encore :
 ```
@@ -182,7 +170,7 @@ Cette commande fournit des informations détaillées sur la configuration de dé
 
 ---
 
-**7. Affichage de la Configuration YAML**
+**6. Affichage de la Configuration YAML**
 
 Pour voir la configuration complète de votre application en format YAML :
 
@@ -204,7 +192,7 @@ Cette commande affiche la configuration complète de la ressource en format YAML
 
 ---
 
-**8. Affichage des Logs de l'Application**
+**7. Affichage des Logs de l'Application**
 
 Pour diagnostiquer les problèmes ou vérifier que tout fonctionne correctement :
 
@@ -222,7 +210,7 @@ Les logs sont essentiels pour diagnostiquer les problèmes et vérifier que l'ap
 
 ---
 
-**9. Suppression de l'Application**
+**8. Suppression de l'Application**
 
 Enfin, pour nettoyer les ressources créées :
 
