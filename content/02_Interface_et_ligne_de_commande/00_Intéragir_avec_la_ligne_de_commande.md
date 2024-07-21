@@ -76,7 +76,7 @@ Pour interagir avec un cluster OpenShift, il est essentiel de s'authentifier cor
 2. **Cliquez sur votre nom d'utilisateur en haut à droite**.
 3. **Sélectionnez "Copy login command"**.
 
-    ![Copy login command](./images/copy-login-command.png)
+    ![Copy login command](./images/copy-login-command.png){: style="height:300px"}
 
 4. **Cliquez sur "Display Token"** pour afficher le token.
 
@@ -347,4 +347,4 @@ Cette sortie montre les fichiers dans le répertoire `/app` du pod, aidant ainsi
 
 ## Conclusion
 
-  L'utilisation de la ligne de commande avec OpenShift, via `kubectl` et `oc`, offre  une flexibilité considérables pour gérer des clusters et des applications. En comprenant les commandes essentielles et en apprenant à interpréter leurs sorties, vous serez bien équipé pour administrer efficacement vos environnements OpenShift, déployer des applications, gérer des ressources et diagnostiquer des problèmes. La maîtrise de ces outils est essentielle pour tout professionnel travaillant dans un environnement Kubernetes/OpenShift, offrant ainsi un contrôle granulaire et des capacités avancées pour une gestion optimale des infrastructures cloud-native.
+L'utilisation de la ligne de commande avec OpenShift, via `kubectl` et `oc`, offre  une flexibilité considérables pour gérer des clusters et des applications. En comprenant les commandes essentielles et en apprenant à interpréter leurs sorties, vous serez bien équipé pour administrer efficacement vos environnements OpenShift, déployer des applications, gérer des ressources et diagnostiquer des problèmes. La maîtrise de ces outils est essentielle pour tout professionnel travaillant dans un environnement Kubernetes/OpenShift, offrant ainsi un contrôle granulaire et des capacités avancées pour une gestion optimale des infrastructures cloud-native.
