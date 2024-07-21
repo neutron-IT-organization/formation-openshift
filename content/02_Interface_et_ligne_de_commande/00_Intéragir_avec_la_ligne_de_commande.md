@@ -47,27 +47,64 @@ Pour installer `oc`, suivez ces étapes :
 
 ## Authentification et Connexion
 
-Pour interagir avec un cluster OpenShift, il est essentiel de s'authentifier correctement. L'authentification assure que seules les personnes autorisées peuvent accéder et manipuler les ressources du cluster.
+Pour interagir avec un cluster OpenShift, il est essentiel de s'authentifier correctement. OpenShift offre deux méthodes principales pour se connecter via la ligne de commande : en utilisant `oc login` avec les identifiants de l'utilisateur ou en utilisant la commande de connexion générée depuis la console Web.
 
-### Connexion avec OC
+### Méthode 1 : Connexion avec `oc login`
 
-La commande `oc login` est utilisée pour authentifier vos requêtes auprès du cluster OpenShift. Cette commande utilise un token OAuth pour vérifier votre identité.
+1. **Ouvrez votre terminal**.
+2. **Exécutez la commande `oc login`** en fournissant l'URL du serveur, votre nom d'utilisateur et votre mot de passe :
 
-```bash
-oc login https://api.ocp4.example.com:6443
-Username: developer
-Password: developer
-```
+    ```bash
+    oc login https://api.ocp4.example.com:6443
+    Username: developer
+    Password: developer
+    ```
 
-```
-Login successful.
+    ```
+    Login successful.
 
-You have access to 58 projects, the list has been suppressed. You can list all projects with 'oc projects'
+    You have access to 58 projects, the list has been suppressed. You can list all projects with 'oc projects'
 
-Using project "default".
-```
+    Using project "default".
+    ```
 
-Ce message confirme une connexion réussie et vous informe que vous êtes actuellement dans le projet "default".
+    Ce message confirme une connexion réussie et vous informe que vous êtes actuellement dans le projet "default".
+
+### Méthode 2 : Connexion via la Commande Copiée de la Console Web
+
+1. **Accédez à la console Web OpenShift**.
+2. **Cliquez sur votre nom d'utilisateur en haut à droite**.
+3. **Sélectionnez "Copy login command"**.
+
+    ![Copy login command](./images/copy-login-command.png)
+
+4. **Cliquez sur "Display Token"** pour afficher le token.
+
+    ![Display Token](./images/display-token.png)
+
+5. **Copiez la commande de connexion affichée**.
+
+    ```bash
+    oc login --token=<votre_token> --server=https://api.ocp4.example.com:6443
+    ```
+
+6. **Collez et exécutez cette commande dans votre terminal**.
+
+    ```bash
+    oc login --token=<votre_token> --server=https://api.ocp4.example.com:6443
+    ```
+
+    ```
+    Login successful.
+
+    You have access to 58 projects, the list has been suppressed. You can list all projects with 'oc projects'
+
+    Using project "default".
+    ```
+
+    Cette méthode vous permet de vous connecter rapidement et en toute sécurité sans avoir à saisir manuellement vos identifiants.
+
+En utilisant l'une ou l'autre de ces méthodes, vous pouvez facilement vous connecter à votre cluster OpenShift et commencer à gérer vos ressources et déployer vos applications.
 
 ## Gestion des Projets
 
@@ -106,73 +143,73 @@ Les commandes `oc` et `kubectl` offrent un ensemble de fonctionnalités pour la 
 oc get pods
 ```
 
-  ```
-  NAME                       READY   STATUS    RESTARTS   AGE
-  myapp-1-abcde              1/1     Running   0          5m
-  myapp-2-abcde              1/1     Running   0          3m
-  ```
+```
+NAME                       READY   STATUS    RESTARTS   AGE
+myapp-1-abcde              1/1     Running   0          5m
+myapp-2-abcde              1/1     Running   0          3m
+```
 
 Ce tableau montre les noms des pods, leur état de préparation, leur statut, le nombre de redémarrages, et leur âge.
 
 - **Afficher les détails d'un pod spécifique** :
-  ```bash
-  oc describe pod <nom_du_pod>
-  ```
+```bash
+oc describe pod <nom_du_pod>
+```
 
-  ```
-  Name:           myapp-1-abcde
-  Namespace:      myapp
-  Node:           worker-1/192.168.1.101
-  Start Time:     Fri, 15 Jul 2023 10:15:00 +0000
-  Labels:         app=myapp
-  Status:         Running
-  IP:             10.129.2.1
-  Containers:
-    myapp:
-      Container ID:   docker://abcdef12345
-      Image:          myapp:latest
-      Image ID:       docker-pullable://myapp@sha256:123456789abcdef
-      Port:           8080/TCP
-      State:          Running
-      Ready:          True
-  ```
+```
+Name:           myapp-1-abcde
+Namespace:      myapp
+Node:           worker-1/192.168.1.101
+Start Time:     Fri, 15 Jul 2023 10:15:00 +0000
+Labels:         app=myapp
+Status:         Running
+IP:             10.129.2.1
+Containers:
+  myapp:
+    Container ID:   docker://abcdef12345
+    Image:          myapp:latest
+    Image ID:       docker-pullable://myapp@sha256:123456789abcdef
+    Port:           8080/TCP
+    State:          Running
+    Ready:          True
+```
 
 Cette sortie fournit des informations détaillées sur le pod, y compris ses conteneurs, l'ID de l'image, l'adresse IP, et l'état actuel.
 
 ### Créer et Supprimer des Ressources
 
 - **Créer une ressource à partir d'un fichier YAML** :
-  ```bash
-  oc create -f pod.yaml
-  ```
+```bash
+oc create -f pod.yaml
+```
 
-  ```
-  pod/myapp-3-abcde created
-  ```
+```
+pod/myapp-3-abcde created
+```
 
 Ce message confirme que le pod spécifié dans le fichier "pod.yaml" a été créé avec succès.
 
 - **Supprimer une ressource** :
-  ```bash
-  oc delete pod <nom_du_pod>
-  ```
+```bash
+oc delete pod <nom_du_pod>
+```
 
-  ```
-  pod "myapp-1-abcde" deleted
-  ```
+```
+pod "myapp-1-abcde" deleted
+```
 
 Ce message confirme que le pod "myapp-1-abcde" a été supprimé avec succès.
 
 ### Vérifier l'État du Cluster
 
 - **Obtenir des informations sur le cluster** :
-  ```bash
-  oc cluster-info
-  ```
-  ```
-  Kubernetes master is running at https://api.ocp4.example.com:6443
-    KubeDNS is running at https://api.ocp4.example.com:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
-    ```
+```bash
+oc cluster-info
+```
+```
+Kubernetes master is running at https://api.ocp4.example.com:6443
+  KubeDNS is running at https://api.ocp4.example.com:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+```
 
 Cette sortie montre l'URL du serveur API principal de Kubernetes ainsi que l'adresse du service DNS du cluster.
 
@@ -183,25 +220,25 @@ OpenShift facilite le déploiement d'applications à travers une série de comma
 #### Création d'une Nouvelle Application
 
   - **Créer une nouvelle application** :
-    ```bash
-    oc new-app <image>
-    #oc new-app nginx
-    ```
+```bash
+oc new-app <image>
+#oc new-app nginx
+```
 
-    ```
-    --> Found image 64b0af3 (9 days old) in image stream "openshift/nginx" under tag "latest" for "nginx"
+```
+--> Found image 64b0af3 (9 days old) in image stream "openshift/nginx" under tag "latest" for "nginx"
 
-        * An image stream tag will be created as "nginx:latest" that will track this image
-        * This image will be deployed in deployment config "nginx"
-        * Port 8080/tcp will be load balanced by service "nginx"
-          * Other containers can access this service through the hostname "nginx"
+    * An image stream tag will be created as "nginx:latest" that will track this image
+    * This image will be deployed in deployment config "nginx"
+    * Port 8080/tcp will be load balanced by service "nginx"
+      * Other containers can access this service through the hostname "nginx"
 
-    --> Creating resources ...
-        imagestream.image.openshift.io "nginx" created
-        deploymentconfig.apps.openshift.io "nginx" created
-        service "nginx" created
-    --> Success
-    ```
+--> Creating resources ...
+    imagestream.image.openshift.io "nginx" created
+    deploymentconfig.apps.openshift.io "nginx" created
+    service "nginx" created
+--> Success
+```
 
 Ce message indique que l'application basée sur l'image "nginx" a été créée avec succès, avec les ressources associées comme le flux d'image, la configuration de déploiement, et le service.
 
@@ -210,13 +247,13 @@ Ce message indique que l'application basée sur l'image "nginx" a été créée 
 Pour rendre votre application accessible de l'extérieur du cluster, vous pouvez exposer un service en créant une route.
 
   - **Exposer un service** :
-    ```bash
-    oc expose svc/<nom_du_service>
-    #oc expose svc/nginx
-    ```
-    ```
-    route.route.openshift.io/nginx exposed
-    ```
+```bash
+oc expose svc/<nom_du_service>
+#oc expose svc/nginx
+```
+```
+route.route.openshift.io/nginx exposed
+```
 
 Ce message confirme que le service "nginx" a été exposé avec succès, ce qui signifie qu'une route a été créée pour permettre l'accès externe à l'application.
 
@@ -227,13 +264,13 @@ Les applications nécessitent souvent des mises à jour pour déployer de nouvel
 #### Mise à Jour d'une Image de Déploiement
 
   - **Mettre à jour une image de déploiement** :
-    ```bash
-    oc set image dc/<nom_du_deploymentconfig> <nom_du_container>=<nouvelle_image>
-    #oc set image dc/nginx nginx=nginx:latest
-    ```
-    ```
-    deploymentconfig.apps.openshift.io/nginx image updated
-    ```
+```bash
+oc set image dc/<nom_du_deploymentconfig> <nom_du_container>=<nouvelle_image>
+#oc set image dc/nginx nginx=nginx:latest
+```
+```
+deploymentconfig.apps.openshift.io/nginx image updated
+```
 
 Ce message indique que l'image du conteneur dans la configuration de déploiement "nginx" a été mise à jour avec succès.
 
@@ -244,15 +281,15 @@ Une fois vos applications déployées, il est important de surveiller leur état
 #### Afficher les Logs d'un Pod
 
   - **Afficher les logs** :
-    ```bash
-    oc logs <nom_du_pod>
-    #oc logs myapp-1-abcde
-    ```
+```bash
+oc logs <nom_du_pod>
+#oc logs myapp-1-abcde
+```
 
-    ```
-    [INFO] Starting nginx...
-    [INFO] nginx is running.
-    ```
+```
+[INFO] Starting nginx...
+[INFO] nginx is running.
+```
 
 Ces logs fournissent des informations sur l'état du pod et les opérations effectuées par le conteneur.
 
@@ -261,15 +298,15 @@ Ces logs fournissent des informations sur l'état du pod et les opérations effe
 Pour diagnostiquer des problèmes ou administrer des applications, il peut être nécessaire d'exécuter des commandes directement dans un pod.
 
   - **Exécuter une commande dans un pod** :
-    ```bash
-    oc exec <nom_du_pod> -- <commande>
-    #oc exec myapp-1-abcde -- ls /app
-    ```
-    ```
-    index.html
-    main.js
-    style.css
-    ```
+```bash
+oc exec <nom_du_pod> -- <commande>
+#oc exec myapp-1-abcde -- ls /app
+```
+```
+index.html
+main.js
+style.css
+```
 
 Cette sortie montre les fichiers dans le répertoire `/app` du pod, aidant ainsi à vérifier que les fichiers nécessaires sont présents.
 
