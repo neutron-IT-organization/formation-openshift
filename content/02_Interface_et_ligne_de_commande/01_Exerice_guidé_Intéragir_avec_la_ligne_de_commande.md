@@ -177,19 +177,14 @@ Pour diagnostiquer les problèmes ou vérifier que tout fonctionne correctement 
 
 1. **Affichez les logs de l'application** :
 ```bash
-oc logs dc/nginx
+oc logs deployment/p02l01-go-app
 ```
 Vous verrez les logs générés par les conteneurs de votre application :
 ```
-[INFO] Starting nginx...
-[INFO] nginx is running.
+Bravo, vous êtes dans Exercice Guidé : Interaction avec OpenShift via la Ligne de Commande
 ```
 
 Les logs sont essentiels pour diagnostiquer les problèmes et vérifier que l'application fonctionne comme prévu.
-
----
-
-Pour compléter votre exercice guidé avec les commandes `oc exec`, `oc get services`, et `oc get co`, voici comment les intégrer dans le tutoriel :
 
 ---
 
@@ -198,80 +193,60 @@ Pour compléter votre exercice guidé avec les commandes `oc exec`, `oc get serv
 Pour interagir avec les conteneurs de votre application, vous pouvez exécuter des commandes directement dans un pod en utilisant `oc exec` :
 
 1. **Obtenez la liste des pods** :
-   ```bash
-   oc get pods
-   ```
-   Vous verrez une liste des pods en cours d'exécution, par exemple :
-   ```
-   NAME                           READY   STATUS    RESTARTS   AGE
-   p02l01-go-app-7f5b7fdfd6-4rfsl   1/1     Running   0          2m
-   ```
+```bash
+oc get pods
+```
+Vous verrez une liste des pods en cours d'exécution, par exemple :
+```
+NAME                           READY   STATUS    RESTARTS   AGE
+p02l01-go-app-7f5b7fdfd6-4rfsl   1/1     Running   0          2m
+```
 
 2. **Exécutez une commande dans un pod** :
-   Pour obtenir un shell interactif dans un pod :
-   ```bash
-   oc exec -it <pod-name> -- /bin/sh
-   ```
-   Remplacez `<pod-name>` par le nom du pod obtenu à l'étape précédente. Cela vous permettra de vous connecter au pod et d'exécuter des commandes à l'intérieur.
+Pour obtenir un shell interactif dans un pod :
+```bash
+oc exec -it <pod-name>  -- /bin/sh
+#oc exec -it  p02l01-go-app-7f5b7fdfd6-4rfsl -- /bin/sh
+```
+Remplacez `<pod-name>` par le nom du pod obtenu à l'étape précédente. Cela vous permettra de vous connecter au pod et d'exécuter des commandes à l'intérieur.
 
-   Pour afficher les fichiers dans le répertoire `/usr/local/bin` du pod :
-   ```bash
-   oc exec -it <pod-name> -- ls /usr/local/bin
-   ```
+Vous pouvez maintenant éxécutez des commandes. Exemple :
+
+```bash
+ps aux
+```
+
+```bash
+sh-4.4$ ps aux
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+1001540+       1  0.0  0.0  12004  2496 ?        Ss   10:09   0:00 sh -c ./main && while true; do sleep 86400; done
+1001540+      12  0.0  0.0  23148  1528 ?        S    10:09   0:00 /usr/bin/coreutils --coreutils-prog-shebang=sleep /usr/bin/sleep 86400
+1001540+      20  1.5  0.0  12136  3232 pts/0    Ss   10:20   0:00 /bin/sh
+1001540+      26  0.0  0.0  44784  3436 pts/0    R+   10:20   0:00 ps aux
+```
+
+Pour sortir du shell utilisez ```exit```
+
+```bash
+sh-4.4$ exit
+```
 
 ---
 
-**8. Vérification des Services**
-
-Pour voir les services disponibles dans votre projet :
-
-1. **Affichez la liste des services** :
-   ```bash
-   oc get services
-   ```
-   Vous verrez une liste des services disponibles, par exemple :
-   ```
-   NAME            TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
-   p02l01-go-app   ClusterIP   172.30.140.1   <none>        8080/TCP         3m
-   ```
-
-   Cette commande affiche les services disponibles, leur type, et les ports qu'ils exposent.
-
----
-
-**9. Vérification des Composants du Cluster**
-
-Pour obtenir des informations sur les composants du cluster OpenShift, comme les nœuds, les pods et les autres ressources clés :
-
-1. **Affichez les composants du cluster** :
-   ```bash
-   oc get co
-   ```
-   Vous verrez la liste des composants du cluster avec leur statut, par exemple :
-   ```
-   NAME                             VERSION   AVAILABLE   PROGRESSING   DEGRADED   SINCE
-   authentication                    4.12.0    True        False         False      1d
-   cloud-credential                  4.12.0    True        False         False      1d
-   config-operator                   4.12.0    True        False         False      1d
-   ...
-   ```
-
-   Cette commande fournit une vue d'ensemble des composants critiques du cluster OpenShift, y compris leur version et leur état actuel.
-
-**10. Suppression de l'Application**
+**8. Suppression de l'Application**
 
 Enfin, pour nettoyer les ressources créées :
 
 1. **Supprimez l'application nouvellement créée** :
 ```bash
-oc delete all -l app=nginx
+oc delete all -l app=p02l01-go-app
 ```
 Vous verrez une confirmation de suppression :
 ```
-pod "nginx-1-deploy" deleted
-pod "nginx-1-rw9k8" deleted
-service "nginx" deleted
-deploymentconfig.apps.openshift.io "nginx" deleted
+service "p02l01-go-app" deleted
+deployment.apps "p02l01-go-app" deleted
+Warning: apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+imagestream.image.openshift.io "p02l01-go-app" deleted
 ```
 
 Cette commande supprime toutes les ressources associées à l'application "nginx" en utilisant une étiquette (label). C'est une méthode rapide pour nettoyer les ressources créées.
