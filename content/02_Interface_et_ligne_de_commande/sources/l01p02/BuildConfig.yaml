@@ -10,12 +10,10 @@ spec:
       name: "quay.io/neutron-it/p02l01-go-app:latest"
     pushSecret:
       name: florian-even-pull-secret
-  strategy:
-    type: Source
-    sourceStrategy:
-      from:
-        kind: DockerImage
-        name: "registry.access.redhat.com/ubi8/go-toolset:latest"
+    strategy:
+      type: Docker
+      dockerStrategy:
+        dockerfilePath: Dockerfile
   source:
     type: Git
     git:

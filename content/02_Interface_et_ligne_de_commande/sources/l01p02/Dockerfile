@@ -11,4 +11,4 @@ RUN go build -o main main.go
 EXPOSE 8080
 
 # Run the Go application and then sleep indefinitely
-CMD ["sh", "-c", "./main && while true; do sleep 86400; done"]
+CMD ["sh", "-c", "./main && while true; do sleep 10; done"]
