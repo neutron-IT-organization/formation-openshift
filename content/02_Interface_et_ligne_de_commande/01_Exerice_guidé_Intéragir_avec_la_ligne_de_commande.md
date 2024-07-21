@@ -1,4 +1,4 @@
-## Exercice Guidé : Interaction avec OpenShift via la Ligne de Commande
+# Exercice Guidé : Interaction avec OpenShift via la Ligne de Commande
 
 ### Objectif
 
