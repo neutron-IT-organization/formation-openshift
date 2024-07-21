@@ -76,7 +76,7 @@ Pour interagir avec un cluster OpenShift, il est essentiel de s'authentifier cor
 2. **Cliquez sur votre nom d'utilisateur en haut à droite**.
 3. **Sélectionnez "Copy login command"**.
 
-    ![Copy login command](./images/copy-login-command.png){:style="height:300px"}
+    ![Copy login command](./images/copy-login-command.png)
 
 4. **Cliquez sur "Display Token" pour afficher le token.**
 
