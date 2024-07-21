@@ -102,9 +102,9 @@ Les commandes `oc` et `kubectl` offrent un ensemble de fonctionnalités pour la 
 ### Afficher les Ressources
 
 - **Lister les pods** :
-  ```bash
-  oc get pods
-  ```
+```bash
+oc get pods
+```
 
   ```
   NAME                       READY   STATUS    RESTARTS   AGE
@@ -174,13 +174,13 @@ Ce message confirme que le pod "myapp-1-abcde" a été supprimé avec succès.
     KubeDNS is running at https://api.ocp4.example.com:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
     ```
 
-  Cette sortie montre l'URL du serveur API principal de Kubernetes ainsi que l'adresse du service DNS du cluster.
+Cette sortie montre l'URL du serveur API principal de Kubernetes ainsi que l'adresse du service DNS du cluster.
 
-  ### Déploiement d'Applications
+### Déploiement d'Applications
 
-  OpenShift facilite le déploiement d'applications à travers une série de commandes simples. Voici quelques commandes clés pour déployer des applications.
+OpenShift facilite le déploiement d'applications à travers une série de commandes simples. Voici quelques commandes clés pour déployer des applications.
 
-  #### Création d'une Nouvelle Application
+#### Création d'une Nouvelle Application
 
   - **Créer une nouvelle application** :
     ```bash
@@ -203,11 +203,11 @@ Ce message confirme que le pod "myapp-1-abcde" a été supprimé avec succès.
     --> Success
     ```
 
-  Ce message indique que l'application basée sur l'image "nginx" a été créée avec succès, avec les ressources associées comme le flux d'image, la configuration de déploiement, et le service.
+Ce message indique que l'application basée sur l'image "nginx" a été créée avec succès, avec les ressources associées comme le flux d'image, la configuration de déploiement, et le service.
 
-  #### Exposition d'un Service
+#### Exposition d'un Service
 
-  Pour rendre votre application accessible de l'extérieur du cluster, vous pouvez exposer un service en créant une route.
+Pour rendre votre application accessible de l'extérieur du cluster, vous pouvez exposer un service en créant une route.
 
   - **Exposer un service** :
     ```bash
@@ -218,13 +218,13 @@ Ce message confirme que le pod "myapp-1-abcde" a été supprimé avec succès.
     route.route.openshift.io/nginx exposed
     ```
 
-  Ce message confirme que le service "nginx" a été exposé avec succès, ce qui signifie qu'une route a été créée pour permettre l'accès externe à l'application.
+Ce message confirme que le service "nginx" a été exposé avec succès, ce qui signifie qu'une route a été créée pour permettre l'accès externe à l'application.
 
-  ### Mise à Jour des Applications
+### Mise à Jour des Applications
 
-  Les applications nécessitent souvent des mises à jour pour déployer de nouvelles versions ou appliquer des correctifs.
+Les applications nécessitent souvent des mises à jour pour déployer de nouvelles versions ou appliquer des correctifs.
 
-  #### Mise à Jour d'une Image de Déploiement
+#### Mise à Jour d'une Image de Déploiement
 
   - **Mettre à jour une image de déploiement** :
     ```bash
@@ -235,13 +235,13 @@ Ce message confirme que le pod "myapp-1-abcde" a été supprimé avec succès.
     deploymentconfig.apps.openshift.io/nginx image updated
     ```
 
-  Ce message indique que l'image du conteneur dans la configuration de déploiement "nginx" a été mise à jour avec succès.
+Ce message indique que l'image du conteneur dans la configuration de déploiement "nginx" a été mise à jour avec succès.
 
-  ### Surveillance des Applications
+### Surveillance des Applications
 
-  Une fois vos applications déployées, il est important de surveiller leur état pour s'assurer qu'elles fonctionnent correctement.
+Une fois vos applications déployées, il est important de surveiller leur état pour s'assurer qu'elles fonctionnent correctement.
 
-  #### Afficher les Logs d'un Pod
+#### Afficher les Logs d'un Pod
 
   - **Afficher les logs** :
     ```bash
@@ -254,11 +254,11 @@ Ce message confirme que le pod "myapp-1-abcde" a été supprimé avec succès.
     [INFO] nginx is running.
     ```
 
-  Ces logs fournissent des informations sur l'état du pod et les opérations effectuées par le conteneur.
+Ces logs fournissent des informations sur l'état du pod et les opérations effectuées par le conteneur.
 
-  ### Exécution de Commandes dans un Pod
+### Exécution de Commandes dans un Pod
 
-  Pour diagnostiquer des problèmes ou administrer des applications, il peut être nécessaire d'exécuter des commandes directement dans un pod.
+Pour diagnostiquer des problèmes ou administrer des applications, il peut être nécessaire d'exécuter des commandes directement dans un pod.
 
   - **Exécuter une commande dans un pod** :
     ```bash
@@ -271,9 +271,9 @@ Ce message confirme que le pod "myapp-1-abcde" a été supprimé avec succès.
     style.css
     ```
 
-  Cette sortie montre les fichiers dans le répertoire `/app` du pod, aidant ainsi à vérifier que les fichiers nécessaires sont présents.
+Cette sortie montre les fichiers dans le répertoire `/app` du pod, aidant ainsi à vérifier que les fichiers nécessaires sont présents.
 
-  # Tableau des Commandes Principales OpenShift
+# Tableau des Commandes Principales OpenShift
 
   | Commande                       | Description                                                                                             | Exemple                                      |
   |--------------------------------|---------------------------------------------------------------------------------------------------------|----------------------------------------------|
@@ -310,4 +310,4 @@ Ce message confirme que le pod "myapp-1-abcde" a été supprimé avec succès.
 
   ## Conclusion
 
-  L'utilisation de la ligne de commande avec OpenShift, via `kubectl` et `oc`, offre une puissance et une flexibilité considérables pour gérer des clusters et des applications. En comprenant les commandes essentielles et en apprenant à interpréter leurs sorties, vous serez bien équipé pour administrer efficacement vos environnements OpenShift, déployer des applications, gérer des ressources et diagnostiquer des problèmes. La maîtrise de ces outils est essentielle pour tout professionnel travaillant dans un environnement Kubernetes/OpenShift, offrant ainsi un contrôle granulaire et des capacités avancées pour une gestion optimale des infrastructures cloud-native.
+  L'utilisation de la ligne de commande avec OpenShift, via `kubectl` et `oc`, offre  une flexibilité considérables pour gérer des clusters et des applications. En comprenant les commandes essentielles et en apprenant à interpréter leurs sorties, vous serez bien équipé pour administrer efficacement vos environnements OpenShift, déployer des applications, gérer des ressources et diagnostiquer des problèmes. La maîtrise de ces outils est essentielle pour tout professionnel travaillant dans un environnement Kubernetes/OpenShift, offrant ainsi un contrôle granulaire et des capacités avancées pour une gestion optimale des infrastructures cloud-native.
