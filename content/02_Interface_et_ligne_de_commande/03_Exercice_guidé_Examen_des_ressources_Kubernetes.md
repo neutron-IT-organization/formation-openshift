@@ -121,6 +121,7 @@ Appliquez le fichier modifié au cluster en utilisant la commande suivante :
 ```bash
 oc apply -f deployment.yaml
 ```
+![prague app](./images/prague-l03p02-app.png)
 
 Cette commande créera un nouveau déploiement nommé `prague-l03p02-app` avec la configuration spécifiée.
 
