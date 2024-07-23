@@ -33,9 +33,7 @@ nav:
       - 02_Interface_et_ligne_de_commande/01_Exerice_guidé_Intéragir_avec_la_ligne_de_commande.md
       - 02_Interface_et_ligne_de_commande/02_Examen_des_ressources_Kubernetes.md
       - 02_Interface_et_ligne_de_commande/03_Exercice_guidé_Examen_des_ressources_Kubernetes.md
-      - 02_Interface_et_ligne_de_commande/04_Evaluation_de_l'intégrité_du_cluster.md
-      - 02_Interface_et_ligne_de_commande/05_Execice_Guidé_Evaluation_de_l'intégrité_du_cluster.md
-      - 02_Interface_et_ligne_de_commande/06_Résumé.md
+      - 02_Interface_et_ligne_de_commande/04_Résumé.md
   - "Exécuter des applications conteneurisées":
       - 03_Executez_des_applications_conteneurisé/00_Présentation_des_conteneurs_linux_et_des_pods_Kubernetes.md
       - 03_Executez_des_applications_conteneurisé/01_Exercice_Guidé_Présentation_des_conteneurs_linux_et_des_pods_Kubernetes.md
