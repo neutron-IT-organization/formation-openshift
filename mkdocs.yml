@@ -35,13 +35,15 @@ nav:
       - 02_Interface_et_ligne_de_commande/03_Exercice_guidé_Examen_des_ressources_Kubernetes.md
       - 02_Interface_et_ligne_de_commande/04_Résumé.md
   - "Exécuter des applications conteneurisées":
-      - 03_Executez_des_applications_conteneurisé/00_Présentation_des_conteneurs_linux_et_des_pods_Kubernetes.md
-      - 03_Executez_des_applications_conteneurisé/01_Exercice_Guidé_Présentation_des_conteneurs_linux_et_des_pods_Kubernetes.md
-      - 03_Executez_des_applications_conteneurisé/02_Rechercher_et_inspecter_des_images_de_conteneurs.md
-      - 03_Executez_des_applications_conteneurisé/03_Exercice_guidé_Rechercher_et_inspecter_des_images_de_conteneurs.md
-      - 03_Executez_des_applications_conteneurisé/04_Résoudre_des_problemes_liés_au_conteneurs_et_aux_pods.md
-      - 03_Executez_des_applications_conteneurisé/05_Exercice_guidé_Résoudre_des_problemes_liés_au_conteneurs_et_aux_pods.md
-      - 03_Executez_des_applications_conteneurisé/06_Résumé.md
+      - 03_Executez_des_applications_conteneurisé/00_Les_Workloads_dans_Openshift.md
+      - 03_Executez_des_applications_conteneurisé/01_Quiz_Les_Workloads_dans_Openshift.md
+      - 03_Executez_des_applications_conteneurisé/02_Les_deployment.md
+      - 03_Executez_des_applications_conteneurisé/03_Exercice_guidé_Les_deployment.md
+      - 03_Executez_des_applications_conteneurisé/04_Les_daemonset.md
+      - 03_Executez_des_applications_conteneurisé/05_Exercice_guidé_Les_daemonset.md
+      - 03_Executez_des_applications_conteneurisé/06_Les_statefullset.md
+      - 03_Executez_des_applications_conteneurisé/07_Exercice_guidé_Les_statefulset.md
+      - 03_Executez_des_applications_conteneurisé/08_Résumé.md
   - "Déployer des applications":
       - 04_Déployer_des_applications/00_Déploiement_d_image_a_partir_de_modele.md
       - 04_Déployer_des_applications/01_Exercice_guidé_Déploiement_d_image_a_partir_de_modele.md
