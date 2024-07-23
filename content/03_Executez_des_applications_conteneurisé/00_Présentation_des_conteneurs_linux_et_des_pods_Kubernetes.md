@@ -1,10 +1,12 @@
 # Les Workloads dans OpenShift
 
-Dans cette section, nous allons explorer les différents types de workloads dans OpenShift. OpenShift, basé sur Kubernetes, offre plusieurs types de ressources pour gérer et déployer des applications. Ces ressources, appelées workloads, sont essentielles pour orchestrer et maintenir les applications en production.
+Dans cette section, nous allons explorer les différents types de workloads dans OpenShift. OpenShift offre plusieurs types de ressources pour gérer et déployer des applications. Ces ressources, appelées workloads, sont essentielles pour orchestrer et maintenir les applications en production.
 
 ### Objectifs de la Section
 
-L'objectif principal est de comprendre les différents types de workloads dans OpenShift, notamment les déploiements, les configurations de déploiement, les réplicas, les ensembles de réplicas, les ensembles de démons et les ensembles avec état. Nous allons également illustrer les concepts et les différences entre ces ressources et apprendre à les utiliser pour gérer des applications dans un cluster OpenShift.
+L'objectif principal est de comprendre les différents types de workloads dans OpenShift, notamment les déploiements, les configurations de déploiement, les réplicas, les ensembles de réplicas, les daemonset et les statefulset. Nous allons également illustrer les concepts et les différences entre ces ressources et apprendre à les utiliser pour gérer des applications dans un cluster OpenShift.
+
+![Workloads section](./images/workloads-section.png)
 
 ![deployment vs statefulset vs daemonset](./images/deployment-vs-daemonset-vs-statefulset.svg)
 
