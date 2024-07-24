@@ -1,49 +1,118 @@
-# Exercice Guidé : Rechercher et Inspecter des Images de Conteneurs
+### Exercice Guidé : Les déploiements dans OpenShift
 
-Dans cet exercice, nous allons pratiquer la recherche et l'inspection d'images de conteneurs pour les utiliser dans un environnement Kubernetes. Vous apprendrez à rechercher des images de conteneurs à partir de registres publics et privés, puis à inspecter en détail les images sélectionnées pour comprendre leur configuration, leurs dépendances et leur état.
+Dans cet exercice, vous allez créer un déploiement dans OpenShift et tester une stratégie de déploiement en Rolling Updates. Suivez les étapes ci-dessous pour mettre en pratique les concepts théoriques que nous avons abordés.
 
-## Objectifs de l'Exercice
+#### Objectifs de l'Exercice
 
-- Apprendre à rechercher des images de conteneurs à partir de registres publics et privés.
-- Pratiquer l'inspection détaillée des images pour comprendre leur configuration et leurs dépendances.
-- Acquérir des compétences pour sélectionner des images appropriées pour les déploiements dans un environnement Kubernetes.
+- Créer un déploiement dans OpenShift.
+- Appliquer une stratégie de déploiement en Rolling Updates.
+- Mettre à jour l'application et observer le processus de déploiement.
+- Déclencher un rollback en cas de problème.
 
-## Instructions
+#### Prérequis
 
-### 1. Recherche d'Images de Conteneurs
+Assurez-vous d'avoir accès à un cluster OpenShift et les permissions nécessaires pour créer des déploiements. Vous devez également avoir la CLI `oc` installée sur votre machine.
 
-Utilisez un registre de conteneurs tel que Docker Hub pour rechercher des images de conteneurs correspondant à vos besoins. Vous pouvez utiliser la commande `docker search` pour rechercher des images publiques :
+### Étape 1 : Créer un Déploiement
 
-```bash
-docker search nom_de_l_image
+Créez un fichier nommé `my-deployment.yaml` avec le contenu suivant :
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  labels:
+    app: my-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: ENV_VAR
+          value: "value"
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
 ```
 
-Assurez-vous de sélectionner une image pertinente et fiable pour votre application.
+Ce fichier YAML définit un déploiement nommé `my-deployment` avec 3 réplicas d'un conteneur Nginx. La stratégie de déploiement est configurée pour utiliser Rolling Updates.
 
-### 2. Téléchargement de l'Image
-
-Une fois que vous avez trouvé une image appropriée, utilisez la commande `docker pull` pour télécharger l'image sur votre machine locale :
+Appliquez ce déploiement avec la commande suivante :
 
 ```bash
-docker pull nom_de_l_image
+oc apply -f my-deployment.yaml
 ```
 
-Assurez-vous que le téléchargement de l'image est réussi avant de passer à l'étape suivante.
+### Étape 2 : Vérifier le Déploiement
 
-### 3. Inspection de l'Image
-
-Utilisez la commande `docker inspect` pour inspecter en détail l'image téléchargée et comprendre sa configuration, ses dépendances et son état :
+Vérifiez que le déploiement a été créé et que les pods sont en cours d'exécution :
 
 ```bash
-docker inspect nom_de_l_image
+oc get deployments
+oc get pods
 ```
 
-Examinez attentivement les métadonnées et les propriétés de l'image pour comprendre ses caractéristiques et ses exigences.
+Vous devriez voir le déploiement `my-deployment` et trois pods en cours d'exécution.
 
-### 4. Sélection de l'Image
+### Étape 3 : Mettre à Jour l'Application
 
-Sur la base de l'inspection de l'image, évaluez si elle répond aux exigences de votre application en termes de configuration, de dépendances et de sécurité. Sélectionnez l'image appropriée pour votre déploiement sur un cluster Kubernetes.
+Pour simuler une mise à jour de l'application, nous allons changer l'image utilisée par le conteneur. Exécutez la commande suivante pour mettre à jour l'image du conteneur :
 
-## Conclusion
+```bash
+oc set image deployment/my-deployment my-container=nginx:1.21.6
+```
 
-Cet exercice vous a permis de pratiquer la recherche et l'inspection d'images de conteneurs pour les déploiements dans un environnement Kubernetes. En recherchant des images à partir de registres publics et privés, en téléchargeant les images sélectionnées et en inspectant en détail leurs configurations, vous avez acquis des compétences précieuses pour sélectionner et utiliser des images de conteneurs de manière efficace dans vos déploiements Kubernetes.
+### Étape 4 : Observer le Rolling Update
+
+Observez le processus de mise à jour en utilisant la commande suivante :
+
+```bash
+oc rollout status deployment/my-deployment
+```
+
+Cette commande vous montrera l'état du déploiement en cours. Les pods devraient être mis à jour progressivement, avec un pod supplémentaire créé et un pod ancien supprimé à chaque étape, conformément aux paramètres `maxSurge` et `maxUnavailable`.
+
+### Étape 5 : Déclencher un Rollback
+
+Si quelque chose ne va pas avec la mise à jour, vous pouvez revenir à la version précédente du déploiement :
+
+```bash
+oc rollout undo deployment/my-deployment
+```
+
+Cette commande déclenchera un rollback, et les pods seront remplacés par ceux définis dans la configuration précédente.
+
+### Étape 6 : Vérifier la Disponibilité de l'Application
+
+Pendant et après la mise à jour, vérifiez que l'application reste disponible. Vous pouvez obtenir l'adresse IP des pods et vérifier l'accès au serveur Nginx avec la commande suivante :
+
+```bash
+oc get pods -o wide
+```
+
+Utilisez l'adresse IP d'un pod pour tester l'accès via un navigateur ou un outil de ligne de commande comme `curl`.
+
+### Conclusion
+
+Félicitations ! Vous avez créé un déploiement dans OpenShift, appliqué une stratégie de déploiement en Rolling Updates, mis à jour l'application, et observé le processus de déploiement. Vous avez également appris à déclencher un rollback en cas de problème. Ces compétences sont essentielles pour gérer efficacement des applications conteneurisées en production.
