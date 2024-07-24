@@ -1,0 +1,1 @@
+# Exercice guidés : Les statefullset
