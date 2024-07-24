@@ -37,13 +37,11 @@ nav:
   - "Exécuter des applications conteneurisées":
       - 03_Executez_des_applications_conteneurisé/00_Les_Workloads_dans_Openshift.md
       - 03_Executez_des_applications_conteneurisé/01_Quiz_Les_Workloads_dans_Openshift.md
-      - 03_Executez_des_applications_conteneurisé/02_Les_deployment.md
-      - 03_Executez_des_applications_conteneurisé/03_Exercice_guidé_Les_deployment.md
-      - 03_Executez_des_applications_conteneurisé/04_Les_daemonset.md
-      - 03_Executez_des_applications_conteneurisé/05_Exercice_guidé_Les_daemonset.md
-      - 03_Executez_des_applications_conteneurisé/06_Les_statefullset.md
-      - 03_Executez_des_applications_conteneurisé/07_Exercice_guidé_Les_statefulset.md
-      - 03_Executez_des_applications_conteneurisé/08_Résumé.md
+      - 03_Executez_des_applications_conteneurisé/02_Les_deployment_et_les_daemonset.md
+      - 03_Executez_des_applications_conteneurisé/03_Exercice_guidé_Les_deployment_et_les_daemonset.md
+      - 03_Executez_des_applications_conteneurisé/04_Les_statefullset.md
+      - 03_Executez_des_applications_conteneurisé/05_Exercice_guidé_Les_statefulset.md
+      - 03_Executez_des_applications_conteneurisé/06_Résumé.md
   - "Déployer des applications":
       - 04_Déployer_des_applications/00_Déploiement_d_image_a_partir_de_modele.md
       - 04_Déployer_des_applications/01_Exercice_guidé_Déploiement_d_image_a_partir_de_modele.md

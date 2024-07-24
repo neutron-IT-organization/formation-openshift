@@ -1,4 +1,4 @@
-# Exercice Guidé : Les déploiements dans OpenShift
+# Exercice Guidé : Les déploiements et les daemonset dans OpenShift
 
 Dans cet exercice, vous allez créer un déploiement dans OpenShift et tester une stratégie de déploiement en Rolling Updates. Suivez les étapes ci-dessous pour mettre en pratique les concepts théoriques que nous avons abordés.
 
