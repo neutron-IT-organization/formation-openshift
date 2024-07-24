@@ -125,6 +125,7 @@ oc apply -f deployment.yaml
 
 Cette commande créera un nouveau déploiement nommé `prague-l03p02-app` avec la configuration spécifiée.
 
+
 ### Conclusion
 
 Dans cet exercice, nous avons appris à examiner les ressources Kubernetes en utilisant des formats de sortie personnalisés pour extraire des informations spécifiques. Nous avons également extrait un manifeste YAML, modifié ses champs, et appliqué ces modifications au cluster. Ces compétences sont essentielles pour gérer et interroger efficacement les ressources Kubernetes dans OpenShift.

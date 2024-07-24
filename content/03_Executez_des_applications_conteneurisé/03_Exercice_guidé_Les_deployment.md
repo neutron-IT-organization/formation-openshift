@@ -1,4 +1,4 @@
-### Exercice Guidé : Les déploiements dans OpenShift
+# Exercice Guidé : Les déploiements dans OpenShift
 
 Dans cet exercice, vous allez créer un déploiement dans OpenShift et tester une stratégie de déploiement en Rolling Updates. Suivez les étapes ci-dessous pour mettre en pratique les concepts théoriques que nous avons abordés.
 
@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
       - name: my-container
-        image: nginx:latest
+        image: registry.access.redhat.com/ubi9/httpd-24:latest
         ports:
         - containerPort: 80
         resources:
@@ -80,7 +80,7 @@ Vous devriez voir le déploiement `my-deployment` et trois pods en cours d'exéc
 Pour simuler une mise à jour de l'application, nous allons changer l'image utilisée par le conteneur. Exécutez la commande suivante pour mettre à jour l'image du conteneur :
 
 ```bash
-oc set image deployment/my-deployment my-container=nginx:1.21.6
+oc set image deployment/my-deployment my-container=registry.access.redhat.com/ubi9/httpd-24:1-325
 ```
 
 ### Étape 4 : Observer le Rolling Update

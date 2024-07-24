@@ -1,4 +1,4 @@
-### Déploiements dans OpenShift
+# Déploiements dans OpenShift
 
 #### Introduction
 
