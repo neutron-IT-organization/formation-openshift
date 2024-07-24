@@ -197,15 +197,7 @@ Les DaemonSets sont utilisés dans des scénarios spécifiques où il est crucia
 - **Configuration de Réseau** : Utilisation de DaemonSets pour configurer des réseaux avec des outils comme Calico ou Weave sur chaque nœud.
 - **Sécurité** : Déploiement d'outils de sécurité comme Falco ou d'autres systèmes de détection d'intrusion pour surveiller et sécuriser chaque nœud.
 
-##### Mise à Jour d'un DaemonSet
-
-Pour mettre à jour un DaemonSet dans OpenShift, vous pouvez modifier l'image du conteneur ou d'autres paramètres dans le template de pod, puis appliquer ces modifications. Par exemple, pour mettre à jour l'image du conteneur, vous pouvez exécuter la commande suivante :
-
-```bash
-oc set image daemonset/my-daemonset my-container=my-image:new-version
-```
-
-Cette commande met à jour l'image de `my-container` dans le DaemonSet `my-daemonset` avec `my-image:new-version`. Le contrôleur de DaemonSet commencera alors à mettre à jour progressivement les pods sur chaque nœud.
+![daemonset from ui](./images/daemonset-ui.png)
 
 #### Conclusion
 
