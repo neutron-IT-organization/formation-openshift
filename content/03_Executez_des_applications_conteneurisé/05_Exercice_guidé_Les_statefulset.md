@@ -56,37 +56,37 @@ spec:
 Appliquez le fichier de configuration à votre cluster Kubernetes en utilisant la commande suivante :
 
 ```sh
-kubectl apply -f mysql-statefulset.yaml
+oc apply -f mysql-statefulset.yaml
 ```
 
-### Étape 2 : Vérifier les PVCs
+### Vérifier les PVCs
 
-#### 2.1. Listez les PVCs créés
+#### 2.1. Listez les Pods et les PVCs créés
+
+Utilisez la commande suivante pour lister les Pods créés par le StatefulSet :
+
+```sh
+oc get pod -l app=mysql
+```
+
+Vous devriez voir deux Pods `mysql-0` et `mysql-1`.
 
 Utilisez la commande suivante pour lister les PVCs créés par le StatefulSet :
 
 ```sh
-kubectl get pvc
+oc get pvc
 ```
 
 Vous devriez voir deux PVCs, un pour chaque réplique de la base de données MySQL (`mysql-data-mysql-0` et `mysql-data-mysql-1`).
 
-### Étape 3 : Interagir avec les bases de données
+### Interagir avec les bases de données
 
-#### 3.1. Accéder aux pods MySQL
-
-Listez les pods pour obtenir leurs noms :
-
-```sh
-kubectl get pods -l app=mysql
-```
-
-#### 3.2. Se connecter au premier pod MySQL
+#### 3.1. Se connecter au premier pod MySQL
 
 Connectez-vous au premier pod (`mysql-0`) :
 
 ```sh
-kubectl exec -it mysql-0 -- bash
+oc exec -it mysql-0 -- bash
 ```
 
 Une fois connecté, accédez à la base de données MySQL :
@@ -95,7 +95,7 @@ Une fois connecté, accédez à la base de données MySQL :
 mysql -u user -ppassword mydb
 ```
 
-#### 3.3. Écrire des données dans la première base de données
+#### 3.2. Écrire des données dans la première base de données
 
 Dans le shell MySQL, créez une table et insérez des données :
 
@@ -107,12 +107,12 @@ SELECT * FROM test_table;
 
 Vous devriez voir les données insérées dans la table.
 
-#### 3.4. Se connecter au second pod MySQL
+#### 3.3. Se connecter au second pod MySQL
 
 Ouvrez un autre terminal et connectez-vous au second pod (`mysql-1`) :
 
 ```sh
-kubectl exec -it mysql-1 -- bash
+oc exec -it mysql-1 -- bash
 ```
 
 Une fois connecté, accédez à la base de données MySQL :
@@ -121,7 +121,7 @@ Une fois connecté, accédez à la base de données MySQL :
 mysql -u user -ppassword mydb
 ```
 
-#### 3.5. Écrire des données dans la seconde base de données
+#### 3.4. Écrire des données dans la seconde base de données
 
 Dans le shell MySQL, créez une table et insérez des données :
 
@@ -144,16 +144,6 @@ SELECT * FROM test_table;
 ```
 
 Vous devriez voir uniquement les données `Data from mysql-0`.
-
-#### 4.2. Vérifier les données dans le second pod
-
-Revenez au terminal connecté à `mysql-1` et vérifiez les données :
-
-```sql
-SELECT * FROM test_table;
-```
-
-Vous devriez voir uniquement les données `Data from mysql-1`.
 
 ### Conclusion
 
