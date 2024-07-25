@@ -185,6 +185,13 @@ mysql> SELECT * FROM test_table;
 1 row in set (0.00 sec)
 ```
 
+Pour sortir:
+
+```shell
+exit
+exit
+```
+
 ### Conclusion
 
 Vous avez maintenant déployé une base de données MySQL en utilisant un StatefulSet dans Kubernetes. Vous avez vérifié que chaque réplique utilise un PVC distinct et que les données sont indépendantes entre les réplicas. Cela démontre l'utilité des StatefulSets pour gérer des applications stateful nécessitant une persistance des données et une identité stable.
