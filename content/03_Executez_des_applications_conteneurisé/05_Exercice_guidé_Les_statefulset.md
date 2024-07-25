@@ -1,4 +1,4 @@
-## Exercice Guidé: les StatefulSets avec MySQL
+# Exercice Guidé: les StatefulSets avec MySQL
 
 Dans cet exercice, nous allons déployer une base de données MySQL à l'aide d'un StatefulSet dans Openshift. Nous créerons deux réplicas de la base de données. Nous vérifierons ensuite que chaque réplique utilise un Persistent Volume Claim (PVC) distinct.
 
