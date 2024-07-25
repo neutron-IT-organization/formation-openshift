@@ -80,7 +80,7 @@ Vous devriez voir le déploiement `my-deployment` et trois pods en cours d'exéc
 Pour simuler une mise à jour de l'application, nous allons changer l'image utilisée par le conteneur.
 Avant cela rendez vous dans la console dans la section Deployment et cliquez sur `my-deployment`.
 
-![My-deployment section](./images/my-deployment.png)
+![My-deployment section](./images/statefulset-ui.png)
 
 Exécutez la commande suivante pour mettre à jour l'image du conteneur :
 

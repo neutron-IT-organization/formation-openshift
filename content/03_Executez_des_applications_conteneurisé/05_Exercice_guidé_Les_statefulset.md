@@ -48,7 +48,7 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 10Gi
+          storage: 1Gi
 ```
 
 #### 1.2. Appliquer le StatefulSet
@@ -71,6 +71,14 @@ oc get pod -l app=mysql
 
 Vous devriez voir deux Pods `mysql-0` et `mysql-1`.
 
+```shell
+NAME      READY   STATUS    RESTARTS   AGE
+mysql-0   1/1     Running   0          8m59s
+mysql-1   1/1     Running   0          8m45s
+```
+
+![statefulset section](./images/statefulset-ui.png)
+
 Utilisez la commande suivante pour lister les PVCs créés par le StatefulSet :
 
 ```sh
@@ -78,6 +86,8 @@ oc get pvc
 ```
 
 Vous devriez voir deux PVCs, un pour chaque réplique de la base de données MySQL (`mysql-data-mysql-0` et `mysql-data-mysql-1`).
+
+![pvc section](./images/pvc-ui.png)
 
 ### Interagir avec les bases de données
 
