@@ -117,6 +117,16 @@ SELECT * FROM test_table;
 
 Vous devriez voir les données insérées dans la table.
 
+```shell
+mysql> SELECT * FROM test_table;
++----+-------------------+
+| id | data              |
++----+-------------------+
+|  1 | Data from mysql-0 |
++----+-------------------+
+1 row in set (0.00 sec)
+```
+
 #### 3.3. Se connecter au second pod MySQL
 
 Ouvrez un autre terminal et connectez-vous au second pod (`mysql-1`) :
@@ -143,6 +153,16 @@ SELECT * FROM test_table;
 
 Vous devriez voir les données insérées dans la table.
 
+```shell
+mysql> SELECT * FROM test_table;
++----+-------------------+
+| id | data              |
++----+-------------------+
+|  2 | Data from mysql-1 |
++----+-------------------+
+1 row in set (0.00 sec)
+```
+
 ### Étape 4 : Vérifier l'indépendance des données
 
 #### 4.1. Vérifier les données dans le premier pod
@@ -154,6 +174,16 @@ SELECT * FROM test_table;
 ```
 
 Vous devriez voir uniquement les données `Data from mysql-0`.
+
+```shell
+mysql> SELECT * FROM test_table;
++----+-------------------+
+| id | data              |
++----+-------------------+
+|  1 | Data from mysql-0 |
++----+-------------------+
+1 row in set (0.00 sec)
+```
 
 ### Conclusion
 
