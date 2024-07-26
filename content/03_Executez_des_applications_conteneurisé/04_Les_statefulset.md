@@ -16,6 +16,8 @@
 
 Un StatefulSet est un contrôleur Kubernetes utilisé pour déployer et gérer des applications stateful. Contrairement à un Deployment, qui gère des applications stateless en créant et en supprimant des pods de manière indifférente, un StatefulSet assure que les pods conservent une identité stable et une persistance des données.
 
+![statefulset](./images/statefulset.svg)
+
 ### Caractéristiques Clés des StatefulSets
 
 1. **Noms Stables** :
