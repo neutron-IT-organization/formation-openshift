@@ -1,6 +1,6 @@
 # Quiz : les Workloads dans Openshift
 
-Nous allons maintenant faire un quiz pour évaluer votre compréhension de la partie "Présentation d'OpenShift". Ce quiz couvrira les concepts fondamentaux abordés, tels que les conteneurs, Kubernetes et les spécificités d'OpenShift.
+Nous allons maintenant faire un quiz pour évaluer votre compréhension de la partie "Les Workloads dans Openshift". Ce quiz couvrira les concepts fondamentaux abordés, tels que les conteneurs, Kubernetes et les spécificités d'OpenShift.
 
 Pour joindre le quiz, veuillez suivre les étapes suivantes :
 
