@@ -1,96 +1,218 @@
-# Services et Route dans OpenShift
+# Services et Routes dans OpenShift
 
-## Introduction
+### Introduction
 
-Dans OpenShift, l'exposition des applications à un accès externe est essentielle pour les utilisateurs finaux, et les services d'équilibrage de charge ainsi que les routes jouent un rôle clé dans cette tâche. Cette section explore comment configurer ces services et routes pour assurer la disponibilité et la performance des applications.
+Dans OpenShift, la gestion du trafic réseau pour les applications conteneurisées est cruciale pour garantir leur accessibilité et leur sécurité. Les **services** et les **routes** sont des composants clés de cette gestion. Les services permettent de regrouper et d'exposer des pods à l'intérieur du cluster, tandis que les routes facilitent l'accès externe aux applications. Ce cours explore en profondeur ces deux concepts, en expliquant leurs types, cas d'usage, et configurations.
 
-## Objectifs de la section
+### Objectifs de la Section
 
-1. Comprendre le rôle des services d'équilibrage de charge et des routes dans OpenShift.
-2. Apprendre à configurer et à utiliser des services d'équilibrage de charge pour exposer des services non HTTP.
-3. Découvrir les alternatives d'exposition de services comme NodePort et leur utilisation dans différents environnements.
-4. Explorer des solutions comme MetalLB pour les environnements sans fournisseurs de cloud.
-5. Comprendre le fonctionnement et la configuration des routes dans OpenShift pour l'exposition des applications HTTP.
+À la fin de cette section, vous serez capable de :
+- Comprendre à quoi servent les services dans OpenShift.
+- Expliquer les différents types de services : ClusterIP, NodePort, LoadBalancer, et leurs cas d'usage.
+- Comprendre le rôle des routes dans OpenShift pour exposer les applications externes.
+- Expliquer comment fonctionne l'Ingress Controller et les différentes options d'exposition TLS : passthrough, reencrypt, et edge.
 
----
+## Les Services dans OpenShift
 
-## Les services d'équilibrage de charge dans OpenShift
+### Concepts Fondamentaux
 
-Dans un environnement Kubernetes, les services d'équilibrage de charge (LoadBalancer) répartissent le trafic réseau vers les pods qui composent une application. Cela permet d'assurer une haute disponibilité et une meilleure évolutivité des services. Lorsque plusieurs pods exécutent la même application, l'équilibrage de charge permet de répartir le trafic entre eux, assurant ainsi que la charge est distribuée équitablement et que l'application reste disponible même en cas de défaillance d'un ou plusieurs pods.
+Les services dans OpenShift, comme dans Kubernetes, sont utilisés pour exposer les pods à l'intérieur du cluster, permettant une communication stable entre eux. Les services abstraient les pods individuels et offrent une adresse IP stable, assurant que même si des pods sont recréés ou déplacés, le trafic peut toujours les atteindre via le service.
 
-Les services d'équilibrage de charge sont particulièrement utilisés dans des environnements de cloud public, où le fournisseur de cloud gère l'infrastructure réseau nécessaire. Par exemple, dans un cluster OpenShift hébergé sur AWS ou Google Cloud, les API du fournisseur de cloud sont utilisées pour configurer automatiquement les composants d'équilibrage de charge externes. Cela simplifie la gestion pour les développeurs et les administrateurs, qui n'ont pas besoin de se soucier des détails d'infrastructure sous-jacents.
+Un service associe un groupe de pods par le biais de labels, et dirige le trafic vers ces pods via un mécanisme de **load balancing interne**.
 
-Cependant, dans des environnements on-premise ou sur des infrastructures sans fournisseur de cloud, l'utilisation d'un équilibreur de charge nécessite une configuration manuelle. Dans ces scénarios, des solutions comme MetalLB peuvent être utilisées pour simuler le comportement des équilibreurs de charge en cloud.
+### Types de Services
 
-### Exposition de Services Non HTTP
+Il existe plusieurs types de services dans OpenShift, chacun ayant ses propres cas d'utilisation :
 
-Tous les services ne fonctionnent pas avec des protocoles HTTP/HTTPS. Par exemple, les services SSH, FTP ou les bases de données peuvent nécessiter une exposition externe qui ne passe pas par un serveur web. Pour ces cas d'utilisation, les services d'équilibrage de charge offrent une méthode pour exposer ces services au monde extérieur.
+#### 1. **ClusterIP (Service par défaut)**
 
-Lorsque vous configurez un service d'équilibrage de charge pour un protocole non HTTP, vous devez spécifier les ports et les adresses IP sur lesquels le service sera accessible. Ce type de configuration assure que les utilisateurs externes peuvent se connecter directement au service, sans avoir besoin de passer par un intermédiaire comme un proxy HTTP.
+##### Description
+Le type de service **ClusterIP** est le plus basique et le plus utilisé. Il expose le service à l'intérieur du cluster, ce qui signifie que le service est accessible uniquement depuis d'autres pods dans le même cluster. Une adresse IP interne est attribuée au service, et le trafic est routé vers les pods sélectionnés par le service.
 
-### NodePort
+##### Cas d'usage
+- **Communication interne** : Utilisé pour permettre aux pods d'une application de communiquer entre eux.
+- **Services backend** : Idéal pour des bases de données, caches, ou autres composants internes non destinés à être accessibles depuis l'extérieur du cluster.
 
-Les services NodePort sont une autre méthode d'exposition de services en dehors du cluster. Contrairement aux services LoadBalancer, NodePort expose un service sur un port spécifique sur chaque nœud du cluster. Cela signifie que le service est accessible via l'adresse IP de n'importe quel nœud du cluster, ce qui offre une certaine flexibilité dans les environnements où les services d'équilibrage de charge gérés ne sont pas disponibles.
+##### Exemple de configuration
 
-NodePort est souvent utilisé dans des environnements de développement ou de test, où l'infrastructure réseau est limitée. Cependant, il nécessite une gestion manuelle des adresses IP et des ports, ce qui peut devenir complexe dans des environnements de production à grande échelle.
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-clusterip-service
+spec:
+  selector:
+    app: my-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: ClusterIP
+```
 
-### MetalLB : Une Solution pour les Environnements Non Cloud
+Dans cet exemple, un service `ClusterIP` expose les pods avec le label `app: my-app` sur le port 80.
 
-MetalLB est un composant d'équilibrage de charge conçu pour les environnements où les équilibreurs de charge en cloud ne sont pas disponibles. Il s'agit d'un projet open-source qui permet à Kubernetes d'assigner des adresses IP publiques à des services d'équilibrage de charge, même sur des infrastructures nues (bare metal) ou virtualisées.
+#### 2. **NodePort**
 
-MetalLB fonctionne en mode couche 2 ou en utilisant le protocole BGP (Border Gateway Protocol). Le mode couche 2 est plus simple à configurer, tandis que le mode BGP offre une meilleure intégration avec les routeurs réseau existants.
+##### Description
+Le service de type **NodePort** expose le service sur un port spécifique de chaque nœud du cluster. Cela permet d'accéder au service depuis l'extérieur du cluster en utilisant l'adresse IP d'un nœud et le port alloué.
 
-L'installation de MetalLB est gérée par l'Operator Lifecycle Manager d'OpenShift. Une fois installé, vous devez configurer des plages d'adresses IP que MetalLB pourra attribuer aux services. Cela permet de simuler un comportement de cloud public dans un environnement on-premise.
+##### Cas d'usage
+- **Accès externe simple** : Utilisé lorsque vous avez besoin d'accéder au service depuis l'extérieur du cluster, mais sans infrastructure de load balancing externe.
+- **Test et développement** : Pratique pour des environnements de test ou des déploiements simples sans utiliser des configurations plus complexes comme des LoadBalancers ou des routes.
 
----
+##### Exemple de configuration
 
-## Routes dans OpenShift
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nodeport-service
+spec:
+  selector:
+    app: my-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+    nodePort: 30007
+  type: NodePort
+```
 
-Les routes sont un autre composant essentiel pour exposer des applications dans OpenShift, en particulier pour les applications HTTP/HTTPS. Contrairement aux services d'équilibrage de charge qui gèrent le trafic réseau au niveau de l'infrastructure, les routes se concentrent sur l'exposition des applications web.
+Dans cet exemple, le service `NodePort` est exposé sur le port 30007 de chaque nœud du cluster.
 
-### Fonctionnement des Routes
+#### 3. **LoadBalancer**
 
-Les routes dans OpenShift agissent comme un point d'entrée pour les applications HTTP/HTTPS. Elles définissent un nom de domaine (par exemple, www.example.com) qui est accessible depuis l'extérieur du cluster et qui est mappé à un service Kubernetes interne. Lorsque des requêtes arrivent sur l'adresse définie par la route, elles sont redirigées vers le service correspondant à l'intérieur du cluster.
+##### Description
+Le service de type **LoadBalancer** expose le service à l'extérieur du cluster en configurant automatiquement un load balancer externe qui distribue le trafic vers les nœuds du cluster. Ce type de service est généralement utilisé dans les environnements cloud où les load balancers sont fournis par le fournisseur de cloud.
 
-Cette approche permet une gestion centralisée des accès HTTP/HTTPS et offre une grande flexibilité pour les applications web. Par exemple, une seule route peut diriger le trafic vers différents services en fonction du sous-domaine ou du chemin d'URL utilisé.
+##### Cas d'usage
+- **Environnements Cloud** : Idéal pour des déploiements en production sur des infrastructures cloud (AWS, GCP, Azure) où le load balancer est automatiquement provisionné.
+- **Exposition de services critiques** : Convient pour des applications nécessitant une haute disponibilité et une répartition automatique du trafic.
 
-### Types de Routes
+##### Exemple de configuration dans un environnement cloud
 
-OpenShift supporte plusieurs types de routes, chacune offrant différents niveaux de contrôle sur la gestion du trafic et de la sécurité.
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-loadbalancer-service
+spec:
+  selector:
+    app: my-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: LoadBalancer
+```
 
-- **Edge Termination** : Dans ce mode, le TLS (Transport Layer Security) est terminé à l'edge, c'est-à-dire au niveau du routeur OpenShift. Le trafic vers l'application interne est ensuite envoyé en clair (HTTP).
-- **Passthrough** : Ici, le TLS passe directement au service interne, où il est terminé. Ce mode est utilisé lorsque l'application interne doit gérer elle-même la sécurité TLS.
-- **Reencrypt** : Dans ce mode, le TLS est terminé à l'edge, puis réencrypté avant d'être envoyé au service interne. Cela offre une couche supplémentaire de sécurité, en assurant que le trafic reste chiffré tout au long de son parcours.
+Dans cet exemple, le service `LoadBalancer` demande la création d'un load balancer externe qui répartira le trafic sur les pods sélectionnés.
 
-### Avantages des Routes
+![ClusterIP vs NodePort vs Loadbalancer](./images/clusterIP-vs-NodePort-vs-Loadbalancer.svg)
 
-Les routes dans OpenShift ne se contentent pas de mapper des noms de domaine à des services. Elles offrent également des fonctionnalités avancées comme la gestion des certificats TLS, l'équilibrage de charge au niveau applicatif, et des stratégies de routage basées sur des règles spécifiques. Cela permet une grande flexibilité dans la manière dont les applications sont exposées aux utilisateurs finaux.
+##### Utilisation de MetalLB pour les Environnements On-Premise
+Dans les environnements on-premise (sans cloud provider), vous pouvez utiliser un composant comme **MetalLB** pour simuler un service de type LoadBalancer. MetalLB fournit un load balancing en mode bare-metal pour Kubernetes, permettant d'allouer des IPs externes sur votre réseau pour exposer vos services.
 
-Les routes sont particulièrement utiles pour les applications nécessitant des noms de domaine spécifiques et des configurations de sécurité complexes. Elles permettent également de gérer le trafic de manière plus granulaire qu'avec des services d'équilibrage de charge seuls, en offrant des options pour rediriger, réécrire ou diviser le trafic en fonction de divers critères.
+## Les Routes dans OpenShift
 
-### Exemple de Configuration de Route
+### Concepts Fondamentaux
 
-Voici un exemple de configuration de route dans OpenShift :
+Les **routes** dans OpenShift permettent d'exposer des services internes à l'extérieur du cluster. Une route associe un nom de domaine (DNS) à un service, et dirige le trafic HTTP/HTTPS vers les pods gérés par ce service. Les routes sont spécifiques à OpenShift et offrent une couche supplémentaire de gestion du trafic par rapport aux services standard de Kubernetes.
+
+### Fonctionnement de l'Ingress Controller
+
+L'Ingress Controller dans OpenShift agit comme un proxy qui gère les routes et le trafic entrant dans le cluster. Il est responsable de recevoir les requêtes HTTP/HTTPS externes et de les router vers les services appropriés basés sur les configurations de route.
+
+L'Ingress Controller peut également gérer la terminaison SSL/TLS, en s'assurant que le trafic est sécurisé entre les clients externes et les services dans le cluster.
+
+### Modes d'Exposition TLS
+
+Lorsqu'on configure une route avec TLS dans OpenShift, il existe trois modes principaux pour gérer le chiffrement du trafic :
+
+#### 1. **Edge Termination (Mode Edge)**
+
+##### Description
+Dans le mode **Edge Termination**, la terminaison TLS (chiffrement/déchiffrement) est effectuée par l'Ingress Controller lui-même. Le trafic entre le client et l'Ingress Controller est sécurisé via TLS, mais une fois le trafic déchiffré, il est envoyé en clair aux pods cibles à l'intérieur du cluster.
+
+##### Cas d'usage
+- **Simplicité** : Utilisé lorsqu'il est suffisant de sécuriser le trafic entre le client et le cluster, sans nécessiter un chiffrement interne.
+- **Performances** : Offre une bonne performance en évitant le chiffrement supplémentaire à l'intérieur du cluster.
+
+##### Exemple de configuration
 
 ```yaml
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: example-route
-  namespace: example
+  name: my-edge-route
 spec:
-  host: www.example.com
+  host: example.com
   to:
     kind: Service
-    name: example-service
-  port:
-    targetPort: 8080
+    name: my-service
   tls:
     termination: edge
 ```
 
-Dans cet exemple, la route www.example.com redirige le trafic vers le service example-service sur le port 8080, en terminant le TLS au niveau du routeur OpenShift.
+#### 2. **Re-encrypt Termination (Mode Reencrypt)**
 
-### Utilisation des Routes
+##### Description
+Dans le mode **Re-encrypt Termination**, la terminaison TLS est effectuée par l'Ingress Controller, mais le trafic est ensuite ré-encrypté et acheminé vers les pods cibles en TLS. Cela assure que le trafic reste chiffré tout au long de son parcours, du client jusqu'aux pods.
 
-Les routes sont particulièrement adaptées aux environnements où les applications doivent être exposées sur des noms de domaine spécifiques avec une gestion fine de la sécurité. Elles complètent les services d'équilibrage de charge en offrant des fonctionnalités supplémentaires pour le routage et la gestion du trafic HTTP/HTTPS.
+##### Cas d'usage
+- **Sécurité accrue** : Utilisé lorsqu'il est nécessaire de sécuriser le trafic non seulement entre le client et le cluster, mais aussi à l'intérieur du cluster.
+- **Conformité** : Idéal pour les environnements nécessitant une conformité stricte en matière de sécurité des données.
+
+##### Exemple de configuration
+
+```yaml
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: my-reencrypt-route
+spec:
+  host: example.com
+  to:
+    kind: Service
+    name: my-service
+  tls:
+    termination: reencrypt
+    destinationCACertificate: |
+      -----BEGIN CERTIFICATE-----
+      MIIBIjANBgkqh...
+      -----END CERTIFICATE-----
+```
+
+#### 3. **Passthrough Termination (Mode Passthrough)**
+
+##### Description
+Dans le mode **Passthrough Termination**, l'Ingress Controller ne termine pas la connexion TLS. Au lieu de cela, il passe directement le trafic TLS au service backend sans modification. Le service backend doit être configuré pour gérer le chiffrement TLS.
+
+##### Cas d'usage
+- **Applications sensibles** : Utilisé pour des applications qui nécessitent un contrôle total sur le chiffrement TLS, ou lorsqu'une application gère déjà son propre chiffrement.
+- **Performances** : Évite la surcharge du chiffrement/déchiffrement dans l'Ingress Controller, mais nécessite que le backend soit capable de gérer les connexions TLS.
+
+##### Exemple de configuration
+
+```yaml
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: my-passthrough-route
+spec:
+  host: example.com
+  to:
+    kind:
+
+ Service
+    name: my-service
+  tls:
+    termination: passthrough
+```
+
+![tls route](./images/tls-route.svg)
+
+## Conclusion
+
+Les services et les routes sont des composantes essentielles pour gérer le trafic réseau dans OpenShift. Les services permettent de regrouper et d'exposer des pods à l'intérieur du cluster, tandis que les routes facilitent l'accès externe. En comprenant les différents types de services et les modes d'exposition TLS, vous pouvez configurer des applications sécurisées et hautement disponibles, adaptées à divers environnements et besoins.
