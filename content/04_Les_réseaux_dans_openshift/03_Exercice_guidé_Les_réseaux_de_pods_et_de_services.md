@@ -21,7 +21,7 @@ kind: Deployment
 metadata:
   name: olympic-medals-app
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: olympic-medals-app
@@ -111,10 +111,22 @@ oc apply -f my-nodeport-service.yaml
 
 ```bash
 oc get svc
-curl http://<NODE_IP>:30007
+NAME                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+my-clusterip-service   ClusterIP   172.30.72.127    <none>        80/TCP         13m
+my-nodeport-service    NodePort    172.30.141.210   <none>        80:30007/TCP   27s
 ```
 
+```bash
+oc get nodes -o jsonpath='{range .items[*]}{.status.addresses[?(@.type=="InternalIP")].address}{"\n"}{end}'
+<NODE_IP>
+```
+
+Accédez dans votre moteur de recherche a http://<NODE_IP>:30007 pour accéder a votre application
+
 Remplacez `<NODE_IP>` par l'adresse IP d'un nœud de votre cluster.
+
+![node port access](./images/nodeport-access.png)
+
 
 
 ## Étape 3 : Créer un Service LoadBalancer (avec MetalLB si en environnement On-Premise)
