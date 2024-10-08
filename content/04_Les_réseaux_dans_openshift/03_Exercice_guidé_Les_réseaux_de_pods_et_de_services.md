@@ -53,14 +53,14 @@ Créez un fichier nommé `my-clusterip-service.yaml` avec le contenu suivant :
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-clusterip-service
+  name: olympic-medals-app
 spec:
   selector:
     app: my-app
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8080
+    targetPort: 5000
   type: ClusterIP
 ```
 
@@ -87,14 +87,14 @@ Créez un fichier nommé `my-nodeport-service.yaml` avec le contenu suivant :
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-nodeport-service
+  name: olympic-medals-app
 spec:
   selector:
     app: my-app
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8080
+    targetPort: 5000
     nodePort: 30007
   type: NodePort
 ```
@@ -130,12 +130,11 @@ metadata:
   name: my-loadbalancer-service
 spec:
   selector:
-    app: my-app
+    app: olympic-medals-app
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8080
-  type: LoadBalancer
+    targetPort: 5000
 ```
 
 **Appliquez le service :**
@@ -160,7 +159,6 @@ kind: Route
 metadata:
   name: my-http-route
 spec:
-  host: my-app.example.com
   to:
     kind: Service
     name: my-clusterip-service
@@ -191,7 +189,6 @@ kind: Route
 metadata:
   name: my-edge-route
 spec:
-  host: my-app-secure.example.com
   to:
     kind: Service
     name: my-clusterip-service
