@@ -47,9 +47,7 @@ nav:
       - 04_Les_réseaux_dans_openshift/01_Quiz_Les_sdn_dans_openshift.md
       - 04_Les_réseaux_dans_openshift/02_Les_réseaux_de_pods_et_de_services.md
       - 04_Les_réseaux_dans_openshift/03_Exercice_guidé_Les_réseaux_de_pods_et_de_services.md
-      - 04_Les_réseaux_dans_openshift/04_Exposition_externe_de_pods.md
-      - 04_Les_réseaux_dans_openshift/05_Exercice_guidé_Exposition_externe_de_pods.md
-      - 04_Les_réseaux_dans_openshift/06_Résumé.md
+      - 04_Les_réseaux_dans_openshift/04_Résumé.md
   - "Gestion du stockage":
       - 05_Gestion_du_stockage/00_Externalisation_de_la_configuration_des_applications.md
       - 05_Gestion_du_stockage/01_Exercice_guidé_Externalisation_de_la_configuration_des_applications.md
