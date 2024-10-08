@@ -9,6 +9,40 @@ Dans cet exercice, vous allez créer différents types de services pour exposer 
 - Mettre en place une route TLS en mode `edge`.
 - Tester les différentes configurations de service et de route.
 
+## Prérequis
+
+Vous allez, au cours de cet exercice, une application qui nous affichera les resultats des jeux olympiques de paris 2024.
+
+Pour cela créez un fichier nommé `olympic-medals-app.yaml` avec le contenu suivant :
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: olympic-medals-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: olympic-medals-app
+  template:
+    metadata:
+      labels:
+        app: olympic-medals-app
+    spec:
+      containers:
+        - name: olympic-medals-app
+          image: quay.io/neutron-it/olympic-medals-app:latest
+          ports:
+            - containerPort: 5000
+```
+
+**Appliquez ce service avec la commande suivante :**
+
+```bash
+oc apply -f olympic-medals-app.yaml
+```
+
 ## Étape 1 : Créer un Service ClusterIP
 
 Créez un fichier nommé `my-clusterip-service.yaml` avec le contenu suivant :
