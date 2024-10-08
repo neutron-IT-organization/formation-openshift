@@ -48,27 +48,27 @@ oc apply -f welcome-app.yaml
 
 2. **Action :** Créez un fichier nommé `welcome-config.yaml` avec le contenu suivant :
 
-   ```yaml
-   apiVersion: v1
-   kind: ConfigMap
-   metadata:
-     name: welcome-config
-   data:
-     welcome_message: "Bienvenue sur notre site de démonstration !"
-     app_mode: "production"
-   ```
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: welcome-config
+data:
+  welcome_message: "Bienvenue sur notre site de démonstration !"
+  app_mode: "production"
+```
 
 3. **Commande :** Appliquez le fichier pour créer le *ConfigMap* :
 
-   ```bash
-   oc apply -f welcome-config.yaml
-   ```
+```bash
+oc apply -f welcome-config.yaml
+```
 
 4. **Vérification :** Affichez le *ConfigMap* pour vérifier sa création :
 
-   ```bash
-   oc get configmap welcome-config -o yaml
-   ```
+```bash
+oc get configmap welcome-config -o yaml
+```
 
 ## Étape 2 : Créer un Secret pour l'application
 
@@ -76,27 +76,27 @@ oc apply -f welcome-app.yaml
 
 2. **Action :** Créez un fichier nommé `welcome-secret.yaml` avec le contenu suivant :
 
-   ```yaml
-   apiVersion: v1
-   kind: Secret
-   metadata:
-     name: welcome-secret
-   type: Opaque
-   data:
-     api_token: d2VsY29tZVRva2VuMTIz # Le token "welcomeToken123" encodé en base64
-   ```
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: welcome-secret
+type: Opaque
+data:
+  api_token: d2VsY29tZVRva2VuMTIz # Le token "welcomeToken123" encodé en base64
+```
 
 3. **Commande :** Appliquez le fichier pour créer le *Secret* :
 
-   ```bash
-   oc apply -f welcome-secret.yaml
-   ```
+```bash
+oc apply -f welcome-secret.yaml
+```
 
 4. **Vérification :** Affichez le *Secret* (sans afficher les données sensibles) pour vérifier sa création :
 
-   ```bash
-   oc get secret welcome-secret -o yaml
-   ```
+```bash
+oc get secret welcome-secret -o yaml
+```
 
 ## Étape 3 : Consommer le ConfigMap et le Secret dans l'application
 
@@ -104,63 +104,55 @@ oc apply -f welcome-app.yaml
 
 2. **Action :** Modifiez le fichier `welcome-app.yaml` pour inclure les variables d'environnement :
 
-   ```yaml
-   apiVersion: apps/v1
-   kind: Deployment
-   metadata:
-     name: welcome-app
-   spec:
-     replicas: 2
-     selector:
-       matchLabels:
-         app: welcome-app
-     template:
-       metadata:
-         labels:
-           app: welcome-app
-       spec:
-         containers:
-           - name: welcome-app-container
-             image: quay.io/neutron-it/welcome-app:latest
-             ports:
-               - containerPort: 8080
-             env:
-               - name: WELCOME_MESSAGE
-                 valueFrom:
-                   configMapKeyRef:
-                     name: welcome-config
-                     key: welcome_message
-               - name: APP_MODE
-                 valueFrom:
-                   configMapKeyRef:
-                     name: welcome-config
-                     key: app_mode
-               - name: API_TOKEN
-                 valueFrom:
-                   secretKeyRef:
-                     name: welcome-secret
-                     key: api_token
-   ```
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: welcome-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: welcome-app
+  template:
+    metadata:
+      labels:
+        app: welcome-app
+    spec:
+      containers:
+        - name: welcome-app-container
+          image: quay.io/neutron-it/welcome-app:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: WELCOME_MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: welcome-config
+                  key: welcome_message
+            - name: APP_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: welcome-config
+                  key: app_mode
+            - name: API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: welcome-secret
+                  key: api_token
+```
 
 3. **Commande :** Appliquez les modifications pour mettre à jour le déploiement :
 
-   ```bash
-   oc apply -f welcome-app.yaml
-   ```
+```bash
+oc apply -f welcome-app.yaml
+```
 
 4. **Vérification :** Vérifiez que le déploiement est bien en cours d'exécution :
 
-   ```bash
-   oc get pods -l app=welcome-app
-   ```
-
-5. **Vérifiez les variables d'environnement :** Connectez-vous au pod pour vérifier que les variables d'environnement ont été correctement injectées :
-
-   ```bash
-   oc exec -it $(oc get pod -l app=welcome-app -o jsonpath='{.items[0].metadata.name}') -- env | grep WELCOME_MESSAGE
-   ```
-
-   Assurez-vous que `WELCOME_MESSAGE`, `APP_MODE`, et `API_TOKEN` sont définis.
+```bash
+oc get pods -l app=welcome-app
+```
 
 ## Étape 4 : Mise à Jour du ConfigMap
 
@@ -168,64 +160,23 @@ oc apply -f welcome-app.yaml
 
 2. **Action :** Modifiez le fichier `welcome-config.yaml` pour mettre à jour le message :
 
-   ```yaml
-   data:
-     welcome_message: "Bienvenue à notre nouvelle application déployée avec OpenShift !"
-     app_mode: "development"
-   ```
+```yaml
+data:
+  welcome_message: "Bienvenue à notre nouvelle application déployée avec OpenShift !"
+  app_mode: "development"
+```
 
 3. **Commande :** Réappliquez le fichier pour mettre à jour le *ConfigMap* :
 
-   ```bash
-   oc apply -f welcome-config.yaml
-   ```
+```bash
+oc apply -f welcome-config.yaml
+```
 
 4. **Vérification :** Redémarrez les pods pour qu'ils récupèrent la nouvelle configuration :
 
-   ```bash
-   oc rollout restart deployment welcome-app
-   ```
-
-5. **Vérifiez la nouvelle configuration :** Connectez-vous à un pod et vérifiez la nouvelle valeur de `WELCOME_MESSAGE` :
-
-   ```bash
-   oc exec -it $(oc get pod -l app=welcome-app -o jsonpath='{.items[0].metadata.name}') -- env | grep WELCOME_MESSAGE
-   ```
-
-## Étape 5 : Sécurisation de l'accès aux Secrets
-
-1. **Objectif :** Vérifier la sécurisation des *Secrets* et restreindre leur accès.
-
-2. **Action :** Affichez les détails du *Secret* pour comprendre la gestion des droits :
-
-   ```bash
-   oc describe secret welcome-secret
-   ```
-
-3. **Configuration RBAC :** Limitez l'accès aux *Secrets* pour certains utilisateurs en créant un fichier `secret-rbac.yaml` :
-
-   ```yaml
-   apiVersion: rbac.authorization.k8s.io/v1
-   kind: Role
-   metadata:
-     namespace: default
-     name: secret-reader
-   rules:
-   - apiGroups: [""]
-     resources: ["secrets"]
-     verbs: ["get", "list"]
-   ```
-
-4. **Commande :** Appliquez le rôle et attribuez-le à un utilisateur spécifique :
-
-   ```bash
-   oc apply -f secret-rbac.yaml
-   oc create rolebinding read-secrets --role=secret-reader --user=<USER>
-   ```
-
-   Remplacez `<USER>` par le nom de l'utilisateur.
-
-5. **Vérification :** Testez que l'utilisateur dispose bien des permissions pour lire le *Secret*.
+```bash
+oc rollout restart deployment welcome-app
+```
 
 ## Étape 6 : Nettoyage
 
@@ -241,4 +192,4 @@ oc delete rolebinding read-secrets
 
 ## Conclusion
 
-En suivant cet exercice, vous avez appris à créer et gérer des *ConfigMaps* et des *Secrets* dans OpenShift. Vous avez exploré la façon de les intégrer dans une application déployée, de les mettre à jour et de sécuriser leur accès via RBAC. Cela vous permet de gérer les configurations et les informations sensibles de manière centralisée et sécurisée dans un environnement OpenShift.
+En suivant cet exercice, vous avez appris à créer et gérer des *ConfigMaps* et des *Secrets* dans OpenShift. Vous avez exploré la façon de les intégrer dans une application déployée, de les mettre à jour. Cela vous permet de gérer les configurations et les informations sensibles de manière centralisée et sécurisée dans un environnement OpenShift.
