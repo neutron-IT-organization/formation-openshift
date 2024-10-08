@@ -7,10 +7,10 @@ Dans OpenShift, la gestion du trafic réseau pour les applications conteneurisé
 ### Objectifs de la Section
 
 À la fin de cette section, vous serez capable de :
-- Comprendre à quoi servent les services dans OpenShift.
-- Expliquer les différents types de services : ClusterIP, NodePort, LoadBalancer, et leurs cas d'usage.
-- Comprendre le rôle des routes dans OpenShift pour exposer les applications externes.
-- Expliquer comment fonctionne l'Ingress Controller et les différentes options d'exposition TLS : passthrough, reencrypt, et edge.
+1. Comprendre à quoi servent les services dans OpenShift.
+2. Expliquer les différents types de services : ClusterIP, NodePort, LoadBalancer, et leurs cas d'usage.
+3. Comprendre le rôle des routes dans OpenShift pour exposer les applications externes.
+4. Expliquer comment fonctionne l'Ingress Controller et les différentes options d'exposition TLS : passthrough, reencrypt, et edge.
 
 ## Les Services dans OpenShift
 

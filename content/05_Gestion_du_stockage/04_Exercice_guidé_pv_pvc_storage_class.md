@@ -189,6 +189,8 @@ oc get route
 
 Notez l'URL fournie et accédez-y depuis votre navigateur. Ajoutez quelques tâches à votre liste de tâches.
 
+![task ephemere](./images/task-ephemere.svg)
+
 #### Étape 3 : Tester la Persistance des Données
 
 1. **Redémarrez le déploiement PostgreSQL.**
@@ -203,7 +205,9 @@ Kubernetes recréera le pod automatiquement grâce au déploiement.
 
 2. **Vérifiez l'Application Todo.**
 
-Rendez-vous à nouveau sur l'interface de votre application Todo. Vous devriez voir que les tâches que vous avez ajoutées précédemment ont disparu, car les données étaient stockées dans un volume éphémère (`emptyDir`), qui est supprimé avec le pod.
+Rendez-vous à nouveau sur l'interface de votre application Todo et faite un refresh de la page. Vous devriez voir que les tâches que vous avez ajoutées précédemment ont disparu, car les données étaient stockées dans un volume éphémère (`emptyDir`), qui est supprimé avec le pod.
+
+![task ephemere](./images/task-ephemere-remove-pg.svg)
 
 ### Transition vers un Stockage Persistant
 
@@ -272,70 +276,38 @@ spec:
   resources:
     requests:
       storage: 10Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres-service
-spec:
-  selector:
-    app: postgres
-  ports:
-    - name: postgres
-      port: 5432
-      targetPort: 5432
-  type: ClusterIP
----
-apiVersion: v1
-data:
-  POSTGRES_DB: dGFzaw==
-  POSTGRES_PASSWORD: bXlzZWNyZXRwYXNzd29yZA==
-  POSTGRES_PORT: NTQzMg==
-  POSTGRES_USER: dGFzay11c2Vy
-kind: Secret
-metadata:
-  name: postgres-credentials
-type: Opaque
 ```
 
 2. **Appliquez les modifications.**
 
-Vous devrez d'abord supprimer le déploiement existant et ensuite appliquer le nouveau déploiement :
+Appliquez le nouveau déploiement :
 
 ```bash
-oc delete deployment postgres
 oc apply -f postgres-pvc-deployment.yaml
+oc delete pod -l app=todo-app
 ```
 
 #### Test de Création de Tâches avec Stockage Persistant
 
-1. **Redémarrez le déploiement PostgreSQL.**
+1. **Vérifiez l'Application Todo.**
 
-Comme précédemment, supprimez le pod PostgreSQL :
+Accédez à l'interface de l'application Todo via l'URL que vous avez récupérée précédemment. Ajoutez de nouvelles tâches à votre liste.
+
+![task permanente](./images/task-permanente.svg)
+
+2. **Testez le comportement après le redémarrage du pod.**
+
+Après avoir ajouté quelques tâches, répétez le processus de redémarrage du pod PostgreSQL :
 
 ```bash
 oc delete pod -l app=postgres
 ```
 
-Kubernetes va le recréer automatiquement.
+Kubernetes va recréer le pod automatiquement.
 
-2. **Vérifiez l'Application Todo.**
+3. **Vérifiez à nouveau l'interface de l'application Todo.**
 
-  Accédez à l'interface de l'application Todo via l'URL que vous avez récupérée précédemment. Ajoutez de nouvelles tâches à votre liste.
-
-3. **Testez le comportement après le redémarrage du pod.**
-
-  Après avoir ajouté quelques tâches, répétez le processus de redémarrage du pod PostgreSQL :
-
-  ```bash
-  oc delete pod -l app=postgres
-  ```
-
-  Kubernetes va recréer le pod automatiquement.
-
-4. **Vérifiez à nouveau l'interface de l'application Todo.**
-
-  Vous devriez maintenant constater que les tâches que vous avez ajoutées précédemment sont toujours présentes. Cela s'explique par le fait que les données sont maintenant stockées dans un volume persistant via un Persistent Volume Claim (PVC), ce qui permet de préserver les données même après la suppression des pods.
+Vous devriez maintenant constater que les tâches que vous avez ajoutées précédemment sont toujours présentes avec votre refresh de la page. Cela s'explique par le fait que les données sont maintenant stockées dans un volume persistant via un Persistent Volume Claim (PVC), ce qui permet de préserver les données même après la suppression des pods.
 
 ### Conclusion
 

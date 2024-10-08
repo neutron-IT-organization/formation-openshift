@@ -1,4 +1,4 @@
-### Section de Cours : Gestion des Classes de Stockage dans Kubernetes
+# Section de Cours : Gestion des Classes de Stockage dans Kubernetes
 
 #### Introduction
 Dans Kubernetes, la gestion efficace du stockage est cruciale pour répondre aux besoins variés des applications. Les classes de stockage permettent d’associer des applications à des types de stockage spécifiques, en fournissant des services adaptés qui répondent aux exigences de performance, de fiabilité et de coût.
