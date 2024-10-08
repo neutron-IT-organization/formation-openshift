@@ -1,105 +1,244 @@
-Bien sûr ! Voici la partie "Exercice Guidé : Externalisation de la Configuration des Applications" avec les lignes de commande à utiliser :
+### Exercice Guidé : Utilisation des ConfigMaps et Secrets dans OpenShift
 
----
+Cet exercice vous guidera à travers la création, la gestion et la consommation de *ConfigMaps* et de *Secrets* pour vos applications dans OpenShift. Vous apprendrez à les utiliser pour stocker des configurations et des données sensibles, et à les intégrer dans un déploiement pour une gestion sécurisée des informations.
 
-# Exercice Guidé : Externalisation de la Configuration des Applications
+### Objectifs de l'Exercice
 
-Dans cet exercice, nous allons pratiquer l'externalisation de la configuration des applications dans Kubernetes en utilisant des ConfigMaps et des Secrets. Nous allons créer et utiliser des ConfigMaps pour stocker la configuration de l'application et des Secrets pour gérer des informations sensibles, puis les utiliser dans les déploiements de nos applications.
+- Créer des *ConfigMaps* pour stocker des données de configuration applicatives.
+- Créer des *Secrets* pour gérer des données sensibles comme des mots de passe.
+- Intégrer les *ConfigMaps* et les *Secrets* dans des applications déployées.
+- Mettre à jour les *ConfigMaps* et redéployer les applications pour appliquer les nouvelles configurations.
+- Tester la sécurisation des données à travers les *Secrets*.
 
-## Objectifs de l'Exercice
+## Prérequis
 
-- Apprendre à créer et à utiliser des ConfigMaps pour externaliser la configuration des applications.
-- Comprendre comment créer et utiliser des Secrets pour gérer des informations sensibles.
-- Pratiquer l'utilisation de ConfigMaps et de Secrets dans les déploiements d'applications Kubernetes.
+Pour cet exercice, vous allez déployer une application simple qui nous affichera les messages de bienvenue d'un site web de démonstration. Pour cela, créez un fichier nommé `welcome-app.yaml` avec le contenu suivant :
 
-## Instructions
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: welcome-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: welcome-app
+  template:
+    metadata:
+      labels:
+        app: welcome-app
+    spec:
+      containers:
+        - name: welcome-app-container
+          image: quay.io/neutron-it/welcome-app:latest
+          ports:
+            - containerPort: 8080
+```
 
-### 1. Création d'un ConfigMap
+**Appliquez ce déploiement avec la commande suivante :**
 
-1. **Créez un ConfigMap** contenant la configuration de base de votre application :
-   
-   ```bash
-   kubectl create configmap my-config --from-file=config.yaml
-   ```
+```bash
+oc apply -f welcome-app.yaml
+```
 
-   Remplacez `config.yaml` par le chemin de votre fichier de configuration.
+## Étape 1 : Créer un ConfigMap pour l'application
 
-2. **Vérifiez que le ConfigMap a été créé** :
-   
-   ```bash
-   kubectl get configmap
-   ```
+1. **Objectif :** Créer un *ConfigMap* pour stocker le message de bienvenue affiché par l'application.
 
-### 2. Utilisation d'un ConfigMap dans un Déploiement
+2. **Action :** Créez un fichier nommé `welcome-config.yaml` avec le contenu suivant :
 
-1. **Modifiez votre déploiement** pour utiliser le ConfigMap :
-   
    ```yaml
-   ...
-   spec:
-     containers:
-     - name: my-app
-       image: my-image:latest
-       volumeMounts:
-       - name: config-volume
-         mountPath: /config
-   volumes:
-   - name: config-volume
-     configMap:
-       name: my-config
-   ...
+   apiVersion: v1
+   kind: ConfigMap
+   metadata:
+     name: welcome-config
+   data:
+     welcome_message: "Bienvenue sur notre site de démonstration !"
+     app_mode: "production"
    ```
 
-2. **Redéployez votre application** :
-   
+3. **Commande :** Appliquez le fichier pour créer le *ConfigMap* :
+
    ```bash
-   kubectl apply -f deployment.yaml
+   oc apply -f welcome-config.yaml
    ```
 
-### 3. Création d'un Secret
+4. **Vérification :** Affichez le *ConfigMap* pour vérifier sa création :
 
-1. **Créez un Secret** contenant des informations sensibles :
-   
    ```bash
-   kubectl create secret generic my-secret --from-literal=username=myuser --from-literal=password=mypassword
+   oc get configmap welcome-config -o yaml
    ```
 
-2. **Vérifiez que le Secret a été créé** :
-   
-   ```bash
-   kubectl get secret
-   ```
+## Étape 2 : Créer un Secret pour l'application
 
-### 4. Utilisation d'un Secret dans un Déploiement
+1. **Objectif :** Créer un *Secret* pour stocker les informations sensibles de l'application, comme un token API.
 
-1. **Modifiez votre déploiement** pour utiliser le Secret :
-   
+2. **Action :** Créez un fichier nommé `welcome-secret.yaml` avec le contenu suivant :
+
    ```yaml
-   ...
-   spec:
-     containers:
-     - name: my-app
-       image: my-image:latest
-       volumeMounts:
-       - name: secret-volume
-         mountPath: /secrets
-   volumes:
-   - name: secret-volume
-     secret:
-       secretName: my-secret
-   ...
+   apiVersion: v1
+   kind: Secret
+   metadata:
+     name: welcome-secret
+   type: Opaque
+   data:
+     api_token: d2VsY29tZVRva2VuMTIz # Le token "welcomeToken123" encodé en base64
    ```
 
-2. **Redéployez votre application** :
-   
+3. **Commande :** Appliquez le fichier pour créer le *Secret* :
+
    ```bash
-   kubectl apply -f deployment.yaml
+   oc apply -f welcome-secret.yaml
    ```
+
+4. **Vérification :** Affichez le *Secret* (sans afficher les données sensibles) pour vérifier sa création :
+
+   ```bash
+   oc get secret welcome-secret -o yaml
+   ```
+
+## Étape 3 : Consommer le ConfigMap et le Secret dans l'application
+
+1. **Objectif :** Utiliser le *ConfigMap* et le *Secret* dans le déploiement de l'application pour les injecter en tant que variables d'environnement.
+
+2. **Action :** Modifiez le fichier `welcome-app.yaml` pour inclure les variables d'environnement :
+
+   ```yaml
+   apiVersion: apps/v1
+   kind: Deployment
+   metadata:
+     name: welcome-app
+   spec:
+     replicas: 2
+     selector:
+       matchLabels:
+         app: welcome-app
+     template:
+       metadata:
+         labels:
+           app: welcome-app
+       spec:
+         containers:
+           - name: welcome-app-container
+             image: quay.io/neutron-it/welcome-app:latest
+             ports:
+               - containerPort: 8080
+             env:
+               - name: WELCOME_MESSAGE
+                 valueFrom:
+                   configMapKeyRef:
+                     name: welcome-config
+                     key: welcome_message
+               - name: APP_MODE
+                 valueFrom:
+                   configMapKeyRef:
+                     name: welcome-config
+                     key: app_mode
+               - name: API_TOKEN
+                 valueFrom:
+                   secretKeyRef:
+                     name: welcome-secret
+                     key: api_token
+   ```
+
+3. **Commande :** Appliquez les modifications pour mettre à jour le déploiement :
+
+   ```bash
+   oc apply -f welcome-app.yaml
+   ```
+
+4. **Vérification :** Vérifiez que le déploiement est bien en cours d'exécution :
+
+   ```bash
+   oc get pods -l app=welcome-app
+   ```
+
+5. **Vérifiez les variables d'environnement :** Connectez-vous au pod pour vérifier que les variables d'environnement ont été correctement injectées :
+
+   ```bash
+   oc exec -it $(oc get pod -l app=welcome-app -o jsonpath='{.items[0].metadata.name}') -- env | grep WELCOME_MESSAGE
+   ```
+
+   Assurez-vous que `WELCOME_MESSAGE`, `APP_MODE`, et `API_TOKEN` sont définis.
+
+## Étape 4 : Mise à Jour du ConfigMap
+
+1. **Objectif :** Modifier le *ConfigMap* pour changer le message de bienvenue et observer l'impact sur l'application.
+
+2. **Action :** Modifiez le fichier `welcome-config.yaml` pour mettre à jour le message :
+
+   ```yaml
+   data:
+     welcome_message: "Bienvenue à notre nouvelle application déployée avec OpenShift !"
+     app_mode: "development"
+   ```
+
+3. **Commande :** Réappliquez le fichier pour mettre à jour le *ConfigMap* :
+
+   ```bash
+   oc apply -f welcome-config.yaml
+   ```
+
+4. **Vérification :** Redémarrez les pods pour qu'ils récupèrent la nouvelle configuration :
+
+   ```bash
+   oc rollout restart deployment welcome-app
+   ```
+
+5. **Vérifiez la nouvelle configuration :** Connectez-vous à un pod et vérifiez la nouvelle valeur de `WELCOME_MESSAGE` :
+
+   ```bash
+   oc exec -it $(oc get pod -l app=welcome-app -o jsonpath='{.items[0].metadata.name}') -- env | grep WELCOME_MESSAGE
+   ```
+
+## Étape 5 : Sécurisation de l'accès aux Secrets
+
+1. **Objectif :** Vérifier la sécurisation des *Secrets* et restreindre leur accès.
+
+2. **Action :** Affichez les détails du *Secret* pour comprendre la gestion des droits :
+
+   ```bash
+   oc describe secret welcome-secret
+   ```
+
+3. **Configuration RBAC :** Limitez l'accès aux *Secrets* pour certains utilisateurs en créant un fichier `secret-rbac.yaml` :
+
+   ```yaml
+   apiVersion: rbac.authorization.k8s.io/v1
+   kind: Role
+   metadata:
+     namespace: default
+     name: secret-reader
+   rules:
+   - apiGroups: [""]
+     resources: ["secrets"]
+     verbs: ["get", "list"]
+   ```
+
+4. **Commande :** Appliquez le rôle et attribuez-le à un utilisateur spécifique :
+
+   ```bash
+   oc apply -f secret-rbac.yaml
+   oc create rolebinding read-secrets --role=secret-reader --user=<USER>
+   ```
+
+   Remplacez `<USER>` par le nom de l'utilisateur.
+
+5. **Vérification :** Testez que l'utilisateur dispose bien des permissions pour lire le *Secret*.
+
+## Étape 6 : Nettoyage
+
+Après avoir terminé les tests, nettoyez les ressources créées :
+
+```bash
+oc delete deployment welcome-app
+oc delete configmap welcome-config
+oc delete secret welcome-secret
+oc delete role secret-reader
+oc delete rolebinding read-secrets
+```
 
 ## Conclusion
 
-Cet exercice vous a permis de pratiquer l'externalisation de la configuration des applications dans Kubernetes en utilisant des ConfigMaps et des Secrets. En séparant la configuration de l'application et les informations sensibles de leurs images de conteneurs, vous pouvez rendre vos applications plus flexibles, modulaires et sécurisées dans un environnement Kubernetes.
-
----
-
-Cet exercice devrait vous donner une bonne expérience pratique dans l'externalisation de la configuration des applications avec ConfigMaps et Secrets dans Kubernetes. Si vous avez des questions supplémentaires ou si vous rencontrez des difficultés lors de cet exercice, n'hésitez pas à demander de l'aide !
+En suivant cet exercice, vous avez appris à créer et gérer des *ConfigMaps* et des *Secrets* dans OpenShift. Vous avez exploré la façon de les intégrer dans une application déployée, de les mettre à jour et de sécuriser leur accès via RBAC. Cela vous permet de gérer les configurations et les informations sensibles de manière centralisée et sécurisée dans un environnement OpenShift.
