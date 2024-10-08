@@ -1,4 +1,4 @@
-### Exercice Guidé : Utilisation des ConfigMaps et Secrets dans OpenShift
+# Exercice Guidé : Utilisation des ConfigMaps et Secrets dans OpenShift
 
 Cet exercice vous guidera à travers la création, la gestion et la consommation de *ConfigMaps* et de *Secrets* pour vos applications dans OpenShift. Vous apprendrez à les utiliser pour stocker des configurations et des données sensibles, et à les intégrer dans un déploiement pour une gestion sécurisée des informations.
 
