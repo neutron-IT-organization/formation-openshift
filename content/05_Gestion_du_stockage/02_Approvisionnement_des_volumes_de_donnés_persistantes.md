@@ -1,5 +1,3 @@
-Voici une version plus détaillée de la section sur les **Persistent Volumes (PV) et Persistent Volume Claims (PVC)** dans OpenShift, incluant plus d'informations et d'exemples :
-
 # Persistent Volumes (PV) et Persistent Volume Claims (PVC) dans OpenShift
 
 ### Introduction
