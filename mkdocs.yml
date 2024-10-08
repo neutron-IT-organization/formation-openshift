@@ -52,12 +52,11 @@ nav:
       - 05_Gestion_du_stockage/00_Les_configmap_et_les_secrets_dans_openshift.md
       - 05_Gestion_du_stockage/01_Exercice_guidé_Les_configmap_et_les_secrets_dans_openshifts.md
       - 05_Gestion_du_stockage/02_Approvisionnement_des_volumes_de_donnés_persistantes.md
-      - 05_Gestion_du_stockage/03_Exercice_guidé_Approvisionnement_des_volumes_de_donnés_persistantes.md
-      - 05_Gestion_du_stockage/04_Selection_d_une_classe_de_stockage.md
-      - 05_Gestion_du_stockage/05_Exercice_guidé_Selection_d_une_classe_de_stockage.md
-      - 05_Gestion_du_stockage/06_Gestion_du_stockage_non_partage_avec_état.md
-      - 05_Gestion_du_stockage/07_Exercice_guidé_Gestion_du_stockage_non_partage_avec_état.md
-      - 05_Gestion_du_stockage/08_Résumé.md
+      - 05_Gestion_du_stockage/03_Selection_d_une_classe_de_stockage.md
+      - 05_Gestion_du_stockage/04_Exercice_guidé_Selection_d_une_classe_de_stockage.md
+      - 05_Gestion_du_stockage/05_Gestion_du_stockage_non_partage_avec_état.md
+      - 05_Gestion_du_stockage/06_Exercice_guidé_Gestion_du_stockage_non_partage_avec_état.md
+      - 05_Gestion_du_stockage/07_Résumé.md
   - "Configuration de la fiabilité des applications":
       - 06_Configuration_de_la_fiabilité_des_applications/00_Gestion_de_la_haute_disponibilité_dans_Kubernetes.md
       - 06_Configuration_de_la_fiabilité_des_applications/01_Exercice_guidé_Gestion_de_la_haute_disponibilité_dans_Kubernetes.md

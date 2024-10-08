@@ -2,7 +2,7 @@
 
 ### Introduction
 
-Dans l'architecture des applications modernes, la gestion du stockage persistant est cruciale pour assurer la durabilité et l'intégrité des données. OpenShift, en tant que plateforme Kubernetes, propose des mécanismes robustes pour gérer le stockage, à savoir les **Persistent Volumes (PV)** et les **Persistent Volume Claims (PVC)**. Les PV représentent des ressources de stockage physique disponibles dans le cluster, tandis que les PVC sont des requêtes des utilisateurs pour consommer ce stockage. Cette section explore en profondeur ces deux concepts, leurs cas d’usage, et leur configuration dans OpenShift.
+Dans l'architecture des applications modernes, la gestion du stockage persistant est cruciale pour assurer la durabilité et l'intégrité des données. OpenShift, en tant que plateforme Kubernetes, propose des mécanismes robustes pour gérer le stockage, à savoir les **Persistent Volumes (PV)** et les **Persistent Volume Claims (PVC)**. Les PV représentent des ressources de stockage physique disponibles dans le cluster, tandis que les PVC sont des requêtes des utilisateurs pour consommer ce stockage. Cette section explore ces deux concepts, leurs cas d’usage, et leur configuration dans OpenShift.
 
 ### Objectifs de la Section
 
@@ -11,8 +11,6 @@ Dans l'architecture des applications modernes, la gestion du stockage persistant
 - Comprendre le rôle des Persistent Volumes et des Persistent Volume Claims dans OpenShift.
 - Expliquer les différences fondamentales entre PV et PVC, ainsi que leurs cas d’utilisation respectifs.
 - Créer et consommer des PV et des PVC dans des applications déployées sur OpenShift.
-- Gérer le cycle de vie du stockage persistant, y compris l'approvisionnement, le montage et le démantèlement des volumes.
-- Assurer une bonne gestion des ressources de stockage tout en respectant les meilleures pratiques de sécurité.
 
 ## Les Persistent Volumes dans OpenShift
 
@@ -172,10 +170,11 @@ Dans cet exemple, le PV `example-pv` est configuré avec la politique de recycla
 | **Cycle de vie**               | Indépendant des pods               | Dépend du cycle de vie des pods     |
 | **Politique de recyclage**     | Spécifiée dans le PV               | N/A                                 |
 
+
+
+
 ![pv vs pvc vs storage class](./images/pv_vs_pvc_vs_storageclass.png)
 
 ## Conclusion
 
 Les **Persistent Volumes** et les **Persistent Volume Claims** sont des composants essentiels pour la gestion du stockage persistant dans OpenShift. Grâce à leur conception abstraite, ils permettent aux développeurs de se concentrer sur la création d'applications tout en garantissant que leurs données sont stockées de manière durable et sécurisée. En comprenant bien ces concepts et en maîtrisant leur configuration, vous pourrez optimiser la gestion des ressources de stockage dans vos déploiements OpenShift, tout en respectant les meilleures pratiques de sécurité et de performance.
-
-Cela inclut une planification soigneuse de l'approvisionnement et de la consommation du stockage, ainsi qu'une gestion proactive du cycle de vie des PV et PVC pour assurer une expérience d
