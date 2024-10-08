@@ -1,6 +1,4 @@
-Voici un exercice guidé qui vous permettra de mettre en application les concepts théoriques sur les Persistent Volumes (PV), les Persistent Volume Claims (PVC), et les Storage Classes dans OpenShift. Cet exercice utilisera la Storage Class `lvms-vg1`.
-
-### Exercice : Créer et Consommer un Volume Persistant dans OpenShift
+# Exercice : Créer et Consommer un Volume Persistant dans OpenShift
 
 **Objectif** : À travers cet exercice, vous allez :
 
