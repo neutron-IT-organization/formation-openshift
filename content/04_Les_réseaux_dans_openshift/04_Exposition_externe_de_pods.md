@@ -2,7 +2,7 @@
 
 La mise à l'échelle des applications est une opération courante dans Kubernetes qui permet d'ajuster dynamiquement le nombre de répliques d'un déploiement ou d'un ensemble de réplicas afin de répondre à la demande de charge de travail. Dans cette section, nous explorerons les différentes méthodes pour gérer la mise à l'échelle des applications dans Kubernetes, y compris manuellement et automatiquement.
 
-## Mise à l'Échelle Manuelle
+## Mise à l'Échelle Manuel
 
 La mise à l'échelle manuelle consiste à ajuster manuellement le nombre de répliques d'un déploiement ou d'un ensemble de répliques en fonction des besoins de la charge de travail. Vous pouvez utiliser la commande `kubectl scale` pour mettre à l'échelle un déploiement, en spécifiant le nombre de répliques souhaité. Par exemple, pour mettre à l'échelle un déploiement nommé "mon-deploiement" à 5 répliques, vous pouvez utiliser la commande suivante :
 

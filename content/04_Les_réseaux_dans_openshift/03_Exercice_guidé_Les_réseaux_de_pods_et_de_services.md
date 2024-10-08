@@ -1,47 +1,189 @@
-Voici quelques exercices pratiques avec des lignes de commande pour vous familiariser avec Kubernetes :
+# Exercice Guidé : Les Services et les Routes dans OpenShift
 
----
+Dans cet exercice, vous allez créer différents types de services pour exposer vos applications et configurer des routes pour permettre un accès externe. Suivez les étapes ci-dessous pour mettre en pratique les concepts théoriques abordés dans le cours.
 
-## Exercice 1: Création d'un Pod
+### Objectifs de l'Exercice
 
-1. Utilisez la commande `kubectl run` pour créer un pod nommé "mon-pod" à partir de l'image "nginx:latest".
+- Créer des services `ClusterIP`, `NodePort`, et `LoadBalancer`.
+- Configurer une route pour exposer une application via HTTP.
+- Mettre en place une route TLS en mode `edge`.
+- Tester les différentes configurations de service et de route.
 
-2. Vérifiez que le pod a été créé en utilisant la commande `kubectl get pods`.
+## Étape 1 : Créer un Service ClusterIP
 
-3. Affichez les détails du pod en utilisant la commande `kubectl describe pod mon-pod`.
+Créez un fichier nommé `my-clusterip-service.yaml` avec le contenu suivant :
 
-## Exercice 2: Déploiement d'une Application
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-clusterip-service
+spec:
+  selector:
+    app: my-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: ClusterIP
+```
 
-1. Créez un fichier YAML nommé "deployment.yaml" décrivant un déploiement avec 3 répliques d'une application basée sur l'image "mon_application:latest".
+Ce fichier YAML définit un service `ClusterIP` qui expose les pods ayant le label `app: my-app` sur le port 80.
 
-2. Utilisez la commande `kubectl apply -f deployment.yaml` pour déployer l'application sur votre cluster Kubernetes.
+**Appliquez ce service avec la commande suivante :**
 
-3. Vérifiez que le déploiement a été créé en utilisant la commande `kubectl get deployment`.
+```bash
+oc apply -f my-clusterip-service.yaml
+```
 
-4. Affichez les détails du déploiement en utilisant la commande `kubectl describe deployment mon-deploiement`.
+**Vérifiez que le service a été créé et qu'il est accessible depuis d'autres pods dans le cluster :**
 
-## Exercice 3: Mise à l'échelle d'un Déploiement
+```bash
+oc get svc
+oc describe svc my-clusterip-service
+```
 
-1. Utilisez la commande `kubectl scale` pour mettre à l'échelle le déploiement "mon-deploiement" à 5 répliques.
+## Étape 2 : Créer un Service NodePort
 
-2. Vérifiez que le nombre de répliques a été mis à jour en utilisant la commande `kubectl get deployment mon-deploiement`.
+Créez un fichier nommé `my-nodeport-service.yaml` avec le contenu suivant :
 
-## Exercice 4: Exposition d'un Service
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nodeport-service
+spec:
+  selector:
+    app: my-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+    nodePort: 30007
+  type: NodePort
+```
 
-1. Créez un fichier YAML nommé "service.yaml" décrivant un service de type NodePort pour exposer le déploiement "mon-deploiement" sur le port 8080.
+Ce fichier YAML définit un service `NodePort` qui expose le service sur le port 30007 de chaque nœud du cluster.
 
-2. Utilisez la commande `kubectl apply -f service.yaml` pour créer le service.
+**Appliquez ce service :**
 
-3. Vérifiez que le service a été créé en utilisant la commande `kubectl get svc`.
+```bash
+oc apply -f my-nodeport-service.yaml
+```
 
-4. Affichez les détails du service en utilisant la commande `kubectl describe svc mon-service`.
+**Vérifiez que le service est accessible en utilisant l'adresse IP de l'un des nœuds du cluster :**
 
-## Exercice 5: Suppression d'un Pod
+```bash
+oc get svc
+curl http://<NODE_IP>:30007
+```
 
-1. Utilisez la commande `kubectl delete pod` pour supprimer le pod "mon-pod".
+Remplacez `<NODE_IP>` par l'adresse IP d'un nœud de votre cluster.
 
-2. Vérifiez que le pod a été supprimé en utilisant la commande `kubectl get pods`.
 
----
+## Étape 3 : Créer un Service LoadBalancer (avec MetalLB si en environnement On-Premise)
 
-Ces exercices vous permettront de pratiquer différentes opérations courantes avec Kubernetes en utilisant des lignes de commande. Si vous avez des questions ou si vous rencontrez des difficultés avec l'un des exercices, n'hésitez pas à demander de l'aide !
+NOTE: TODO not configured yet on the cluster
+
+Créez un fichier nommé `my-loadbalancer-service.yaml` :
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-loadbalancer-service
+spec:
+  selector:
+    app: my-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: LoadBalancer
+```
+
+**Appliquez le service :**
+
+```bash
+oc apply -f my-loadbalancer-service.yaml
+```
+
+**Vérifiez que le service est exposé avec une adresse IP externe :**
+
+```bash
+oc get svc
+```
+
+## Étape 4 : Créer une Route pour Exposer le Service
+
+Créez un fichier nommé `my-route.yaml` pour exposer votre application via HTTP :
+
+```yaml
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: my-http-route
+spec:
+  host: my-app.example.com
+  to:
+    kind: Service
+    name: my-clusterip-service
+```
+
+**Appliquez cette route :**
+
+```bash
+oc apply -f my-route.yaml
+```
+
+**Vérifiez que la route est créée et accessible :**
+
+```bash
+oc get routes
+curl http://my-app.example.com
+```
+
+Assurez-vous que le DNS `my-app.example.com` pointe vers votre cluster OpenShift.
+
+## Étape 5 : Configurer une Route TLS (Mode Edge)
+
+Créez un fichier nommé `my-edge-route.yaml` :
+
+```yaml
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: my-edge-route
+spec:
+  host: my-app-secure.example.com
+  to:
+    kind: Service
+    name: my-clusterip-service
+  tls:
+    termination: edge
+```
+
+**Appliquez la route TLS :**
+
+```bash
+oc apply -f my-edge-route.yaml
+```
+
+**Testez l'accès HTTPS à l'application :**
+
+```bash
+curl -k https://my-app-secure.example.com
+```
+
+## Étape 6 : Nettoyage
+
+Après avoir terminé les tests, nettoyez les ressources créées pour éviter les coûts inutiles :
+
+```bash
+oc delete svc my-clusterip-service my-nodeport-service my-loadbalancer-service
+oc delete route my-http-route my-edge-route
+```
+
+## Conclusion
+
+En suivant cet exercice guidé, vous avez mis en pratique la création de différents types de services et de routes dans OpenShift. Vous avez appris à exposer des applications à l'intérieur et à l'extérieur du cluster et à sécuriser les connexions à l'aide des routes TLS.
