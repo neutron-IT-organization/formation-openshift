@@ -7,10 +7,11 @@ Dans OpenShift, la gestion des configurations et des données sensibles est cruc
 ### Objectifs de la Section
 
 À la fin de cette section, vous serez capable de :
-1. Comprendre l'utilité des ConfigMaps et des Secrets dans OpenShift.
-2. Expliquer les différences entre les ConfigMaps et les Secrets, et leurs cas d'usage respectifs.
-3. Créer et consommer des ConfigMaps et des Secrets dans des applications déployées sur OpenShift.
-4. Savoir sécuriser l'accès aux Secrets et assurer une bonne gestion des données sensibles.
+
+- Comprendre l'utilité des ConfigMaps et des Secrets dans OpenShift.
+- Expliquer les différences entre les ConfigMaps et les Secrets, et leurs cas d'usage respectifs.
+- Créer et consommer des ConfigMaps et des Secrets dans des applications déployées sur OpenShift.
+- Savoir sécuriser l'accès aux Secrets et assurer une bonne gestion des données sensibles.
 
 ## Les ConfigMaps dans OpenShift
 
