@@ -1,33 +1,18 @@
 # Étape 1 : Utiliser une image de base Node.js
-FROM node:14 AS build
+FROM node:14
 
 # Étape 2 : Définir le répertoire de travail
 WORKDIR /app
 
-# Étape 3 : Copier les fichiers nécessaires
-COPY . .
-
-# Étape 4 : Installer les dépendances (si nécessaire, sinon cette étape peut être omise)
-# RUN npm install
-
-# Étape 5 : Construire l'application (si nécessaire, sinon cette étape peut être omise)
-# RUN npm run build
-
-# Étape 6 : Créer une image de production
-FROM node:14
-
-# Étape 7 : Définir le répertoire de travail
-WORKDIR /app
-
-# Étape 8 : Copier les fichiers de construction de l'étape précédente
-COPY --from=build /app .
-
-# Étape 9 : Exposer le port
-EXPOSE 3000
-
-# Étape 10 : Ajouter le fichier de configuration de l'application
+# Étape 3 : Créer le fichier de configuration de l'application
 RUN echo "const http = require('http');\n\
-const port = 3000;\n\
+const port = 8080;\n\
+const defaultWelcomeMessage = 'Bienvenue sur notre site de démonstration !';\n\
+const defaultAppMode = 'production';\n\
+const defaultApiToken = 'defaultToken';\n\
+const welcomeMessage = process.env.WELCOME_MESSAGE || defaultWelcomeMessage;\n\
+const appMode = process.env.APP_MODE || defaultAppMode;\n\
+const apiToken = process.env.API_TOKEN || defaultApiToken;\n\
 const htmlContent = \`<!DOCTYPE html>\n\
 <html lang='fr'>\n\
 <head>\n\
@@ -52,7 +37,9 @@ const htmlContent = \`<!DOCTYPE html>\n\
     </style>\n\
 </head>\n\
 <body>\n\
-    <h1>Bienvenue chez Neutron IT!</h1>\n\
+    <h1>\${welcomeMessage}</h1>\n\
+    <p>Mode de l'application: \${appMode}</p>\n\
+    <p>Token API: \${apiToken}</p>\n\
 </body>\n\
 </html>\`;\n\
 http.createServer((req, res) => {\n\
@@ -62,6 +49,9 @@ http.createServer((req, res) => {\n\
     console.log(\`Serveur en cours d'exécution sur le port \${port}\`);\n\
 });" > server.js
 
-# Étape 11 : Démarrer l'application
+# Étape 4 : Exposer le port
+EXPOSE 8080
+
+# Étape 5 : Démarrer l'application
 CMD ["node", "server.js"]
 
