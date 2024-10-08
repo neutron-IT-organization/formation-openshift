@@ -1,93 +1,157 @@
-Voici la partie "Exercice Guidé : Approvisionnement des Bases de Données Persistantes" en markdown :
+Voici un exercice guidé qui vous permettra de mettre en application les concepts théoriques sur les Persistent Volumes (PV), les Persistent Volume Claims (PVC), et les Storage Classes dans OpenShift. Cet exercice utilisera la Storage Class `lvms-vg1`.
+
+### Exercice : Créer et Consommer un Volume Persistant dans OpenShift
+
+**Objectif** : À travers cet exercice, vous allez :
+
+1. Créer un **Persistent Volume Claim (PVC)** utilisant une **Storage Class**.
+2. Déployer un **pod** qui consomme le PVC pour stocker des données persistantes.
+3. Vérifier le bon fonctionnement du volume persistant.
 
 ---
 
-# Exercice Guidé : Approvisionnement des Bases de Données Persistantes
+### Prérequis
 
-Dans cet exercice, nous allons pratiquer l'approvisionnement de bases de données persistantes dans Kubernetes en utilisant des PersistentVolumes (PV) et des PersistentVolumeClaims (PVC). Nous allons créer un PVC pour demander un volume de stockage persistant, puis le monter dans un déploiement de base de données. 
+- Accès à un cluster OpenShift.
+- Une Storage Class nommée `lvms-vg1` configurée comme par défaut :
 
-## Objectifs de l'Exercice
+  ```
+  NAME                 PROVISIONER   RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+  lvms-vg1 (default)   topolvm.io    Delete          WaitForFirstConsumer   true                   13d
+  ```
 
-- Apprendre à créer un PersistentVolumeClaim (PVC) pour demander du stockage persistant dans Kubernetes.
-- Comprendre comment monter un PVC dans un déploiement pour stocker les données de la base de données.
-- Pratiquer l'approvisionnement de bases de données persistantes dans un cluster Kubernetes.
+---
 
-## Instructions
+### Étape 1 : Créer un Persistent Volume Claim (PVC)
 
-### 1. Création d'un PersistentVolumeClaim (PVC)
+1. Créez un fichier `pvc.yaml` avec le contenu suivant :
 
-1. **Créez un PersistentVolumeClaim** pour demander du stockage persistant :
-   
-   ```bash
-   kubectl apply -f pvc.yaml
-   ```
-
-   Assurez-vous que le fichier `pvc.yaml` spécifie les caractéristiques du stockage souhaité, telles que la taille et le mode d'accès.
-
-2. **Vérifiez que le PVC a été créé avec succès** :
-   
-   ```bash
-   kubectl get pvc
-   ```
-
-### 2. Utilisation du PVC dans un Déploiement
-
-1. **Modifiez votre déploiement** pour utiliser le PVC :
-   
    ```yaml
-   ...
+   apiVersion: v1
+   kind: PersistentVolumeClaim
+   metadata:
+     name: my-pvc
+   spec:
+     accessModes:
+       - ReadWriteOnce
+     resources:
+       requests:
+         storage: 5Gi
+     storageClassName: lvms-vg1
+   ```
+
+   **Explications** :
+   - `accessModes: ReadWriteOnce` : Seul un pod peut écrire sur le volume à la fois.
+   - `storage: 5Gi` : Demande un volume de 5 GiB.
+   - `storageClassName: lvms-vg1` : Utilise la Storage Class `lvms-vg1` pour l’approvisionnement dynamique du PV.
+
+2. Déployez le PVC en exécutant la commande suivante :
+
+   ```bash
+   oc apply -f pvc.yaml
+   ```
+
+3. Vérifiez que le PVC a bien été créé et qu'il est en attente de liaison avec un volume :
+
+   ```bash
+   oc get pvc my-pvc
+   ```
+
+   La colonne `STATUS` devrait afficher `Pending`, ce qui indique que le PVC attend qu'un pod soit créé pour consommer le volume.
+
+---
+
+### Étape 2 : Déployer un Pod utilisant le PVC
+
+1. Créez un fichier `pod.yaml` pour déployer un pod qui montera le PVC :
+
+   ```yaml
+   apiVersion: v1
+   kind: Pod
+   metadata:
+     name: my-pod
    spec:
      containers:
-     - name: my-database
-       image: database-image:latest
-       volumeMounts:
-       - name: data-volume
-         mountPath: /var/lib/database
-   volumes:
-   - name: data-volume
-     persistentVolumeClaim:
-       claimName: my-pvc
-   ...
+       - name: my-container
+         image: nginx
+         volumeMounts:
+           - mountPath: /usr/share/nginx/html
+             name: my-storage
+     volumes:
+       - name: my-storage
+         persistentVolumeClaim:
+           claimName: my-pvc
    ```
 
-   Assurez-vous que le nom du PVC (`claimName`) correspond à celui que vous avez créé précédemment.
+   **Explications** :
+   - `image: nginx` : Utilise l'image de conteneur **nginx**.
+   - `volumeMounts` : Monte le PVC `my-pvc` dans le conteneur sous le chemin `/usr/share/nginx/html`.
+   - `volumes` : Associe le PVC `my-pvc` comme source de stockage pour le volume `my-storage`.
 
-2. **Redéployez votre application de base de données** :
-   
+2. Déployez le pod en exécutant la commande suivante :
+
    ```bash
-   kubectl apply -f deployment.yaml
+   oc apply -f pod.yaml
    ```
 
-### 3. Vérification du Stockage Persistant
+3. Vérifiez que le pod est bien créé et en cours d'exécution :
 
-1. **Vérifiez que le déploiement est en cours d'exécution** :
-   
    ```bash
-   kubectl get pods
+   oc get pod my-pod
    ```
 
-   Attendez que le pod de la base de données soit en état "Running".
-
-2. **Accédez au pod de la base de données** :
-   
-   ```bash
-   kubectl exec -it <nom-du-pod> -- /bin/bash
-   ```
-
-   Remplacez `<nom-du-pod>` par le nom réel du pod de la base de données.
-
-3. **Vérifiez que le volume est monté** :
-   
-   ```bash
-   ls /var/lib/database
-   ```
-
-   Vous devriez voir les fichiers de données de la base de données montés dans ce répertoire.
-
-## Conclusion
-
-Cet exercice vous a permis de pratiquer l'approvisionnement de bases de données persistantes dans Kubernetes en utilisant des PersistentVolumes et des PersistentVolumeClaims. En utilisant cette approche, vous pouvez garantir que les données de votre base de données sont conservées de manière fiable même en cas de redémarrage ou de mise à jour des pods.
+   Attendez que le statut du pod soit `Running`.
 
 ---
 
-Cet exercice devrait vous donner une bonne expérience pratique dans l'approvisionnement de bases de données persistantes dans Kubernetes. Si vous avez des questions supplémentaires ou si vous rencontrez des difficultés lors de cet exercice, n'hésitez pas à demander de l'aide !
+### Étape 3 : Vérifier le Montage et Tester le Stockage Persistant
+
+1. Accédez au conteneur pour vérifier que le volume est bien monté :
+
+   ```bash
+   oc exec -it my-pod -- /bin/bash
+   ```
+
+2. À l'intérieur du conteneur, créez un fichier pour vérifier la persistance des données :
+
+   ```bash
+   echo "Bonjour, OpenShift!" > /usr/share/nginx/html/index.html
+   ```
+
+3. Sortez du conteneur et redémarrez le pod pour simuler un redéploiement :
+
+   ```bash
+   oc delete pod my-pod
+   oc apply -f pod.yaml
+   ```
+
+4. Après le redémarrage du pod, accédez à nouveau au conteneur :
+
+   ```bash
+   oc exec -it my-pod -- /bin/bash
+   ```
+
+5. Vérifiez que le fichier `index.html` existe toujours :
+
+   ```bash
+   cat /usr/share/nginx/html/index.html
+   ```
+
+   Si le fichier contient le message `Bonjour, OpenShift!`, cela signifie que le stockage persistant est fonctionnel, et les données ont été conservées malgré le redémarrage du pod.
+
+---
+
+### Étape 4 : Nettoyer les Ressources
+
+Pour terminer cet exercice, supprimez les ressources créées pour libérer le stockage :
+
+```bash
+oc delete pod my-pod
+oc delete pvc my-pvc
+```
+
+---
+
+### Prochaine Section
+
+Dans cet exercice, vous avez appris à créer et consommer un **Persistent Volume Claim (PVC)** en utilisant une **Storage Class**. Vous avez également vu comment un PVC reste lié à un PV et conserve les données après le redémarrage d'un pod. Dans la prochaine section, nous détaillerons les **Storage Classes**, leurs paramètres, et les différentes options pour configurer un stockage optimisé selon les besoins de vos applications. Vous découvrirez également comment ajuster les stratégies de provisionnement et de recyclage pour une meilleure gestion des ressources.
