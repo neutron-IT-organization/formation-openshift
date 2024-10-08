@@ -11,7 +11,7 @@ Dans cet exercice, vous allez créer différents types de services pour exposer 
 
 ## Prérequis
 
-Vous allez, au cours de cet exercice, une application qui nous affichera les resultats des jeux olympiques de paris 2024.
+Vous allez, au cours de cet exercice, exposer une application qui nous affichera les resultats des jeux olympiques de paris 2024.
 
 Pour cela créez un fichier nommé `olympic-medals-app.yaml` avec le contenu suivant :
 
@@ -42,6 +42,8 @@ spec:
 ```bash
 oc apply -f olympic-medals-app.yaml
 ```
+
+![olympic medals app](./images/olympic-medals-app.png)
 
 ## Étape 1 : Créer un Service ClusterIP
 
