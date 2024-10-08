@@ -8,7 +8,7 @@ WORKDIR /app
 RUN echo "const http = require('http');\n\
 const port = 8080;\n\
 const defaultWelcomeMessage = 'Bienvenue sur notre site de démonstration !';\n\
-const defaultAppMode = 'production';\n\
+const defaultAppMode = 'développement';\n\
 const defaultApiToken = 'defaultToken';\n\
 const welcomeMessage = process.env.WELCOME_MESSAGE || defaultWelcomeMessage;\n\
 const appMode = process.env.APP_MODE || defaultAppMode;\n\
@@ -34,12 +34,19 @@ const htmlContent = \`<!DOCTYPE html>\n\
         h1 {\n\
             font-size: 3rem;\n\
         }\n\
+        .info {\n\
+            font-size: 2rem;\n\
+            color: #ffc404;\n\
+            margin-top: 20px;\n\
+        }\n\
     </style>\n\
 </head>\n\
 <body>\n\
     <h1>\${welcomeMessage}</h1>\n\
-    <p>Mode de l'application: \${appMode}</p>\n\
-    <p>Token API: \${apiToken}</p>\n\
+    <p class='info'>\n\
+        Mode de l'application: \${appMode}<br />\n\
+        Token API: \${apiToken}\n\
+    </p>\n\
 </body>\n\
 </html>\`;\n\
 http.createServer((req, res) => {\n\
