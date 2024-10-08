@@ -207,7 +207,7 @@ Kubernetes recréera le pod automatiquement grâce au déploiement.
 
 Rendez-vous à nouveau sur l'interface de votre application Todo et faite un refresh de la page. Vous devriez voir que les tâches que vous avez ajoutées précédemment ont disparu, car les données étaient stockées dans un volume éphémère (`emptyDir`), qui est supprimé avec le pod.
 
-![task ephemere](./images/task-ephemere-remove-pg.png)
+![task ephemere](./images/task-ephemere-remove.png)
 
 ### Transition vers un Stockage Persistant
 
