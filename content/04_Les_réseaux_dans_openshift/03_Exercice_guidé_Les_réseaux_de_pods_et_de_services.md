@@ -121,12 +121,11 @@ oc get nodes -o jsonpath='{range .items[*]}{.status.addresses[?(@.type=="Interna
 <NODE_IP>
 ```
 
-Accédez dans votre moteur de recherche a http://<NODE_IP>:30007 pour accéder a votre application
+Accédez dans votre moteur de recherche a http://<NODE_IP>:30007 pour accéder a votre application.
 
 Remplacez `<NODE_IP>` par l'adresse IP d'un nœud de votre cluster.
 
 ![node port access](./images/nodeport-access.png)
-
 
 
 ## Étape 3 : Créer un Service LoadBalancer (avec MetalLB si en environnement On-Premise)
@@ -185,11 +184,16 @@ oc apply -f my-route.yaml
 **Vérifiez que la route est créée et accessible :**
 
 ```bash
-oc get routes
-curl http://my-app.example.com
+oc get route my-http-route -o jsonpath='http://{.spec.host}'
+http://my-http-route-prague-user-ns.apps.neutron-sno-office.intraneutron.fr
 ```
 
-Assurez-vous que le DNS `my-app.example.com` pointe vers votre cluster OpenShift.
+Accédez dans votre moteur de recherche a `http://<YOUR_ROUTE>` pour accéder a votre application.
+
+Remplacez `<NODE_IP>` par l'adresse IP d'un nœud de votre cluster.
+
+![route access](./images/route-access.png)
+
 
 ## Étape 5 : Configurer une Route TLS (Mode Edge)
 
@@ -217,14 +221,18 @@ oc apply -f my-edge-route.yaml
 **Testez l'accès HTTPS à l'application :**
 
 ```bash
-curl -k https://my-app-secure.example.com
+oc get route my-edge-route -o jsonpath='https://{.spec.host}'
+https://my-edge-route-prague-user-ns.apps.neutron-sno-office.intraneutron.fr
 ```
+
+![route https access](./images/route-https-access.png)
 
 ## Étape 6 : Nettoyage
 
 Après avoir terminé les tests, nettoyez les ressources créées pour éviter les coûts inutiles :
 
 ```bash
+oc delete deployment olympic-medals-app
 oc delete svc my-clusterip-service my-nodeport-service my-loadbalancer-service
 oc delete route my-http-route my-edge-route
 ```
