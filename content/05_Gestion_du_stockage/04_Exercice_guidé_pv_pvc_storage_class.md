@@ -116,7 +116,7 @@ spec:
     spec:
       containers:
         - name: todo-app
-          image: quay.io/neutron-it/todoapp:latest
+          image: quay.io/neutron-it/todoapp:v4
           ports:
             - containerPort: 8080
           env:
