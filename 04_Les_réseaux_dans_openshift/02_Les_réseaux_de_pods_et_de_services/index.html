@@ -1,0 +1,2439 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../01_Quiz_Les_sdn_dans_openshift/">
+      
+      
+        <link rel="next" href="../03_Exercice_guid%C3%A9_Les_r%C3%A9seaux_de_pods_et_de_services/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.40">
+    
+    
+      
+        <title>Services et Routes dans OpenShift - Formation Kubernets/Openshift</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Formation Kubernets/Openshift" class="md-header__button md-logo" aria-label="Formation Kubernets/Openshift" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Formation Kubernets/Openshift
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Services et Routes dans OpenShift
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/neutron-IT-organization/formation-openshift" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    neutron-IT-organization/formation-openshift
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../00_Introduction/00_Objectif_du_cours/" class="md-tabs__link">
+          
+  
+    
+  
+  Introduction
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../01_Pr%C3%A9sentation_de_Kubernetes_et_Openshift/00_Presentation_d_Openshift/" class="md-tabs__link">
+          
+  
+    
+  
+  Présentation de Kubernetes et Openshift
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../02_Interface_et_ligne_de_commande/00_Int%C3%A9ragir_avec_la_ligne_de_commande/" class="md-tabs__link">
+          
+  
+    
+  
+  Interface et ligne de commande
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../03_Executez_des_applications_conteneuris%C3%A9/00_Les_Workloads_dans_Openshift/" class="md-tabs__link">
+          
+  
+    
+  
+  Exécuter des applications conteneurisées
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../00_Les_sdn_dans_openshift/" class="md-tabs__link">
+          
+  
+    
+  
+  Les réseaux dans Openshift
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../05_Gestion_du_stockage/00_Les_configmap_et_les_secrets_dans_openshift/" class="md-tabs__link">
+          
+  
+    
+  
+  Gestion du stockage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../06_Configuration_de_la_fiabilit%C3%A9_des_applications/00_Gestion_de_la_haute_disponibilit%C3%A9_dans_Kubernetes/" class="md-tabs__link">
+          
+  
+    
+  
+  Configuration de la fiabilité des applications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../07_Gestion_des_mises_%C3%A0_jour_des_applications/00_Identit%C3%A9_et_balise_d_image_de_conteneur/" class="md-tabs__link">
+          
+  
+    
+  
+  Gestion des mises à jour des applications
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Formation Kubernets/Openshift" class="md-nav__button md-logo" aria-label="Formation Kubernets/Openshift" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    Formation Kubernets/Openshift
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/neutron-IT-organization/formation-openshift" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    neutron-IT-organization/formation-openshift
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Introduction
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00_Introduction/00_Objectif_du_cours/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Objectif du cours
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00_Introduction/01_Organisation_de_la_formation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Organisation de la Formation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Présentation de Kubernetes et Openshift
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Présentation de Kubernetes et Openshift
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_Pr%C3%A9sentation_de_Kubernetes_et_Openshift/00_Presentation_d_Openshift/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Présentation d'OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_Pr%C3%A9sentation_de_Kubernetes_et_Openshift/01_Quiz_Presentation_d_Openshift/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quiz sur la Présentation d'OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_Pr%C3%A9sentation_de_Kubernetes_et_Openshift/02_Exploration_de_la_console/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exploration de la console OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_Pr%C3%A9sentation_de_Kubernetes_et_Openshift/03_Exercice_guid%C3%A9_Exploration_de_la_console/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé : Exploration de la console OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_Pr%C3%A9sentation_de_Kubernetes_et_Openshift/04_Architecture_Openshift_et_Kubernetes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Concepts Architecturaux de Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_Pr%C3%A9sentation_de_Kubernetes_et_Openshift/05_Quiz_Architecture_Openshift_et_Kubernetes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quiz sur l'architecture d'Openshift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_Pr%C3%A9sentation_de_Kubernetes_et_Openshift/06_R%C3%A9sum%C3%A9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Résumé
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Interface et ligne de commande
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Interface et ligne de commande
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Interface_et_ligne_de_commande/00_Int%C3%A9ragir_avec_la_ligne_de_commande/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Interagir avec la Ligne de Commande sur OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Interface_et_ligne_de_commande/01_Exerice_guid%C3%A9_Int%C3%A9ragir_avec_la_ligne_de_commande/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé : Interaction avec OpenShift via la Ligne de Commande
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Interface_et_ligne_de_commande/02_Examen_des_ressources_Kubernetes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Examen des Ressources Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Interface_et_ligne_de_commande/03_Exercice_guid%C3%A9_Examen_des_ressources_Kubernetes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé : Examen des Ressources Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Interface_et_ligne_de_commande/04_R%C3%A9sum%C3%A9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Résumé
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Exécuter des applications conteneurisées
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Exécuter des applications conteneurisées
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Executez_des_applications_conteneuris%C3%A9/00_Les_Workloads_dans_Openshift/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Les Workloads dans OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Executez_des_applications_conteneuris%C3%A9/01_Quiz_Les_Workloads_dans_Openshift/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quiz : les Workloads dans Openshift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Executez_des_applications_conteneuris%C3%A9/02_Les_deployment_et_les_daemonset/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Déploiements et DaemonSets dans OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Executez_des_applications_conteneuris%C3%A9/03_Exercice_guid%C3%A9_Les_deployment_et_les_daemonset/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé : Les déploiements et les daemonset dans OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Executez_des_applications_conteneuris%C3%A9/04_Les_statefulset/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Les statefulSets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Executez_des_applications_conteneuris%C3%A9/05_Exercice_guid%C3%A9_Les_statefulset/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé: les StatefulSets avec MySQL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Executez_des_applications_conteneuris%C3%A9/06_R%C3%A9sum%C3%A9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Résumé
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Les réseaux dans Openshift
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Les réseaux dans Openshift
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00_Les_sdn_dans_openshift/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Les réseaux dans Openshift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_Quiz_Les_sdn_dans_openshift/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quiz : les Workloads dans Openshift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Services et Routes dans OpenShift
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Services et Routes dans OpenShift
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-de-la-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectifs de la Section
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-services-dans-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      Les Services dans OpenShift
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Les Services dans OpenShift">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concepts-fondamentaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Concepts Fondamentaux
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#types-de-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Types de Services
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-routes-dans-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      Les Routes dans OpenShift
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Les Routes dans OpenShift">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concepts-fondamentaux_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Concepts Fondamentaux
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fonctionnement-de-lingress-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fonctionnement de l'Ingress Controller
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modes-dexposition-tls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modes d'Exposition TLS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_Exercice_guid%C3%A9_Les_r%C3%A9seaux_de_pods_et_de_services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé : Les Services et les Routes dans OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_R%C3%A9sum%C3%A9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Résumé
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Gestion du stockage
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Gestion du stockage
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Gestion_du_stockage/00_Les_configmap_et_les_secrets_dans_openshift/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ConfigMaps et Secrets dans OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Gestion_du_stockage/01_Exercice_guid%C3%A9_Les_configmap_et_les_secrets_dans_openshifts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé : Utilisation des ConfigMaps et Secrets dans OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Gestion_du_stockage/02_Approvisionnement_des_volumes_de_donn%C3%A9s_persistantes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Persistent Volumes (PV) et Persistent Volume Claims (PVC) dans OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Gestion_du_stockage/03_Selection_d_une_classe_de_stockage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Section de Cours : Gestion des Classes de Stockage dans Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Gestion_du_stockage/04_Exercice_guid%C3%A9_pv_pvc_storage_class/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé sur les PVC, PV et Storage Class
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Gestion_du_stockage/05_R%C3%A9sum%C3%A9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Résumé
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Configuration de la fiabilité des applications
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Configuration de la fiabilité des applications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Configuration_de_la_fiabilit%C3%A9_des_applications/00_Gestion_de_la_haute_disponibilit%C3%A9_dans_Kubernetes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gestion de la Haute Disponibilité dans Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Configuration_de_la_fiabilit%C3%A9_des_applications/01_Exercice_guid%C3%A9_Gestion_de_la_haute_disponibilit%C3%A9_dans_Kubernetes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    01 Exercice guidé Gestion de la haute disponibilité dans Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Configuration_de_la_fiabilit%C3%A9_des_applications/02_Utilisation_des_probes_dans_Kubernetes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utilisation des Probes dans Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Configuration_de_la_fiabilit%C3%A9_des_applications/03_Exercice_guid%C3%A9_Utilisation_des_probes_dans_Kubernetes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé : Gestion des Probes dans Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Configuration_de_la_fiabilit%C3%A9_des_applications/04_R%C3%A9servation_de_capacit%C3%A9_de_calcul_pour_les_applications/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Réservation de Capacité de Calcul dans Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Configuration_de_la_fiabilit%C3%A9_des_applications/05_Exercice_guid%C3%A9_R%C3%A9servation_de_capacit%C3%A9_de_calcul_pour_les_applications/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé : Réservation de Capacité de Calcul dans Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Configuration_de_la_fiabilit%C3%A9_des_applications/06_Limitation_de_la_capacit%C3%A9_de_calcul_pour_les_applications/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Limitation de la Capacité de Calcul dans OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Configuration_de_la_fiabilit%C3%A9_des_applications/07_Exercice_guid%C3%A9_Limitation_de_la_capacit%C3%A9_de_calcul_pour_les_applications/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    07 Exercice guidé Limitation de la capacité de calcul pour les applications
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Configuration_de_la_fiabilit%C3%A9_des_applications/08_Mise_a_l%27echelle_automatique_des_applications/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mise à l'Échelle Automatique des Applications dans OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Configuration_de_la_fiabilit%C3%A9_des_applications/09_Exercice_guid%C3%A9_Mise_a_l%27echelle_automatique_des_applications/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé : Mise à l'Échelle Automatique des Applications dans OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Configuration_de_la_fiabilit%C3%A9_des_applications/10_R%C3%A9sum%C3%A9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Résumé
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Gestion des mises à jour des applications
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Gestion des mises à jour des applications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Gestion_des_mises_%C3%A0_jour_des_applications/00_Identit%C3%A9_et_balise_d_image_de_conteneur/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Identité et Balisage d'Image de Conteneur
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Gestion_des_mises_%C3%A0_jour_des_applications/01_Exercice_guid%C3%A9_Identit%C3%A9_et_balise_d_image_de_conteneur/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé : Identité et Balisage d'Image de Conteneur
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Gestion_des_mises_%C3%A0_jour_des_applications/02_Mise_a_jour_des_parametres_et_de_l%27image_de_l_application/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mise à Jour des Paramètres et de l'Image de l'Application
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Gestion_des_mises_%C3%A0_jour_des_applications/03_Exercice_guid%C3%A9_Mise_a_jour_des_parametres_et_de_l%27image_de_l_application/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé : Mise à Jour des Paramètres et de l'Image de l'Application
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Gestion_des_mises_%C3%A0_jour_des_applications/04_Deploiement_automatique_avec_les_images_stream_openshift/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Déploiement Automatique avec les ImageStreams dans OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Gestion_des_mises_%C3%A0_jour_des_applications/05_Exercice_guid%C3%A9_Deploiement_automatique_avec_les_images_stream_openshift/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé : Déploiement Automatique avec les ImageStreams dans OpenShift
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Gestion_des_mises_%C3%A0_jour_des_applications/06_Mise_a_jour_automatique_avec_les_trigger_Kubernetes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mise à Jour Automatique avec les Triggers Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Gestion_des_mises_%C3%A0_jour_des_applications/07_Exercice_guid%C3%A9_Mise_a_jour_automatique_avec_les_trigger_Kubernetes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercice Guidé : Mise à Jour Automatique avec les Triggers Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-de-la-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectifs de la Section
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-services-dans-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      Les Services dans OpenShift
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Les Services dans OpenShift">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concepts-fondamentaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Concepts Fondamentaux
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#types-de-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Types de Services
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-routes-dans-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      Les Routes dans OpenShift
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Les Routes dans OpenShift">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concepts-fondamentaux_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Concepts Fondamentaux
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fonctionnement-de-lingress-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fonctionnement de l'Ingress Controller
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modes-dexposition-tls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modes d'Exposition TLS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="services-et-routes-dans-openshift">Services et Routes dans OpenShift</h1>
+<h3 id="introduction">Introduction</h3>
+<p>Dans OpenShift, la gestion du trafic réseau pour les applications conteneurisées est cruciale pour garantir leur accessibilité et leur sécurité. Les <strong>services</strong> et les <strong>routes</strong> sont des composants clés de cette gestion. Les services permettent de regrouper et d'exposer des pods à l'intérieur du cluster, tandis que les routes facilitent l'accès externe aux applications. Ce cours explore en profondeur ces deux concepts, en expliquant leurs types, cas d'usage, et configurations.</p>
+<h3 id="objectifs-de-la-section">Objectifs de la Section</h3>
+<p>À la fin de cette section, vous serez capable de :
+1. Comprendre à quoi servent les services dans OpenShift.
+2. Expliquer les différents types de services : ClusterIP, NodePort, LoadBalancer, et leurs cas d'usage.
+3. Comprendre le rôle des routes dans OpenShift pour exposer les applications externes.
+4. Expliquer comment fonctionne l'Ingress Controller et les différentes options d'exposition TLS : passthrough, reencrypt, et edge.</p>
+<h2 id="les-services-dans-openshift">Les Services dans OpenShift</h2>
+<h3 id="concepts-fondamentaux">Concepts Fondamentaux</h3>
+<p>Les services dans OpenShift, comme dans Kubernetes, sont utilisés pour exposer les pods à l'intérieur du cluster, permettant une communication stable entre eux. Les services abstraient les pods individuels et offrent une adresse IP stable, assurant que même si des pods sont recréés ou déplacés, le trafic peut toujours les atteindre via le service.</p>
+<p>Un service associe un groupe de pods par le biais de labels, et dirige le trafic vers ces pods via un mécanisme de <strong>load balancing interne</strong>.</p>
+<h3 id="types-de-services">Types de Services</h3>
+<p>Il existe plusieurs types de services dans OpenShift, chacun ayant ses propres cas d'utilisation :</p>
+<h4 id="1-clusterip-service-par-defaut">1. <strong>ClusterIP (Service par défaut)</strong></h4>
+<h5 id="description">Description</h5>
+<p>Le type de service <strong>ClusterIP</strong> est le plus basique et le plus utilisé. Il expose le service à l'intérieur du cluster, ce qui signifie que le service est accessible uniquement depuis d'autres pods dans le même cluster. Une adresse IP interne est attribuée au service, et le trafic est routé vers les pods sélectionnés par le service.</p>
+<h5 id="cas-dusage">Cas d'usage</h5>
+<ul>
+<li><strong>Communication interne</strong> : Utilisé pour permettre aux pods d'une application de communiquer entre eux.</li>
+<li><strong>Services backend</strong> : Idéal pour des bases de données, caches, ou autres composants internes non destinés à être accessibles depuis l'extérieur du cluster.</li>
+</ul>
+<h5 id="exemple-de-configuration">Exemple de configuration</h5>
+<pre><code class="language-yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: my-clusterip-service
+spec:
+  selector:
+    app: my-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: ClusterIP
+</code></pre>
+<p>Dans cet exemple, un service <code>ClusterIP</code> expose les pods avec le label <code>app: my-app</code> sur le port 80.</p>
+<h4 id="2-nodeport">2. <strong>NodePort</strong></h4>
+<h5 id="description_1">Description</h5>
+<p>Le service de type <strong>NodePort</strong> expose le service sur un port spécifique de chaque nœud du cluster. Cela permet d'accéder au service depuis l'extérieur du cluster en utilisant l'adresse IP d'un nœud et le port alloué.</p>
+<h5 id="cas-dusage_1">Cas d'usage</h5>
+<ul>
+<li><strong>Accès externe simple</strong> : Utilisé lorsque vous avez besoin d'accéder au service depuis l'extérieur du cluster, mais sans infrastructure de load balancing externe.</li>
+<li><strong>Test et développement</strong> : Pratique pour des environnements de test ou des déploiements simples sans utiliser des configurations plus complexes comme des LoadBalancers ou des routes.</li>
+</ul>
+<h5 id="exemple-de-configuration_1">Exemple de configuration</h5>
+<pre><code class="language-yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: my-nodeport-service
+spec:
+  selector:
+    app: my-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+    nodePort: 30007
+  type: NodePort
+</code></pre>
+<p>Dans cet exemple, le service <code>NodePort</code> est exposé sur le port 30007 de chaque nœud du cluster.</p>
+<h4 id="3-loadbalancer">3. <strong>LoadBalancer</strong></h4>
+<h5 id="description_2">Description</h5>
+<p>Le service de type <strong>LoadBalancer</strong> expose le service à l'extérieur du cluster en configurant automatiquement un load balancer externe qui distribue le trafic vers les nœuds du cluster. Ce type de service est généralement utilisé dans les environnements cloud où les load balancers sont fournis par le fournisseur de cloud.</p>
+<h5 id="cas-dusage_2">Cas d'usage</h5>
+<ul>
+<li><strong>Environnements Cloud</strong> : Idéal pour des déploiements en production sur des infrastructures cloud (AWS, GCP, Azure) où le load balancer est automatiquement provisionné.</li>
+<li><strong>Exposition de services critiques</strong> : Convient pour des applications nécessitant une haute disponibilité et une répartition automatique du trafic.</li>
+</ul>
+<h5 id="exemple-de-configuration-dans-un-environnement-cloud">Exemple de configuration dans un environnement cloud</h5>
+<pre><code class="language-yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: my-loadbalancer-service
+spec:
+  selector:
+    app: my-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: LoadBalancer
+</code></pre>
+<p>Dans cet exemple, le service <code>LoadBalancer</code> demande la création d'un load balancer externe qui répartira le trafic sur les pods sélectionnés.</p>
+<p><img alt="ClusterIP vs NodePort vs Loadbalancer" src="../images/clusterIP-vs-NodePort-vs-Loadbalancer.svg" /></p>
+<h5 id="utilisation-de-metallb-pour-les-environnements-on-premise">Utilisation de MetalLB pour les Environnements On-Premise</h5>
+<p>Dans les environnements on-premise (sans cloud provider), vous pouvez utiliser un composant comme <strong>MetalLB</strong> pour simuler un service de type LoadBalancer. MetalLB fournit un load balancing en mode bare-metal pour Kubernetes, permettant d'allouer des IPs externes sur votre réseau pour exposer vos services.</p>
+<h2 id="les-routes-dans-openshift">Les Routes dans OpenShift</h2>
+<h3 id="concepts-fondamentaux_1">Concepts Fondamentaux</h3>
+<p>Les <strong>routes</strong> dans OpenShift permettent d'exposer des services internes à l'extérieur du cluster. Une route associe un nom de domaine (DNS) à un service, et dirige le trafic HTTP/HTTPS vers les pods gérés par ce service. Les routes sont spécifiques à OpenShift et offrent une couche supplémentaire de gestion du trafic par rapport aux services standard de Kubernetes.</p>
+<h3 id="fonctionnement-de-lingress-controller">Fonctionnement de l'Ingress Controller</h3>
+<p>L'Ingress Controller dans OpenShift agit comme un proxy qui gère les routes et le trafic entrant dans le cluster. Il est responsable de recevoir les requêtes HTTP/HTTPS externes et de les router vers les services appropriés basés sur les configurations de route.</p>
+<p>L'Ingress Controller peut également gérer la terminaison SSL/TLS, en s'assurant que le trafic est sécurisé entre les clients externes et les services dans le cluster.</p>
+<h3 id="modes-dexposition-tls">Modes d'Exposition TLS</h3>
+<p>Lorsqu'on configure une route avec TLS dans OpenShift, il existe trois modes principaux pour gérer le chiffrement du trafic :</p>
+<h4 id="1-edge-termination-mode-edge">1. <strong>Edge Termination (Mode Edge)</strong></h4>
+<h5 id="description_3">Description</h5>
+<p>Dans le mode <strong>Edge Termination</strong>, la terminaison TLS (chiffrement/déchiffrement) est effectuée par l'Ingress Controller lui-même. Le trafic entre le client et l'Ingress Controller est sécurisé via TLS, mais une fois le trafic déchiffré, il est envoyé en clair aux pods cibles à l'intérieur du cluster.</p>
+<h5 id="cas-dusage_3">Cas d'usage</h5>
+<ul>
+<li><strong>Simplicité</strong> : Utilisé lorsqu'il est suffisant de sécuriser le trafic entre le client et le cluster, sans nécessiter un chiffrement interne.</li>
+<li><strong>Performances</strong> : Offre une bonne performance en évitant le chiffrement supplémentaire à l'intérieur du cluster.</li>
+</ul>
+<h5 id="exemple-de-configuration_2">Exemple de configuration</h5>
+<pre><code class="language-yaml">apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: my-edge-route
+spec:
+  host: example.com
+  to:
+    kind: Service
+    name: my-service
+  tls:
+    termination: edge
+</code></pre>
+<h4 id="2-re-encrypt-termination-mode-reencrypt">2. <strong>Re-encrypt Termination (Mode Reencrypt)</strong></h4>
+<h5 id="description_4">Description</h5>
+<p>Dans le mode <strong>Re-encrypt Termination</strong>, la terminaison TLS est effectuée par l'Ingress Controller, mais le trafic est ensuite ré-encrypté et acheminé vers les pods cibles en TLS. Cela assure que le trafic reste chiffré tout au long de son parcours, du client jusqu'aux pods.</p>
+<h5 id="cas-dusage_4">Cas d'usage</h5>
+<ul>
+<li><strong>Sécurité accrue</strong> : Utilisé lorsqu'il est nécessaire de sécuriser le trafic non seulement entre le client et le cluster, mais aussi à l'intérieur du cluster.</li>
+<li><strong>Conformité</strong> : Idéal pour les environnements nécessitant une conformité stricte en matière de sécurité des données.</li>
+</ul>
+<h5 id="exemple-de-configuration_3">Exemple de configuration</h5>
+<pre><code class="language-yaml">apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: my-reencrypt-route
+spec:
+  host: example.com
+  to:
+    kind: Service
+    name: my-service
+  tls:
+    termination: reencrypt
+    destinationCACertificate: |
+      -----BEGIN CERTIFICATE-----
+      MIIBIjANBgkqh...
+      -----END CERTIFICATE-----
+</code></pre>
+<h4 id="3-passthrough-termination-mode-passthrough">3. <strong>Passthrough Termination (Mode Passthrough)</strong></h4>
+<h5 id="description_5">Description</h5>
+<p>Dans le mode <strong>Passthrough Termination</strong>, l'Ingress Controller ne termine pas la connexion TLS. Au lieu de cela, il passe directement le trafic TLS au service backend sans modification. Le service backend doit être configuré pour gérer le chiffrement TLS.</p>
+<h5 id="cas-dusage_5">Cas d'usage</h5>
+<ul>
+<li><strong>Applications sensibles</strong> : Utilisé pour des applications qui nécessitent un contrôle total sur le chiffrement TLS, ou lorsqu'une application gère déjà son propre chiffrement.</li>
+<li><strong>Performances</strong> : Évite la surcharge du chiffrement/déchiffrement dans l'Ingress Controller, mais nécessite que le backend soit capable de gérer les connexions TLS.</li>
+</ul>
+<h5 id="exemple-de-configuration_4">Exemple de configuration</h5>
+<pre><code class="language-yaml">apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: my-passthrough-route
+spec:
+  host: example.com
+  to:
+    kind:
+
+ Service
+    name: my-service
+  tls:
+    termination: passthrough
+</code></pre>
+<p><img alt="tls route" src="../images/tls-route.svg" /></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Les services et les routes sont des composantes essentielles pour gérer le trafic réseau dans OpenShift. Les services permettent de regrouper et d'exposer des pods à l'intérieur du cluster, tandis que les routes facilitent l'accès externe. En comprenant les différents types de services et les modes d'exposition TLS, vous pouvez configurer des applications sécurisées et hautement disponibles, adaptées à divers environnements et besoins.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.525ec568.min.js"></script>
+      
+    
+  </body>
+</html>
